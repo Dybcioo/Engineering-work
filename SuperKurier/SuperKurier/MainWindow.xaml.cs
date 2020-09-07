@@ -45,6 +45,8 @@ namespace SuperKurier
                 ForegroundOption = "Black";
                 colorBtn = Color.FromArgb(100, 193, 193, 193);
             }
+            DataContext = null;
+            DataContext = this;
         }
         private void BtnBackgroundColor(Button btn)
         {
@@ -81,5 +83,10 @@ namespace SuperKurier
         {
             BtnBackgroundColor(BtnSettings);
         }
+        private void BtnToggleTheme_Click(object sender, RoutedEventArgs e)
+        {
+            BlackAndWhiteLayout((bool)BtnToggleTheme.IsChecked);
+        }
+        
     }
 }
