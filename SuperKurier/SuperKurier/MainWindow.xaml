@@ -8,11 +8,11 @@
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF" 
         fw:AcrylicWindow.Enabled="True" 
         fw:AcrylicWindow.NoiseOpacity="0"
-        fw:AcrylicWindow.TintColor="Black"
+        fw:AcrylicWindow.TintColor="{Binding BackgroundOption}"
         fw:AcrylicWindow.TintOpacity="0.8"
         mc:Ignorable="d"
         
-         Height="600" Width="1080"  Foreground="White" WindowStyle="SingleBorderWindow"  WindowStartupLocation="CenterScreen" IsTabStop="True">
+         Height="600" Width="1080"  Foreground="{Binding ForegroundOption}" WindowStyle="SingleBorderWindow"  WindowStartupLocation="CenterScreen" IsTabStop="True">
 
     <Grid >
         <Grid.ColumnDefinitions>
@@ -25,37 +25,37 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="1" >
-                <Button Margin="10" Background="Transparent" BorderBrush="Transparent">
+                <Button x:Name="BtnParcel" Margin="10" Background="Transparent" BorderBrush="Transparent" Click="BtnParcel_Click" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="SwapHorizontal" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Przesyłki</TextBlock>
                     </Grid>
                 </Button>
-                <Button Margin="10" Background="Transparent" BorderBrush="Transparent">
+                <Button x:Name="BtnEmployee" Margin="10" Background="Transparent" BorderBrush="Transparent" Click="BtnEmployee_Click" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="People" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Kurierzy</TextBlock>
                     </Grid>
                 </Button>
-                <Button Margin="10" Background="Transparent" BorderBrush="Transparent">
+                <Button x:Name="BtnRegion" Margin="10" Background="Transparent" BorderBrush="Transparent" Click="BtnRegion_Click" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="Location" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Regiony</TextBlock>
                     </Grid>
                 </Button>
-                <Button Margin="10" Background="Transparent" BorderBrush="Transparent">
+                <Button x:Name="BtnWarehouse" Margin="10" Background="Transparent" BorderBrush="Transparent" Click="BtnWarehouse_Click" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="Warehouse" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Magazyny</TextBlock>
                     </Grid>
                 </Button>
-                <Button Margin="10" Background="Transparent" BorderBrush="Transparent">
+                <Button x:Name="BtnTransport" Margin="10" Background="Transparent" BorderBrush="Transparent" Click="BtnTransport_Click" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="LocalShipping"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Transport</TextBlock>
                     </Grid>
                 </Button>
-                <Button Margin="10" Background="Transparent" BorderBrush="Transparent">
+                <Button x:Name="BtnSettings" Margin="10" Background="Transparent" BorderBrush="Transparent" Click="BtnSettings_Click" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Ustawienia</TextBlock>
