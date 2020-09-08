@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperKurier", "SuperKurier\SuperKurier.csproj", "{F5DD4367-38FA-4EB6-9888-B570F07877EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectionSQL", "ConnectionSQL\ConnectionSQL.csproj", "{29439643-DC93-4ECB-9BA3-163BA039ED87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F5DD4367-38FA-4EB6-9888-B570F07877EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5DD4367-38FA-4EB6-9888-B570F07877EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5DD4367-38FA-4EB6-9888-B570F07877EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29439643-DC93-4ECB-9BA3-163BA039ED87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29439643-DC93-4ECB-9BA3-163BA039ED87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29439643-DC93-4ECB-9BA3-163BA039ED87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29439643-DC93-4ECB-9BA3-163BA039ED87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
