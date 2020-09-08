@@ -69,13 +69,26 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid x:Name="GridSettings" Grid.Row="1" Grid.Column="1" Background="{Binding BackgroundOption}">
+        <Grid x:Name="GridSettings" Grid.Row="1" Grid.Column="1" Background="{Binding BackgroundOption}" Visibility="Hidden">
             <Label Content="Wygląd aplikacji:" HorizontalAlignment="Left" Margin="27,22,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}"/>
             <Line Grid.Row="1" Grid.Column="1"  X1="0" Y1="50" X2="10000"  Y2="50" 
               Stroke="{Binding ForegroundOption}" StrokeThickness="0.7"></Line>
             <ToggleButton x:Name="BtnToggleTheme" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="89,66,0,0" Click="BtnToggleTheme_Click" IsChecked="True"></ToggleButton>
             <Label Content="Jasny" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="27,60,0,0" Foreground="{Binding ForegroundOption}"/>
             <Label Content="Ciemny" HorizontalAlignment="Left" Margin="142,60,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}"/>
+            <Label Content="Połączenie z bazą danych:" HorizontalAlignment="Left" Margin="27,102,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}" />
+            <Line Grid.Row="1" Grid.Column="1"  X1="0" Y1="130" X2="10000"  Y2="130" 
+              Stroke="{Binding ForegroundOption}" StrokeThickness="0.7"></Line>
+            <TextBox x:Name="DBServer" HorizontalAlignment="Left" Height="23" Margin="142,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{Binding InputOption}"/>
+            <TextBox x:Name="DBData" HorizontalAlignment="Left" Height="23" Margin="578,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{Binding InputOption}"/>
+            <TextBox x:Name="DBUser" HorizontalAlignment="Left" Height="23" Margin="142,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{Binding InputOption}"/>
+            <TextBox x:Name="DBPassword" HorizontalAlignment="Left" Height="23" Margin="578,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{Binding InputOption}"/>
+            <Label Content="Serwer SQL:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="52,144,0,0" Foreground="{Binding ForegroundOption}"/>
+            <Label Content="Baza danych:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="476,144,0,0" Foreground="{Binding ForegroundOption}"/>
+            <Label Content="Hasło:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="514,204,0,0" Foreground="{Binding ForegroundOption}"/>
+            <Label Content="Użytkownik:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="52,204,0,0" Foreground="{Binding ForegroundOption}"/>
+            <Button x:Name="BtnSaveDBSettings" Content="Zapisz" HorizontalAlignment="Left" Margin="738,244,0,0" VerticalAlignment="Top" Width="75" Click="BtnSaveDBSettings_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}"/>
         </Grid>
+
     </Grid>
 </Window>

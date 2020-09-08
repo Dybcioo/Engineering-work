@@ -23,13 +23,15 @@ namespace SuperKurier
 
         public string BackgroundOption { get; set; }
         public string ForegroundOption { get; set; }
-        public Color colorBtn;
+        public string InputOption { get; set; }
+        public Color ColorBtn { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
             BlackAndWhiteLayout();
+            GetDBSettings();
         }
         private void BlackAndWhiteLayout(bool black = true)
         {
@@ -37,13 +39,15 @@ namespace SuperKurier
             {
                 BackgroundOption = "Black";
                 ForegroundOption = "White";
-                colorBtn = Color.FromArgb(100, 104, 104, 104);
+                InputOption = "#FF787878";
+                ColorBtn = Color.FromArgb(100, 104, 104, 104);
             }
             else
             {
                 BackgroundOption = "White";
                 ForegroundOption = "Black";
-                colorBtn = Color.FromArgb(100, 193, 193, 193);
+                InputOption = "#FF6EAAFF";
+                ColorBtn = Color.FromArgb(100, 193, 193, 193);
             }
             DataContext = null;
             DataContext = this;
@@ -56,7 +60,9 @@ namespace SuperKurier
             BtnWarehouse.Background = Brushes.Transparent;
             BtnTransport.Background = Brushes.Transparent;
             BtnSettings.Background = Brushes.Transparent;
-            btn.Background = new SolidColorBrush(colorBtn);
+
+            GridSettings.Visibility = Visibility.Hidden;
+            btn.Background = new SolidColorBrush(ColorBtn);
         }
 
         private void BtnParcel_Click(object sender, RoutedEventArgs e)
@@ -82,11 +88,35 @@ namespace SuperKurier
         private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
             BtnBackgroundColor(BtnSettings);
+            GridSettings.Visibility = Visibility.Visible;
         }
         private void BtnToggleTheme_Click(object sender, RoutedEventArgs e)
         {
             BlackAndWhiteLayout((bool)BtnToggleTheme.IsChecked);
         }
-        
+
+        private void SaveDBSettings()
+        {
+            Properties.Settings.Default.DBServer = DBServer.Text;
+            Properties.Settings.Default.DBData = DBData.Text;
+            Properties.Settings.Default.DBUser = DBUser.Text;
+            Properties.Settings.Default.DBPassword = DBPassword.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void GetDBSettings()
+        {
+            DBServer.Text = Properties.Settings.Default.DBServer;
+            DBData.Text = Properties.Settings.Default.DBData;
+            DBUser.Text = Properties.Settings.Default.DBUser;
+            DBPassword.Text = Properties.Settings.Default.DBPassword;
+        }
+
+        private void BtnSaveDBSettings_Click(object sender, RoutedEventArgs e)
+        {
+            SaveDBSettings();
+        }
+
+
     }
 }
