@@ -37,8 +37,6 @@ namespace SuperKurier
             DataContext = this;
             BlackAndWhiteLayout();
             GetDBSettings();
-
-           // BtnTestConn_Click(null, null);
         }
         private void BlackAndWhiteLayout(bool black = true)
         {
@@ -135,10 +133,10 @@ namespace SuperKurier
             ResetContext();
             var t = new Thread(() =>
             {
-                Conn = new Connection(Properties.Settings.Default.DBServer,
-                Properties.Settings.Default.DBData,
-                Properties.Settings.Default.DBUser,
-                Properties.Settings.Default.DBPassword);
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    Conn = new Connection(DBServer.Text, DBData.Text, DBUser.Text, DBPassword.Password);
+                });
                 if (Conn.ConnectionSql())
                 {
                     TestConnection = "Udane połączenie z bazą danych";

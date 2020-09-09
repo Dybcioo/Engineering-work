@@ -69,7 +69,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid x:Name="GridSettings" Grid.Row="1" Grid.Column="1" Background="{Binding BackgroundOption}" Visibility="Visible">
+        <Grid x:Name="GridSettings" Grid.Row="1" Grid.Column="1" Background="{Binding BackgroundOption}" Visibility="Hidden">
             <Label Content="Wygląd aplikacji:" HorizontalAlignment="Left" Margin="27,22,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}"/>
             <Line Grid.Row="1" Grid.Column="1"  X1="0" Y1="50" X2="10000"  Y2="50" 
               Stroke="{Binding ForegroundOption}" StrokeThickness="0.7"></Line>
@@ -88,7 +88,11 @@
             <Label Content="Hasło:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="514,204,0,0" Foreground="{Binding ForegroundOption}"/>
             <Label Content="Użytkownik:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="52,204,0,0" Foreground="{Binding ForegroundOption}"/>
             <Button x:Name="BtnSaveDBSettings" Content="Zapisz" HorizontalAlignment="Left" Margin="738,244,0,0" VerticalAlignment="Top" Width="75" Click="BtnSaveDBSettings_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}"/>
-            <Button x:Name="BtnTestConn" Content="Test" HorizontalAlignment="Left" Margin="24,245,0,0" VerticalAlignment="Top" Width="113" Background="Transparent" BorderBrush="Transparent" Foreground="{Binding ForegroundOption}" Click="BtnTestConn_Click"/>
+            <Button x:Name="BtnTestConn"  HorizontalAlignment="Left" Margin="24,245,0,0" FontWeight="ExtraLight" VerticalAlignment="Top" Width="113" Background="Transparent" BorderBrush="Transparent" Foreground="{Binding ForegroundOption}" Click="BtnTestConn_Click">
+                <TextBlock TextDecorations="Underline">
+                    Test
+                </TextBlock>
+            </Button>
             <Label Content="{Binding TestConnection}" HorizontalAlignment="Left" Margin="142,252,0,0" VerticalAlignment="Top" Foreground="{Binding ColorConnection}" />
         </Grid>
 

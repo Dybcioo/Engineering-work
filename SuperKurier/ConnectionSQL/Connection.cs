@@ -64,6 +64,7 @@ namespace ConnectionSQL
             {
                 SqlConnection cnn = new SqlConnection(ConnectionString);
                 cnn.Open();
+                cnn.Close();
             }catch(Exception e)
             {
                 return false;
