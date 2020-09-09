@@ -1,0 +1,1419 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CompanyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="country" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="city" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="street" Type="nvarchar" MaxLength="30" />
+          <Property Name="numberOfHouse" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="postalCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="idLocalization" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="NIP" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="tel" Type="int" Nullable="false" />
+          <Property Name="idCompany" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Customer_Address">
+          <Key>
+            <PropertyRef Name="idCustomer" />
+            <PropertyRef Name="idAddress" />
+          </Key>
+          <Property Name="idCustomer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idAddress" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="exposure" Type="bit" Nullable="false" />
+          <Property Name="summary" Type="money" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="idTypeOfDocument" Type="int" Nullable="false" />
+          <Property Name="idWarehouse" Type="int" Nullable="false" />
+          <Property Name="idEmployee" Type="int" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="20" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="30" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="code" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="idAddress" Type="int" />
+          <Property Name="idPosition" Type="int" />
+          <Property Name="idWarehouse" Type="int" />
+          <Property Name="idRegion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HistoryOfParcel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="idParcel" Type="int" Nullable="false" />
+          <Property Name="idWarehouse" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Localization">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="width" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="height" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parcel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="weight" Type="numeric" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="amount" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="dateOfShipment" Type="datetime" Nullable="false" />
+          <Property Name="dateOfDelivery" Type="datetime" Nullable="false" />
+          <Property Name="signaturePath" Type="nvarchar" MaxLength="50" />
+          <Property Name="idSender" Type="int" Nullable="false" />
+          <Property Name="idReceiver" Type="int" Nullable="false" />
+          <Property Name="idRegion" Type="int" Nullable="false" />
+          <Property Name="idTypeOfParcel" Type="int" Nullable="false" />
+          <Property Name="idWarehouse" Type="int" Nullable="false" />
+          <Property Name="idStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ParcelMoving">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="reading" Type="bit" Nullable="false" />
+          <Property Name="idEmployee" Type="int" Nullable="false" />
+          <Property Name="idParcel" Type="int" Nullable="false" />
+          <Property Name="idDoc" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="position" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="salary" Type="money" Nullable="false" />
+          <Property Name="dateOfEmployment" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="uniqueidentifier" />
+          <Property Name="idStartLocalization" Type="int" Nullable="false" />
+          <Property Name="idEndLocalization" Type="int" Nullable="false" />
+          <Property Name="idWarehouse" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TypeOfDocument">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypeOfParcel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Warehouse">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Address_Localization">
+          <End Role="Localization" Type="Self.Localization" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localization">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="idLocalization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Address_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="Customer_Address" Type="Self.Customer_Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Customer_Address">
+              <PropertyRef Name="idAddress" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Address_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Customer_Address" Type="Self.Customer_Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Customer_Address">
+              <PropertyRef Name="idCustomer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="idCompany" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="idEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_TypeOfDocument">
+          <End Role="TypeOfDocument" Type="Self.TypeOfDocument" Multiplicity="1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfDocument">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="idTypeOfDocument" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="idWarehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Employee">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="idAddress" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Position">
+          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="idPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="idRegion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="idWarehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryOfParcel_Parcel">
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="1" />
+          <End Role="HistoryOfParcel" Type="Self.HistoryOfParcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HistoryOfParcel">
+              <PropertyRef Name="idParcel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryOfParcel_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="HistoryOfParcel" Type="Self.HistoryOfParcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HistoryOfParcel">
+              <PropertyRef Name="idWarehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idSender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_Customer1">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idReceiver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idRegion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_TypeOfParcel">
+          <End Role="TypeOfParcel" Type="Self.TypeOfParcel" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfParcel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idTypeOfParcel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idWarehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelMoving_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="1" />
+          <End Role="ParcelMoving" Type="Self.ParcelMoving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ParcelMoving">
+              <PropertyRef Name="idDoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelMoving_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="ParcelMoving" Type="Self.ParcelMoving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ParcelMoving">
+              <PropertyRef Name="idEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelMoving_Parcel">
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="1" />
+          <End Role="ParcelMoving" Type="Self.ParcelMoving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ParcelMoving">
+              <PropertyRef Name="idParcel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_Localization">
+          <End Role="Localization" Type="Self.Localization" Multiplicity="1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localization">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="idStartLocalization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_Localization1">
+          <End Role="Localization" Type="Self.Localization" Multiplicity="1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localization">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="idEndLocalization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="idWarehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CompanyModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistoryOfParcel" EntityType="Self.HistoryOfParcel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Localization" EntityType="Self.Localization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parcel" EntityType="Self.Parcel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ParcelMoving" EntityType="Self.ParcelMoving" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeOfDocument" EntityType="Self.TypeOfDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeOfParcel" EntityType="Self.TypeOfParcel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Warehouse" EntityType="Self.Warehouse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer_Address" EntityType="Self.Customer_Address" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Customer_Address].[idCustomer] AS [idCustomer], 
+    [Customer_Address].[idAddress] AS [idAddress]
+    FROM [dbo].[Customer_Address] AS [Customer_Address]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Address_Localization" Association="Self.FK_Address_Localization">
+            <End Role="Localization" EntitySet="Localization" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Address_Address" Association="Self.FK_Customer_Address_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Customer_Address" EntitySet="Customer_Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Address_Customer" Association="Self.FK_Customer_Address_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Customer_Address" EntitySet="Customer_Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Company" Association="Self.FK_Customer_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_Employee" Association="Self.FK_Document_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_TypeOfDocument" Association="Self.FK_Document_TypeOfDocument">
+            <End Role="TypeOfDocument" EntitySet="TypeOfDocument" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_Warehouse" Association="Self.FK_Document_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Employee" Association="Self.FK_Employee_Employee">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Position" Association="Self.FK_Employee_Position">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Region" Association="Self.FK_Employee_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Warehouse" Association="Self.FK_Employee_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryOfParcel_Parcel" Association="Self.FK_HistoryOfParcel_Parcel">
+            <End Role="Parcel" EntitySet="Parcel" />
+            <End Role="HistoryOfParcel" EntitySet="HistoryOfParcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryOfParcel_Warehouse" Association="Self.FK_HistoryOfParcel_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="HistoryOfParcel" EntitySet="HistoryOfParcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_Customer" Association="Self.FK_Parcel_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_Customer1" Association="Self.FK_Parcel_Customer1">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_Region" Association="Self.FK_Parcel_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_Status" Association="Self.FK_Parcel_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_TypeOfParcel" Association="Self.FK_Parcel_TypeOfParcel">
+            <End Role="TypeOfParcel" EntitySet="TypeOfParcel" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_Warehouse" Association="Self.FK_Parcel_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelMoving_Document" Association="Self.FK_ParcelMoving_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="ParcelMoving" EntitySet="ParcelMoving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelMoving_Employee" Association="Self.FK_ParcelMoving_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ParcelMoving" EntitySet="ParcelMoving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelMoving_Parcel" Association="Self.FK_ParcelMoving_Parcel">
+            <End Role="Parcel" EntitySet="Parcel" />
+            <End Role="ParcelMoving" EntitySet="ParcelMoving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_Localization" Association="Self.FK_Region_Localization">
+            <End Role="Localization" EntitySet="Localization" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_Localization1" Association="Self.FK_Region_Localization1">
+            <End Role="Localization" EntitySet="Localization" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_Warehouse" Association="Self.FK_Region_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CompanyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="country" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="street" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="numberOfHouse" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="postalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="idLocalization" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Localization" Relationship="Self.FK_Address_Localization" FromRole="Address" ToRole="Localization" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Employee" FromRole="Address" ToRole="Employee" />
+          <NavigationProperty Name="Customer" Relationship="Self.Customer_Address" FromRole="Address" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NIP" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Customer_Company" FromRole="Company" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tel" Type="Int32" Nullable="false" />
+          <Property Name="idCompany" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Customer_Company" FromRole="Customer" ToRole="Company" />
+          <NavigationProperty Name="Parcel" Relationship="Self.FK_Parcel_Customer" FromRole="Customer" ToRole="Parcel" />
+          <NavigationProperty Name="Parcel1" Relationship="Self.FK_Parcel_Customer1" FromRole="Customer" ToRole="Parcel" />
+          <NavigationProperty Name="Address" Relationship="Self.Customer_Address" FromRole="Customer" ToRole="Address" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="Guid" Nullable="false" />
+          <Property Name="exposure" Type="Boolean" Nullable="false" />
+          <Property Name="summary" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="idTypeOfDocument" Type="Int32" Nullable="false" />
+          <Property Name="idWarehouse" Type="Int32" Nullable="false" />
+          <Property Name="idEmployee" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Document_Employee" FromRole="Document" ToRole="Employee" />
+          <NavigationProperty Name="TypeOfDocument" Relationship="Self.FK_Document_TypeOfDocument" FromRole="Document" ToRole="TypeOfDocument" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_Document_Warehouse" FromRole="Document" ToRole="Warehouse" />
+          <NavigationProperty Name="ParcelMoving" Relationship="Self.FK_ParcelMoving_Document" FromRole="Document" ToRole="ParcelMoving" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="lastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="code" Type="Guid" Nullable="false" />
+          <Property Name="idAddress" Type="Int32" />
+          <Property Name="idPosition" Type="Int32" />
+          <Property Name="idWarehouse" Type="Int32" />
+          <Property Name="idRegion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_Employee_Employee" FromRole="Employee" ToRole="Address" />
+          <NavigationProperty Name="Document" Relationship="Self.FK_Document_Employee" FromRole="Employee" ToRole="Document" />
+          <NavigationProperty Name="Position" Relationship="Self.FK_Employee_Position" FromRole="Employee" ToRole="Position" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_Employee_Region" FromRole="Employee" ToRole="Region" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_Employee_Warehouse" FromRole="Employee" ToRole="Warehouse" />
+          <NavigationProperty Name="ParcelMoving" Relationship="Self.FK_ParcelMoving_Employee" FromRole="Employee" ToRole="ParcelMoving" />
+        </EntityType>
+        <EntityType Name="HistoryOfParcel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="idParcel" Type="Int32" Nullable="false" />
+          <Property Name="idWarehouse" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Parcel" Relationship="Self.FK_HistoryOfParcel_Parcel" FromRole="HistoryOfParcel" ToRole="Parcel" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_HistoryOfParcel_Warehouse" FromRole="HistoryOfParcel" ToRole="Warehouse" />
+        </EntityType>
+        <EntityType Name="Localization">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="width" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="height" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_Address_Localization" FromRole="Localization" ToRole="Address" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_Region_Localization" FromRole="Localization" ToRole="Region" />
+          <NavigationProperty Name="Region1" Relationship="Self.FK_Region_Localization1" FromRole="Localization" ToRole="Region" />
+        </EntityType>
+        <EntityType Name="Parcel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="Guid" Nullable="false" />
+          <Property Name="weight" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="amount" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="dateOfShipment" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dateOfDelivery" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="signaturePath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="idSender" Type="Int32" Nullable="false" />
+          <Property Name="idReceiver" Type="Int32" Nullable="false" />
+          <Property Name="idRegion" Type="Int32" Nullable="false" />
+          <Property Name="idTypeOfParcel" Type="Int32" Nullable="false" />
+          <Property Name="idWarehouse" Type="Int32" Nullable="false" />
+          <Property Name="idStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Parcel_Customer" FromRole="Parcel" ToRole="Customer" />
+          <NavigationProperty Name="Customer1" Relationship="Self.FK_Parcel_Customer1" FromRole="Parcel" ToRole="Customer" />
+          <NavigationProperty Name="HistoryOfParcel" Relationship="Self.FK_HistoryOfParcel_Parcel" FromRole="Parcel" ToRole="HistoryOfParcel" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_Parcel_Region" FromRole="Parcel" ToRole="Region" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_Parcel_Status" FromRole="Parcel" ToRole="Status" />
+          <NavigationProperty Name="TypeOfParcel" Relationship="Self.FK_Parcel_TypeOfParcel" FromRole="Parcel" ToRole="TypeOfParcel" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_Parcel_Warehouse" FromRole="Parcel" ToRole="Warehouse" />
+          <NavigationProperty Name="ParcelMoving" Relationship="Self.FK_ParcelMoving_Parcel" FromRole="Parcel" ToRole="ParcelMoving" />
+        </EntityType>
+        <EntityType Name="ParcelMoving">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="reading" Type="Boolean" Nullable="false" />
+          <Property Name="idEmployee" Type="Int32" Nullable="false" />
+          <Property Name="idParcel" Type="Int32" Nullable="false" />
+          <Property Name="idDoc" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Document" Relationship="Self.FK_ParcelMoving_Document" FromRole="ParcelMoving" ToRole="Document" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_ParcelMoving_Employee" FromRole="ParcelMoving" ToRole="Employee" />
+          <NavigationProperty Name="Parcel" Relationship="Self.FK_ParcelMoving_Parcel" FromRole="ParcelMoving" ToRole="Parcel" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="position1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="salary" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="dateOfEmployment" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Position" FromRole="Position" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="Guid" />
+          <Property Name="idStartLocalization" Type="Int32" Nullable="false" />
+          <Property Name="idEndLocalization" Type="Int32" Nullable="false" />
+          <Property Name="idWarehouse" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Region" FromRole="Region" ToRole="Employee" />
+          <NavigationProperty Name="Localization" Relationship="Self.FK_Region_Localization" FromRole="Region" ToRole="Localization" />
+          <NavigationProperty Name="Localization1" Relationship="Self.FK_Region_Localization1" FromRole="Region" ToRole="Localization" />
+          <NavigationProperty Name="Parcel" Relationship="Self.FK_Parcel_Region" FromRole="Region" ToRole="Parcel" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_Region_Warehouse" FromRole="Region" ToRole="Warehouse" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Parcel" Relationship="Self.FK_Parcel_Status" FromRole="Status" ToRole="Parcel" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TypeOfDocument">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Document" Relationship="Self.FK_Document_TypeOfDocument" FromRole="TypeOfDocument" ToRole="Document" />
+        </EntityType>
+        <EntityType Name="TypeOfParcel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Parcel" Relationship="Self.FK_Parcel_TypeOfParcel" FromRole="TypeOfParcel" ToRole="Parcel" />
+        </EntityType>
+        <EntityType Name="Warehouse">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Document" Relationship="Self.FK_Document_Warehouse" FromRole="Warehouse" ToRole="Document" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Warehouse" FromRole="Warehouse" ToRole="Employee" />
+          <NavigationProperty Name="HistoryOfParcel" Relationship="Self.FK_HistoryOfParcel_Warehouse" FromRole="Warehouse" ToRole="HistoryOfParcel" />
+          <NavigationProperty Name="Parcel" Relationship="Self.FK_Parcel_Warehouse" FromRole="Warehouse" ToRole="Parcel" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_Region_Warehouse" FromRole="Warehouse" ToRole="Region" />
+        </EntityType>
+        <Association Name="FK_Address_Localization">
+          <End Role="Localization" Type="Self.Localization" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localization">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="idLocalization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Employee">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="idAddress" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="idCompany" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idSender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_Customer1">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idReceiver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="idEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_TypeOfDocument">
+          <End Role="TypeOfDocument" Type="Self.TypeOfDocument" Multiplicity="1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfDocument">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="idTypeOfDocument" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="idWarehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelMoving_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="1" />
+          <End Role="ParcelMoving" Type="Self.ParcelMoving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ParcelMoving">
+              <PropertyRef Name="idDoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Position">
+          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="idPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="idRegion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="idWarehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelMoving_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="ParcelMoving" Type="Self.ParcelMoving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ParcelMoving">
+              <PropertyRef Name="idEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryOfParcel_Parcel">
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="1" />
+          <End Role="HistoryOfParcel" Type="Self.HistoryOfParcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HistoryOfParcel">
+              <PropertyRef Name="idParcel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryOfParcel_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="HistoryOfParcel" Type="Self.HistoryOfParcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HistoryOfParcel">
+              <PropertyRef Name="idWarehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_Localization">
+          <End Role="Localization" Type="Self.Localization" Multiplicity="1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localization">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="idStartLocalization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_Localization1">
+          <End Role="Localization" Type="Self.Localization" Multiplicity="1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localization">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="idEndLocalization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idRegion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_TypeOfParcel">
+          <End Role="TypeOfParcel" Type="Self.TypeOfParcel" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfParcel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idTypeOfParcel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcel_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idWarehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelMoving_Parcel">
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="1" />
+          <End Role="ParcelMoving" Type="Self.ParcelMoving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcel">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ParcelMoving">
+              <PropertyRef Name="idParcel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Region_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Region" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Region">
+              <PropertyRef Name="idWarehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Customer_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="CompanyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Address" EntityType="Self.Address" />
+          <EntitySet Name="Company" EntityType="Self.Company" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" />
+          <EntitySet Name="Document" EntityType="Self.Document" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="HistoryOfParcel" EntityType="Self.HistoryOfParcel" />
+          <EntitySet Name="Localization" EntityType="Self.Localization" />
+          <EntitySet Name="Parcel" EntityType="Self.Parcel" />
+          <EntitySet Name="ParcelMoving" EntityType="Self.ParcelMoving" />
+          <EntitySet Name="Position" EntityType="Self.Position" />
+          <EntitySet Name="Region" EntityType="Self.Region" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TypeOfDocument" EntityType="Self.TypeOfDocument" />
+          <EntitySet Name="TypeOfParcel" EntityType="Self.TypeOfParcel" />
+          <EntitySet Name="Warehouse" EntityType="Self.Warehouse" />
+          <AssociationSet Name="FK_Address_Localization" Association="Self.FK_Address_Localization">
+            <End Role="Localization" EntitySet="Localization" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Employee" Association="Self.FK_Employee_Employee">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Company" Association="Self.FK_Customer_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_Customer" Association="Self.FK_Parcel_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_Customer1" Association="Self.FK_Parcel_Customer1">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_Employee" Association="Self.FK_Document_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_TypeOfDocument" Association="Self.FK_Document_TypeOfDocument">
+            <End Role="TypeOfDocument" EntitySet="TypeOfDocument" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_Warehouse" Association="Self.FK_Document_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelMoving_Document" Association="Self.FK_ParcelMoving_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="ParcelMoving" EntitySet="ParcelMoving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Position" Association="Self.FK_Employee_Position">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Region" Association="Self.FK_Employee_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Warehouse" Association="Self.FK_Employee_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelMoving_Employee" Association="Self.FK_ParcelMoving_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ParcelMoving" EntitySet="ParcelMoving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryOfParcel_Parcel" Association="Self.FK_HistoryOfParcel_Parcel">
+            <End Role="Parcel" EntitySet="Parcel" />
+            <End Role="HistoryOfParcel" EntitySet="HistoryOfParcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryOfParcel_Warehouse" Association="Self.FK_HistoryOfParcel_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="HistoryOfParcel" EntitySet="HistoryOfParcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_Localization" Association="Self.FK_Region_Localization">
+            <End Role="Localization" EntitySet="Localization" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_Localization1" Association="Self.FK_Region_Localization1">
+            <End Role="Localization" EntitySet="Localization" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_Region" Association="Self.FK_Parcel_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_Status" Association="Self.FK_Parcel_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_TypeOfParcel" Association="Self.FK_Parcel_TypeOfParcel">
+            <End Role="TypeOfParcel" EntitySet="TypeOfParcel" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_Warehouse" Association="Self.FK_Parcel_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParcelMoving_Parcel" Association="Self.FK_ParcelMoving_Parcel">
+            <End Role="Parcel" EntitySet="Parcel" />
+            <End Role="ParcelMoving" EntitySet="ParcelMoving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Region_Warehouse" Association="Self.FK_Region_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="Customer_Address" Association="Self.Customer_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CompanyModelStoreContainer" CdmEntityContainer="CompanyEntities">
+          <EntitySetMapping Name="Address">
+            <EntityTypeMapping TypeName="CompanyModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="street" ColumnName="street" />
+                <ScalarProperty Name="numberOfHouse" ColumnName="numberOfHouse" />
+                <ScalarProperty Name="postalCode" ColumnName="postalCode" />
+                <ScalarProperty Name="idLocalization" ColumnName="idLocalization" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Company">
+            <EntityTypeMapping TypeName="CompanyModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="NIP" ColumnName="NIP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="CompanyModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="tel" ColumnName="tel" />
+                <ScalarProperty Name="idCompany" ColumnName="idCompany" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Document">
+            <EntityTypeMapping TypeName="CompanyModel.Document">
+              <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="exposure" ColumnName="exposure" />
+                <ScalarProperty Name="summary" ColumnName="summary" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="idTypeOfDocument" ColumnName="idTypeOfDocument" />
+                <ScalarProperty Name="idWarehouse" ColumnName="idWarehouse" />
+                <ScalarProperty Name="idEmployee" ColumnName="idEmployee" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="CompanyModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="idAddress" ColumnName="idAddress" />
+                <ScalarProperty Name="idPosition" ColumnName="idPosition" />
+                <ScalarProperty Name="idWarehouse" ColumnName="idWarehouse" />
+                <ScalarProperty Name="idRegion" ColumnName="idRegion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistoryOfParcel">
+            <EntityTypeMapping TypeName="CompanyModel.HistoryOfParcel">
+              <MappingFragment StoreEntitySet="HistoryOfParcel">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="idParcel" ColumnName="idParcel" />
+                <ScalarProperty Name="idWarehouse" ColumnName="idWarehouse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Localization">
+            <EntityTypeMapping TypeName="CompanyModel.Localization">
+              <MappingFragment StoreEntitySet="Localization">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="height" ColumnName="height" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parcel">
+            <EntityTypeMapping TypeName="CompanyModel.Parcel">
+              <MappingFragment StoreEntitySet="Parcel">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="dateOfShipment" ColumnName="dateOfShipment" />
+                <ScalarProperty Name="dateOfDelivery" ColumnName="dateOfDelivery" />
+                <ScalarProperty Name="signaturePath" ColumnName="signaturePath" />
+                <ScalarProperty Name="idSender" ColumnName="idSender" />
+                <ScalarProperty Name="idReceiver" ColumnName="idReceiver" />
+                <ScalarProperty Name="idRegion" ColumnName="idRegion" />
+                <ScalarProperty Name="idTypeOfParcel" ColumnName="idTypeOfParcel" />
+                <ScalarProperty Name="idWarehouse" ColumnName="idWarehouse" />
+                <ScalarProperty Name="idStatus" ColumnName="idStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParcelMoving">
+            <EntityTypeMapping TypeName="CompanyModel.ParcelMoving">
+              <MappingFragment StoreEntitySet="ParcelMoving">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="reading" ColumnName="reading" />
+                <ScalarProperty Name="idEmployee" ColumnName="idEmployee" />
+                <ScalarProperty Name="idParcel" ColumnName="idParcel" />
+                <ScalarProperty Name="idDoc" ColumnName="idDoc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Position">
+            <EntityTypeMapping TypeName="CompanyModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="position1" ColumnName="position" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+                <ScalarProperty Name="dateOfEmployment" ColumnName="dateOfEmployment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Region">
+            <EntityTypeMapping TypeName="CompanyModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="idStartLocalization" ColumnName="idStartLocalization" />
+                <ScalarProperty Name="idEndLocalization" ColumnName="idEndLocalization" />
+                <ScalarProperty Name="idWarehouse" ColumnName="idWarehouse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="CompanyModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="status1" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CompanyModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeOfDocument">
+            <EntityTypeMapping TypeName="CompanyModel.TypeOfDocument">
+              <MappingFragment StoreEntitySet="TypeOfDocument">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeOfParcel">
+            <EntityTypeMapping TypeName="CompanyModel.TypeOfParcel">
+              <MappingFragment StoreEntitySet="TypeOfParcel">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Warehouse">
+            <EntityTypeMapping TypeName="CompanyModel.Warehouse">
+              <MappingFragment StoreEntitySet="Warehouse">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Customer_Address" TypeName="CompanyModel.Customer_Address" StoreEntitySet="Customer_Address">
+            <EndProperty Name="Address">
+              <ScalarProperty Name="id" ColumnName="idAddress" />
+            </EndProperty>
+            <EndProperty Name="Customer">
+              <ScalarProperty Name="id" ColumnName="idCustomer" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperKurier", "SuperKurier\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectionSQL", "ConnectionSQL\ConnectionSQL.csproj", "{29439643-DC93-4ECB-9BA3-163BA039ED87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{E3078A70-670F-400C-AC70-AEC81CC07F91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{29439643-DC93-4ECB-9BA3-163BA039ED87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29439643-DC93-4ECB-9BA3-163BA039ED87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29439643-DC93-4ECB-9BA3-163BA039ED87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3078A70-670F-400C-AC70-AEC81CC07F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3078A70-670F-400C-AC70-AEC81CC07F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3078A70-670F-400C-AC70-AEC81CC07F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3078A70-670F-400C-AC70-AEC81CC07F91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
