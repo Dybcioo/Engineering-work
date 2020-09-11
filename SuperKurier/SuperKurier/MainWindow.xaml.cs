@@ -2,6 +2,7 @@
 using DataModel;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -78,6 +79,8 @@ namespace SuperKurier
         private void BtnParcel_Click(object sender, RoutedEventArgs e)
         {
             BtnBackgroundColor(BtnParcel);
+            var comp = new CompanyEntities();
+            comp.TypeOfDocument.ToList().ForEach(a => MessageBox.Show(a.type));
         }
         private void BtnEmployee_Click(object sender, RoutedEventArgs e)
         {
@@ -112,6 +115,13 @@ namespace SuperKurier
             Properties.Settings.Default.DBUser = DBUser.Text;
             Properties.Settings.Default.DBPassword = DBPassword.Password;
             Properties.Settings.Default.Save();
+            System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var connectionString = (ConnectionStringsSection)config.GetSection("connectionStrings");
+            string cs = $"metadata=res://*/Model.csdl|res://*/Model.ssdl|res://*/Model.msl;provider=System.Data.SqlClient;provider connection string={"\""}data source={DBServer.Text};initial catalog={DBData.Text};integrated security=True;MultipleActiveResultSets=True;App=EntityFramework{"\""}";
+            connectionString.ConnectionStrings["CompanyEntities"].ConnectionString = cs;
+            config.Save();
+            ConfigurationManager.RefreshSection("connectionStrings");
+
         }
 
         private void GetDBSettings()
