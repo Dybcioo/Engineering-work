@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SuperKurier"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF" 
+        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         fw:AcrylicWindow.Enabled="True" 
         fw:AcrylicWindow.NoiseOpacity="0"
         fw:AcrylicWindow.TintColor="{Binding BackgroundOption}"
@@ -95,6 +96,12 @@
             </Button>
             <Label Content="{Binding TestConnection}" HorizontalAlignment="Left" Margin="142,252,0,0" VerticalAlignment="Top" Foreground="{Binding ColorConnection}" />
         </Grid>
-
+        <Grid x:Name="GridRegion" Grid.Row="1" Grid.Column="1" Background="{Binding BackgroundOption}" Visibility="Visible">
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding InputOption}"></TextBlock>
+            <m:Map Name="MyMap" Margin="0,50,0,0" CredentialsProvider="4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA"
+                   Mode="Road" Grid.Row="1" Grid.Column="1" ZoomLevel="14" Center="52.1657, 22.2839"
+                   MouseDoubleClick="MyMap_MouseDoubleClick" MouseRightButtonDown="ContextMenu_RightClick" >
+            </m:Map>
+        </Grid>
     </Grid>
 </Window>
