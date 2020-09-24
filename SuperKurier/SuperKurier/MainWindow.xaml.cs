@@ -34,7 +34,6 @@ namespace SuperKurier
         public string TestConnection { get; set; }
         public string ColorConnection { get; set; }
         public Connection Conn { get; set; }
-        public int counter = 1;
 
         public MainWindow()
         {
@@ -47,48 +46,8 @@ namespace SuperKurier
         private void MyMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            Point pt = Mouse.GetPosition(MyMap);
-            Location lt = MyMap.ViewportPointToLocation(pt);
-            InputOption = lt.ToString();
-            Pushpin pin = new Pushpin();
-            pin.Location = lt;
-            pin.Content = counter;
-            pin.MouseDown += new MouseButtonEventHandler(Pin_MouseDown);
-            counter++;
-            MyMap.Children.Add(pin);
-            ResetContext();
+            MyMap.CheckingPushpin();
         }
-        private void Pin_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Pushpin pin = (Pushpin)sender;
-            List<Pushpin> pins = GetPushPins();
-            for (int i = (int)pin.Content; i < counter; i++ )
-            {
-                foreach(var pinn in pins)
-                {
-                    if (pinn.Content.Equals(i))
-                    {
-                        pinn.Content = i - 1;
-                        break;
-                    }
-                }      
-            }
-            counter--;
-            MyMap.Children.Remove(pin);
-        }
-        private List<Pushpin> GetPushPins()
-        {
-            List<Pushpin> pins = new List<Pushpin>();
-            foreach (var child in MyMap.Children)
-            {
-                if (child is Pushpin)
-                {
-                    pins.Add((Pushpin)child);
-                }
-            }
-            return pins;
-        }
-
         private void ContextMenu_RightClick(object sender, MouseButtonEventArgs e)
         {
             ContextMenu context = new ContextMenu();
@@ -103,77 +62,12 @@ namespace SuperKurier
 
         private void ClearPolyline_Click(object sender, RoutedEventArgs e)
         {
-            ClearPolyline();
-            List<Pushpin> pins = GetPushPins();
-            foreach (var pin in pins)
-            {
-                MyMap.Children.Remove(pin);
-            }
-            counter = 0;
+            MyMap.ClearAllMap();
         }
 
         private void ConnectPushPins_Click(object sender, RoutedEventArgs e)
         {
-            ClearPolyline();
-            List<Pushpin> pins = GetPushPins();
-            MapPolyline polyline = new MapPolyline();
-            polyline.Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Blue);
-            polyline.StrokeThickness = 5;
-            polyline.Opacity = 0.7;
-            LocationCollection locations = new LocationCollection();
-            var geo1 = new GeoCoordinate();
-            var geo2 = new GeoCoordinate();
-            int i = 0;
-            double km = 0;
-            foreach (var pin in pins)
-            {
-                if(i < 1)
-                {
-                    geo2.Latitude = pin.Location.Latitude;
-                    geo2.Longitude = pin.Location.Longitude;
-                }
-                else
-                {
-                    geo1.Latitude = geo2.Latitude;
-                    geo1.Longitude = geo2.Longitude;
-                    geo2.Latitude = pin.Location.Latitude;
-                    geo2.Longitude = pin.Location.Longitude;
-                    km += geo1.GetDistanceTo(geo2);
-                }
-                var child = new MapLayer();
-                child.AddChild(new TextBlock() { Text = String.Format("{0:0.##}", km/1000) + "km", Foreground = Brushes.Black }, pin.Location);
-                MyMap.Children.Add(child);
-                locations.Add(pin.Location);
-                i++;
-            }
-
-            
-            polyline.Locations = locations;
-            MyMap.Children.Add(polyline);
-        }
-
-        private void ClearPolyline()
-        {
-            foreach (var child in MyMap.Children)
-            {
-                if (child is MapPolyline)
-                {
-                    MyMap.Children.Remove((MapPolyline)child);
-                    break;
-                }
-            }
-            List<MapLayer> mapLayers = new List<MapLayer>();
-            foreach (var child in MyMap.Children)
-            {
-                if (child is MapLayer)
-                {
-                    mapLayers.Add((MapLayer)child);
-                }
-            }
-            foreach(var ml in mapLayers)
-            {
-                MyMap.Children.Remove(ml);
-            }
+            MyMap.ConnectPushpins();
         }
 
         private void BlackAndWhiteLayout(bool black = true)
