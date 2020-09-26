@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using DataModel;
 
 namespace SuperKurier
 {
@@ -58,6 +59,22 @@ namespace SuperKurier
             polyline.Locations = locations;
             MyMap.Children.Add(polyline);
             MyMap.ShowDistance();
+        }
+
+        public static void DrawSquare(this Map MyMap, DataModel.Localization startLocal, DataModel.Localization endLocal)
+        {
+            MapPolyline polyline = new MapPolyline();
+            polyline.Stroke = new SolidColorBrush(Colors.Blue);
+            polyline.StrokeThickness = 3;
+            polyline.Opacity = 0.7;
+            LocationCollection locations = new LocationCollection();
+            locations.Add(new Location() { Latitude = double.Parse(startLocal.latitude),   Longitude = double.Parse(startLocal.longitude)});
+            locations.Add(new Location() { Latitude = double.Parse(endLocal.latitude),     Longitude = double.Parse(startLocal.longitude)});
+            locations.Add(new Location() { Latitude = double.Parse(endLocal.latitude),     Longitude = double.Parse(endLocal.longitude)});
+            locations.Add(new Location() { Latitude = double.Parse(startLocal.latitude),   Longitude = double.Parse(endLocal.longitude)});
+            locations.Add(new Location() { Latitude = double.Parse(startLocal.latitude),   Longitude = double.Parse(startLocal.longitude) });
+            polyline.Locations = locations;
+            MyMap.Children.Add(polyline);
         }
 
         public static void ShowDistance(this Map MyMap)

@@ -128,6 +128,18 @@ namespace SuperKurier
             MessageBox.Show("Region zapisano pomyślnie","" , MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        private void BtnShowRegions_Click(object sender, RoutedEventArgs e)
+        {
+            var regions = companyEntities.Region.ToList();
+            var localizations = companyEntities.Localization.ToList();
+            foreach(var region in regions)
+            {
+                var startLocal = localizations.Find(l => l.id == region.idStartLocalization);
+                var endLocal = localizations.Find(l => l.id == region.idEndLocalization);
+                MyMap.DrawSquare(startLocal, endLocal);
+            }
+        }
+
         private void CreateRegions_Click(object sender, RoutedEventArgs e)
         {
             polyline = new MapPolyline();
