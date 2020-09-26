@@ -25,7 +25,7 @@ namespace DataModel
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string password { get; set; }
-        public System.Guid code { get; set; }
+        public string code { get; set; }
         public Nullable<int> idAddress { get; set; }
         public Nullable<int> idPosition { get; set; }
         public Nullable<int> idWarehouse { get; set; }

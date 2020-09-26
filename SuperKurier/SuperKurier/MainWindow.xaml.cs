@@ -11,13 +11,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace SuperKurier
 {
@@ -37,6 +34,7 @@ namespace SuperKurier
         private MapPolyline polyline = null;
         private Location location = null;
         private bool regionSquare = false;
+        private CompanyEntities companyEntities = new CompanyEntities();
 
         public MainWindow()
         {
@@ -107,6 +105,19 @@ namespace SuperKurier
                     regionSquare = false;
                     polyline.Stroke = new SolidColorBrush(Colors.Green);
                     MyMap.ShowDistance();
+                    /*DataModel.Localization startLocal = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
+                    DataModel.Localization endLocal = new DataModel.Localization() { latitude = location1.Latitude.ToString(), longitude = location1.Longitude.ToString() };
+                    companyEntities.Localization.Add(startLocal);
+                    companyEntities.Localization.Add(endLocal);
+                    companyEntities.SaveChanges();
+                    DataModel.Region newRegion = new DataModel.Region();
+                    newRegion.Warehouse = companyEntities.Warehouse.First(w => w.code.Equals("MAZ"));
+                    newRegion.idStartLocalization = startLocal.id;
+                    newRegion.idEndLocalization = endLocal.id;
+                    newRegion.code = "MAZ/SDL/01";
+                    companyEntities.Region.Add(newRegion);
+                    companyEntities.SaveChanges();*/
+                    
                 }     
             }    
         }
@@ -160,8 +171,6 @@ namespace SuperKurier
         private void BtnParcel_Click(object sender, RoutedEventArgs e)
         {
             BtnBackgroundColor(BtnParcel);
-            /*var comp = new CompanyEntities();
-            comp.TypeOfDocument.ToList().ForEach(a => MessageBox.Show(a.type));*/
         }
         private void BtnEmployee_Click(object sender, RoutedEventArgs e)
         {

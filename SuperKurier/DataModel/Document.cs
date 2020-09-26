@@ -21,7 +21,7 @@ namespace DataModel
         }
     
         public int id { get; set; }
-        public System.Guid code { get; set; }
+        public string code { get; set; }
         public bool exposure { get; set; }
         public Nullable<decimal> summary { get; set; }
         public int quantity { get; set; }

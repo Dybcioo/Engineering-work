@@ -23,8 +23,8 @@ namespace DataModel
         }
     
         public int id { get; set; }
-        public string width { get; set; }
-        public string height { get; set; }
+        public string latitude { get; set; }
+        public string longitude { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Address> Address { get; set; }

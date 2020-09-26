@@ -50,7 +50,7 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="code" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="exposure" Type="bit" Nullable="false" />
           <Property Name="summary" Type="money" />
           <Property Name="quantity" Type="int" Nullable="false" />
@@ -66,7 +66,7 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
           <Property Name="firstName" Type="nvarchar" MaxLength="20" />
           <Property Name="lastName" Type="nvarchar" MaxLength="30" />
           <Property Name="password" Type="nvarchar" MaxLength="50" />
-          <Property Name="code" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="idAddress" Type="int" />
           <Property Name="idPosition" Type="int" />
           <Property Name="idWarehouse" Type="int" />
@@ -86,15 +86,15 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="width" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="height" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="latitude" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="longitude" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="Parcel">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="code" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="weight" Type="numeric" Precision="4" Scale="2" Nullable="false" />
           <Property Name="amount" Type="numeric" Precision="10" Scale="0" Nullable="false" />
           <Property Name="dateOfShipment" Type="datetime" Nullable="false" />
@@ -131,7 +131,7 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="code" Type="uniqueidentifier" />
+          <Property Name="code" Type="nvarchar" MaxLength="10" />
           <Property Name="idStartLocalization" Type="int" Nullable="false" />
           <Property Name="idEndLocalization" Type="int" Nullable="false" />
           <Property Name="idWarehouse" Type="int" Nullable="false" />
@@ -172,7 +172,7 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="code" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <Association Name="FK_Address_Localization">
           <End Role="Localization" Type="Self.Localization" Multiplicity="1" />
@@ -646,7 +646,7 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="code" Type="Guid" Nullable="false" />
+          <Property Name="code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="exposure" Type="Boolean" Nullable="false" />
           <Property Name="summary" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
@@ -666,7 +666,7 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
           <Property Name="firstName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="lastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="code" Type="Guid" Nullable="false" />
+          <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="idAddress" Type="Int32" />
           <Property Name="idPosition" Type="Int32" />
           <Property Name="idWarehouse" Type="Int32" />
@@ -694,8 +694,8 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="width" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="height" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="latitude" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="longitude" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Address" Relationship="Self.FK_Address_Localization" FromRole="Localization" ToRole="Address" />
           <NavigationProperty Name="Region" Relationship="Self.FK_Region_Localization" FromRole="Localization" ToRole="Region" />
           <NavigationProperty Name="Region1" Relationship="Self.FK_Region_Localization1" FromRole="Localization" ToRole="Region" />
@@ -705,7 +705,7 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="code" Type="Guid" Nullable="false" />
+          <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="weight" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
           <Property Name="amount" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
           <Property Name="dateOfShipment" Type="DateTime" Nullable="false" Precision="3" />
@@ -754,7 +754,7 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="code" Type="Guid" />
+          <Property Name="code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="idStartLocalization" Type="Int32" Nullable="false" />
           <Property Name="idEndLocalization" Type="Int32" Nullable="false" />
           <Property Name="idWarehouse" Type="Int32" Nullable="false" />
@@ -803,7 +803,7 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="code" Type="Guid" Nullable="false" />
+          <Property Name="code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Document" Relationship="Self.FK_Document_Warehouse" FromRole="Warehouse" ToRole="Document" />
           <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Warehouse" FromRole="Warehouse" ToRole="Employee" />
           <NavigationProperty Name="HistoryOfParcel" Relationship="Self.FK_HistoryOfParcel_Warehouse" FromRole="Warehouse" ToRole="HistoryOfParcel" />
@@ -1286,8 +1286,8 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
             <EntityTypeMapping TypeName="CompanyModel.Localization">
               <MappingFragment StoreEntitySet="Localization">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="width" ColumnName="width" />
-                <ScalarProperty Name="height" ColumnName="height" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

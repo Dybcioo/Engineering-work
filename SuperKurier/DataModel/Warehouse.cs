@@ -25,7 +25,7 @@ namespace DataModel
         }
     
         public int id { get; set; }
-        public System.Guid code { get; set; }
+        public string code { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Document> Document { get; set; }

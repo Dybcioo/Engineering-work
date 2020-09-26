@@ -22,7 +22,7 @@ namespace DataModel
         }
     
         public int id { get; set; }
-        public System.Guid code { get; set; }
+        public string code { get; set; }
         public decimal weight { get; set; }
         public decimal amount { get; set; }
         public System.DateTime dateOfShipment { get; set; }

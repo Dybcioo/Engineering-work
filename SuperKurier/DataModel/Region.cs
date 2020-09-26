@@ -22,7 +22,7 @@ namespace DataModel
         }
     
         public int id { get; set; }
-        public Nullable<System.Guid> code { get; set; }
+        public string code { get; set; }
         public int idStartLocalization { get; set; }
         public int idEndLocalization { get; set; }
         public int idWarehouse { get; set; }
