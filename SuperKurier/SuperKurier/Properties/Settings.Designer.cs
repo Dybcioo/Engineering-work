@@ -70,5 +70,17 @@ namespace SuperKurier.Properties {
                 this["DBPassword"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Warehouse {
+            get {
+                return ((int)(this["Warehouse"]));
+            }
+            set {
+                this["Warehouse"] = value;
+            }
+        }
     }
 }

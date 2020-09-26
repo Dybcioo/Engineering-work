@@ -1,4 +1,5 @@
-﻿using ConnectionSQL;
+﻿using Caliburn.Micro;
+using ConnectionSQL;
 using DataModel;
 using Microsoft.Maps.MapControl.WPF;
 using System;
@@ -31,6 +32,21 @@ namespace SuperKurier
         public string TestConnection { get; set; }
         public string ColorConnection { get; set; }
         public Connection Conn { get; set; }
+        public BindableCollection<Warehouse> Warehouses { get; set; }
+        private Warehouse warehouseSelected;
+
+        public Warehouse WarehouseSelected
+        {
+            get 
+            { return warehouseSelected; }
+            set 
+            {
+                warehouseSelected = value;
+                Properties.Settings.Default.Warehouse = WarehouseSelected.id;
+                Properties.Settings.Default.Save();
+            }
+        }
+
         private MapPolyline polyline = null;
         private Location location = null;
         private bool regionSquare = false;
@@ -43,6 +59,16 @@ namespace SuperKurier
             DataContext = this;
             BlackAndWhiteLayout();
             GetDBSettings();
+            LoadWarehouse();
+        }
+
+        private void LoadWarehouse()
+        {
+            var temp = companyEntities.Warehouse.FirstOrDefault(w => w.id == Properties.Settings.Default.Warehouse);
+            if (temp != null)
+                WarehouseSelected = temp;
+            Warehouses = new BindableCollection<Warehouse>(companyEntities.Warehouse.ToList());
+            ResetContext();
         }
 
         private void MyMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -189,6 +215,7 @@ namespace SuperKurier
         private void BtnParcel_Click(object sender, RoutedEventArgs e)
         {
             BtnBackgroundColor(BtnParcel);
+            MessageBox.Show(Properties.Settings.Default.Warehouse.ToString());
         }
         private void BtnEmployee_Click(object sender, RoutedEventArgs e)
         {
@@ -210,6 +237,7 @@ namespace SuperKurier
         {
             BtnBackgroundColor(BtnSettings);
             GridSettings.Visibility = Visibility.Visible;
+            
         }
         private void BtnToggleTheme_Click(object sender, RoutedEventArgs e)
         {
@@ -274,7 +302,5 @@ namespace SuperKurier
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
         }
-
-        
     }
 }
