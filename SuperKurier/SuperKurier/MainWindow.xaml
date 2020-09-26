@@ -99,7 +99,7 @@
         <Grid x:Name="GridRegion" Grid.Row="1" Grid.Column="1" Background="{Binding BackgroundOption}" Visibility="Visible">
             <m:Map Name="MyMap" Margin="0,50,0,0" CredentialsProvider="4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA"
                    Mode="Road" Grid.Row="1" Grid.Column="1" ZoomLevel="14" Center="52.1657, 22.2839"
-                   MouseDoubleClick="MyMap_MouseDoubleClick" MouseRightButtonDown="ContextMenu_RightClick" >
+                   MouseDoubleClick="MyMap_MouseDoubleClick" MouseRightButtonDown="ContextMenu_RightClick" MouseMove="MyMap_MouseMove" >
             </m:Map>
         </Grid>
     </Grid>

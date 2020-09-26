@@ -47,38 +47,47 @@ namespace SuperKurier
             MyMap.ClearPolyline();
             List<Pushpin> pins = MyMap.GetPushpins();
             MapPolyline polyline = new MapPolyline();
-            polyline.Stroke = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Blue);
+            polyline.Stroke = new SolidColorBrush(Colors.Blue);
             polyline.StrokeThickness = 5;
             polyline.Opacity = 0.7;
             LocationCollection locations = new LocationCollection();
+            foreach (var pin in pins)
+            {
+                locations.Add(pin.Location);
+            }
+            polyline.Locations = locations;
+            MyMap.Children.Add(polyline);
+            MyMap.ShowDistance();
+        }
+
+        public static void ShowDistance(this Map MyMap)
+        {
             var geo1 = new GeoCoordinate();
             var geo2 = new GeoCoordinate();
             int i = 0;
             double km = 0;
-            foreach (var pin in pins)
+            foreach (var location in MyMap.GetPolyline().Locations)
             {
                 if (i < 1)
                 {
-                    geo2.Latitude = pin.Location.Latitude;
-                    geo2.Longitude = pin.Location.Longitude;
+                    geo2.Latitude = location.Latitude;
+                    geo2.Longitude = location.Longitude;
                 }
                 else
                 {
                     geo1.Latitude = geo2.Latitude;
                     geo1.Longitude = geo2.Longitude;
-                    geo2.Latitude = pin.Location.Latitude;
-                    geo2.Longitude = pin.Location.Longitude;
+                    geo2.Latitude = location.Latitude;
+                    geo2.Longitude = location.Longitude;
                     km += geo1.GetDistanceTo(geo2);
+                    var child = new MapLayer();
+                    child.AddChild(new TextBlock() { Text = String.Format("{0:0.##}", km / 1000) + "km", Foreground = Brushes.Red }, location);
+                    MyMap.Children.Add(child);
                 }
-                var child = new MapLayer();
-                child.AddChild(new TextBlock() { Text = String.Format("{0:0.##}", km / 1000) + "km", Foreground = Brushes.Red }, pin.Location);
-                MyMap.Children.Add(child);
-                locations.Add(pin.Location);
                 i++;
             }
-            polyline.Locations = locations;
-            MyMap.Children.Add(polyline);
         }
+
         public static List<Pushpin> GetPushpins(this Map MyMap)
         {
             List<Pushpin> pins = new List<Pushpin>();
@@ -126,6 +135,7 @@ namespace SuperKurier
             if(map.IsPolyline())
                 map.ConnectPushpins();
         }
+
         private static bool IsPolyline(this Map MyMap)
         {
             foreach(var child in MyMap.Children)
@@ -134,6 +144,16 @@ namespace SuperKurier
                     return true;
             }
             return false;
+        }
+
+        private static MapPolyline GetPolyline(this Map MyMap)
+        {
+            foreach (var child in MyMap.Children)
+            {
+                if (child is MapPolyline)
+                    return (MapPolyline) child;
+            }
+            return null;
         }
 
         public static void ClearAllMap(this Map MyMap)
@@ -146,5 +166,6 @@ namespace SuperKurier
             }
             counter = 0;
         }
+
     }
 }

@@ -34,6 +34,9 @@ namespace SuperKurier
         public string TestConnection { get; set; }
         public string ColorConnection { get; set; }
         public Connection Conn { get; set; }
+        private MapPolyline polyline = null;
+        private Location location = null;
+        private bool regionSquare = false;
 
         public MainWindow()
         {
@@ -52,12 +55,60 @@ namespace SuperKurier
         {
             ContextMenu context = new ContextMenu();
             context.IsOpen = true;
+            var createRegions = new MenuItem() { Header = "Wyznacz region" };
             var connectPushPins = new MenuItem() { Header = "Połącz pinezki" };
             var clear = new MenuItem() { Header = "Wyczyść trase" };
             clear.Click += ClearPolyline_Click;
             connectPushPins.Click += ConnectPushPins_Click;
+            createRegions.Click += CreateRegions_Click;
+            context.Items.Add(createRegions);
             context.Items.Add(connectPushPins);
             context.Items.Add(clear);
+        }
+
+        private void CreateRegions_Click(object sender, RoutedEventArgs e)
+        {
+            polyline = new MapPolyline();
+            polyline.Stroke = new SolidColorBrush(Colors.Blue);
+            polyline.StrokeThickness = 3;
+            polyline.Opacity = 0.7; 
+            location = MyMap.ViewportPointToLocation(Mouse.GetPosition(MyMap));
+            LocationCollection locations = new LocationCollection();
+            locations.Add(location);
+            locations.Add(new Location());
+            locations.Add(new Location());
+            locations.Add(new Location());
+            locations.Add(new Location());
+            polyline.Locations = locations;
+            MyMap.Children.Add(polyline);
+            regionSquare = true;
+        }
+        private async void MyMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            Location location2 = new Location();
+            if (polyline != null && regionSquare)
+            {
+                var position1 = Mouse.GetPosition(MyMap);
+                Location location1 = MyMap.ViewportPointToLocation(position1);
+                polyline.Locations[1].Latitude = location1.Latitude;
+                polyline.Locations[1].Longitude = location.Longitude;
+                polyline.Locations[2] = location1;
+                polyline.Locations[3].Latitude = location.Latitude;
+                polyline.Locations[3].Longitude = location1.Longitude;
+                polyline.Locations[4] = location;
+                if(e.LeftButton == MouseButtonState.Pressed)
+                {
+                    location2 = MyMap.Center;
+                    while(e.LeftButton == MouseButtonState.Pressed) { await Task.Delay(25); }
+                }
+                location1 = MyMap.Center;
+                if (location2 == location1)
+                {
+                    regionSquare = false;
+                    polyline.Stroke = new SolidColorBrush(Colors.Green);
+                    MyMap.ShowDistance();
+                }     
+            }    
         }
 
         private void ClearPolyline_Click(object sender, RoutedEventArgs e)
@@ -197,6 +248,6 @@ namespace SuperKurier
             t.Start();
         }
 
-
+        
     }
 }
