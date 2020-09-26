@@ -105,6 +105,29 @@ namespace SuperKurier
             btnAddRegion.Visibility = Visibility.Hidden;
         }
 
+        private void BtnAddRegion_Click(object sender, RoutedEventArgs e)
+        {
+            activationFunction = true;
+            MyMap.ClearAllMap();
+            btnClearRegion.Visibility = Visibility.Hidden;
+            btnAddRegion.Visibility = Visibility.Hidden;
+            DataModel.Localization startLocal = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
+            DataModel.Localization endLocal = new DataModel.Localization() { latitude = polyline.Locations[2].Latitude.ToString(), longitude = polyline.Locations[2].Longitude.ToString() };
+            companyEntities.Localization.Add(startLocal);
+            companyEntities.Localization.Add(endLocal);
+            companyEntities.SaveChanges();
+            DataModel.Region newRegion = new DataModel.Region();
+            newRegion.Warehouse = WarehouseSelected;
+            newRegion.idStartLocalization = startLocal.id;
+            newRegion.idEndLocalization = endLocal.id;
+            companyEntities.Region.Add(newRegion);
+            companyEntities.SaveChanges();
+            var temp = companyEntities.Region.OrderByDescending(r => r.id).First();
+            temp.code = newRegion.code = $"{WarehouseSelected.code}/{temp.id}";
+            companyEntities.SaveChanges();
+            MessageBox.Show("Region zapisano pomyślnie","" , MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
         private void CreateRegions_Click(object sender, RoutedEventArgs e)
         {
             polyline = new MapPolyline();
@@ -149,19 +172,6 @@ namespace SuperKurier
                     MyMap.ShowDistance();
                     btnAddRegion.Visibility = Visibility.Visible;
                     btnClearRegion.Visibility = Visibility.Visible;
-                    /*DataModel.Localization startLocal = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
-                    DataModel.Localization endLocal = new DataModel.Localization() { latitude = location1.Latitude.ToString(), longitude = location1.Longitude.ToString() };
-                    companyEntities.Localization.Add(startLocal);
-                    companyEntities.Localization.Add(endLocal);
-                    companyEntities.SaveChanges();
-                    DataModel.Region newRegion = new DataModel.Region();
-                    newRegion.Warehouse = companyEntities.Warehouse.First(w => w.code.Equals("MAZ"));
-                    newRegion.idStartLocalization = startLocal.id;
-                    newRegion.idEndLocalization = endLocal.id;
-                    newRegion.code = "MAZ/SDL/01";
-                    companyEntities.Region.Add(newRegion);
-                    companyEntities.SaveChanges();*/
-                    
                 }     
             }    
         }
@@ -302,5 +312,7 @@ namespace SuperKurier
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
         }
+
+        
     }
 }
