@@ -101,39 +101,44 @@ namespace SuperKurier
             return pins;
         }
 
-        public static void CheckingPushpin(this Map MyMap)
+        public static void CheckingPushpin(this Map MyMap, MouseButtonEventArgs e)
         {
-            
-            Point pt = Mouse.GetPosition(MyMap);
-            Location lt = MyMap.ViewportPointToLocation(pt);
-            Pushpin pin = new Pushpin();
-            pin.Location = lt;
-            pin.Content = counter;
-            map = MyMap;
-            pin.MouseDown += new MouseButtonEventHandler(Pin_MouseDown);
-            counter++;
-            MyMap.Children.Add(pin);
+            if(e.LeftButton == MouseButtonState.Pressed)
+            {
+                Point pt = Mouse.GetPosition(MyMap);
+                Location lt = MyMap.ViewportPointToLocation(pt);
+                Pushpin pin = new Pushpin();
+                pin.Location = lt;
+                pin.Content = counter;
+                map = MyMap;
+                pin.MouseDown += new MouseButtonEventHandler(Pin_MouseDown);
+                counter++;
+                MyMap.Children.Add(pin);
+            }
         }
 
         private static void Pin_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Pushpin pin = (Pushpin)sender;
-            List<Pushpin> pins = map.GetPushpins();
-            for (int i = (int)pin.Content; i < counter; i++)
+            if(e.LeftButton == MouseButtonState.Pressed)
             {
-                foreach (var pinn in pins)
+                Pushpin pin = (Pushpin)sender;
+                List<Pushpin> pins = map.GetPushpins();
+                for (int i = (int)pin.Content; i < counter; i++)
                 {
-                    if (pinn.Content.Equals(i))
+                    foreach (var pinn in pins)
                     {
-                        pinn.Content = i - 1;
-                        break;
+                        if (pinn.Content.Equals(i))
+                        {
+                            pinn.Content = i - 1;
+                            break;
+                        }
                     }
                 }
+                counter--;
+                map.Children.Remove(pin);
+                if (map.IsPolyline())
+                    map.ConnectPushpins();
             }
-            counter--;
-            map.Children.Remove(pin);
-            if(map.IsPolyline())
-                map.ConnectPushpins();
         }
 
         private static bool IsPolyline(this Map MyMap)

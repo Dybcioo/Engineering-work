@@ -34,6 +34,7 @@ namespace SuperKurier
         private MapPolyline polyline = null;
         private Location location = null;
         private bool regionSquare = false;
+        private bool activationFunction = true;
         private CompanyEntities companyEntities = new CompanyEntities();
 
         public MainWindow()
@@ -46,22 +47,36 @@ namespace SuperKurier
 
         private void MyMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            e.Handled = true;
-            MyMap.CheckingPushpin();
+            if (activationFunction)
+            {
+                e.Handled = true;
+                MyMap.CheckingPushpin(e);
+            } 
         }
         private void ContextMenu_RightClick(object sender, MouseButtonEventArgs e)
         {
-            ContextMenu context = new ContextMenu();
-            context.IsOpen = true;
-            var createRegions = new MenuItem() { Header = "Wyznacz region" };
-            var connectPushPins = new MenuItem() { Header = "Połącz pinezki" };
-            var clear = new MenuItem() { Header = "Wyczyść trase" };
-            clear.Click += ClearPolyline_Click;
-            connectPushPins.Click += ConnectPushPins_Click;
-            createRegions.Click += CreateRegions_Click;
-            context.Items.Add(createRegions);
-            context.Items.Add(connectPushPins);
-            context.Items.Add(clear);
+            if(activationFunction)
+            {
+                ContextMenu context = new ContextMenu();
+                context.IsOpen = true;
+                var createRegions = new MenuItem() { Header = "Dodaj nowy region" };
+                var connectPushPins = new MenuItem() { Header = "Połącz pinezki" };
+                var clear = new MenuItem() { Header = "Wyczyść trase" };
+                clear.Click += ClearPolyline_Click;
+                connectPushPins.Click += ConnectPushPins_Click;
+                createRegions.Click += CreateRegions_Click;
+                context.Items.Add(createRegions);
+                context.Items.Add(connectPushPins);
+                context.Items.Add(clear);
+            }
+        }
+
+        private void BtnClearRegion_Click(object sender, RoutedEventArgs e)
+        {
+            activationFunction = true;
+            MyMap.ClearAllMap();
+            btnClearRegion.Visibility = Visibility.Hidden;
+            btnAddRegion.Visibility = Visibility.Hidden;
         }
 
         private void CreateRegions_Click(object sender, RoutedEventArgs e)
@@ -80,6 +95,7 @@ namespace SuperKurier
             polyline.Locations = locations;
             MyMap.Children.Add(polyline);
             regionSquare = true;
+            activationFunction = false;
         }
         private async void MyMap_MouseMove(object sender, MouseEventArgs e)
         {
@@ -105,6 +121,8 @@ namespace SuperKurier
                     regionSquare = false;
                     polyline.Stroke = new SolidColorBrush(Colors.Green);
                     MyMap.ShowDistance();
+                    btnAddRegion.Visibility = Visibility.Visible;
+                    btnClearRegion.Visibility = Visibility.Visible;
                     /*DataModel.Localization startLocal = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
                     DataModel.Localization endLocal = new DataModel.Localization() { latitude = location1.Latitude.ToString(), longitude = location1.Longitude.ToString() };
                     companyEntities.Localization.Add(startLocal);
