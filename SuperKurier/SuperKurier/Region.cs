@@ -47,6 +47,7 @@ namespace SuperKurier
                 MyMap.Children.Remove(ml);
             }
         }
+
         public static void ClearAllMap(this Map MyMap)
         {
             List<UIElement> mapLayers = new List<UIElement>();
@@ -95,12 +96,14 @@ namespace SuperKurier
             MyMap.Children.Add(polyline);
         }
 
-        public static bool IsAllowRegion(this Map MyMap, Location startLocal, Location endLocal, CompanyEntities companyEntities)
+        public static bool IsAllowRegion(this Map MyMap, Location startLocal, Location endLocal, CompanyEntities companyEntities, int regionId = 0)
         {
             var regions = companyEntities.Region.ToList();
             var localizations = companyEntities.Localization.ToList();
             foreach (var region in regions)
             {
+                if (region.id == regionId)
+                    continue;
                 var startTmp = localizations.Find(l => l.id == region.idStartLocalization);
                 var endTmp = localizations.Find(l => l.id == region.idEndLocalization);
                 var startLocalTmp = new Location() { Latitude = double.Parse(startTmp.latitude), Longitude = double.Parse(startTmp.longitude) };
@@ -125,30 +128,7 @@ namespace SuperKurier
                 }
             }
             return true;
-        }
-
-        private static bool CheckLonglitude(Location startLocal, Location endLocal, Location startLocalTmp, Location endLocalTmp)
-        {
-            if (startLocalTmp.Longitude < endLocalTmp.Longitude)
-            {
-                if (startLocal.Longitude < startLocalTmp.Longitude && endLocal.Longitude > startLocalTmp.Longitude)
-                    return false;
-                if (startLocal.Longitude > startLocalTmp.Longitude && startLocal.Longitude < endLocalTmp.Longitude)
-                    return false;
-                if (startLocal.Longitude > endLocalTmp.Longitude && endLocal.Longitude < endLocalTmp.Longitude)
-                    return false;
-            }
-            else
-            {
-                if (startLocal.Longitude > startLocalTmp.Longitude && endLocal.Longitude < startLocalTmp.Longitude)
-                    return false;
-                if (startLocal.Longitude < startLocalTmp.Longitude && startLocal.Longitude > endLocalTmp.Longitude)
-                    return false;
-                if (startLocal.Longitude < endLocalTmp.Longitude && endLocal.Longitude > endLocalTmp.Longitude)
-                    return false;
-            }
-            return true;
-        }
+        }     
 
         public static DataModel.Region GetCurrentRegion(this Map MyMap, Location location, CompanyEntities companyEntities)
         {
@@ -172,21 +152,6 @@ namespace SuperKurier
                 }
             }
             return null;
-        }
-
-        private static bool CheckCurrentRegion(Location location, Location startLocalTmp, Location endLocalTmp)
-        {
-            if (startLocalTmp.Longitude < endLocalTmp.Longitude)
-            {
-                if (location.Longitude > startLocalTmp.Longitude && location.Longitude < endLocalTmp.Longitude)
-                    return true;
-            }
-            else
-            {
-                if (location.Longitude < startLocalTmp.Longitude && location.Longitude > endLocalTmp.Longitude)
-                    return true;
-            }
-            return false;
         }
 
         public static void ShowDistance(this Map MyMap, MapPolyline mapPolyline)
@@ -246,6 +211,59 @@ namespace SuperKurier
             }
         }
 
+        public static MapPolyline GetPolyline(this Map MyMap, DataModel.Region region)
+        {
+            foreach (var child in MyMap.Children)
+            {
+                if (child is MapPolyline)
+                {
+                    var polyline = (MapPolyline)child;
+                    if (polyline.Locations.Any(l => l.Latitude == double.Parse(region.Localization.latitude) && l.Longitude == double.Parse(region.Localization.longitude)))
+                        return polyline;
+                }
+                    
+            }
+            return null;
+        }
+
+        private static bool CheckLonglitude(Location startLocal, Location endLocal, Location startLocalTmp, Location endLocalTmp)
+        {
+            if (startLocalTmp.Longitude < endLocalTmp.Longitude)
+            {
+                if (startLocal.Longitude < startLocalTmp.Longitude && endLocal.Longitude > startLocalTmp.Longitude)
+                    return false;
+                if (startLocal.Longitude > startLocalTmp.Longitude && startLocal.Longitude < endLocalTmp.Longitude)
+                    return false;
+                if (startLocal.Longitude > endLocalTmp.Longitude && endLocal.Longitude < endLocalTmp.Longitude)
+                    return false;
+            }
+            else
+            {
+                if (startLocal.Longitude > startLocalTmp.Longitude && endLocal.Longitude < startLocalTmp.Longitude)
+                    return false;
+                if (startLocal.Longitude < startLocalTmp.Longitude && startLocal.Longitude > endLocalTmp.Longitude)
+                    return false;
+                if (startLocal.Longitude < endLocalTmp.Longitude && endLocal.Longitude > endLocalTmp.Longitude)
+                    return false;
+            }
+            return true;
+        }
+
+        private static bool CheckCurrentRegion(Location location, Location startLocalTmp, Location endLocalTmp)
+        {
+            if (startLocalTmp.Longitude < endLocalTmp.Longitude)
+            {
+                if (location.Longitude > startLocalTmp.Longitude && location.Longitude < endLocalTmp.Longitude)
+                    return true;
+            }
+            else
+            {
+                if (location.Longitude < startLocalTmp.Longitude && location.Longitude > endLocalTmp.Longitude)
+                    return true;
+            }
+            return false;
+        }
+
         private static void Pin_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if(e.LeftButton == MouseButtonState.Pressed)
@@ -278,16 +296,6 @@ namespace SuperKurier
                     return true;
             }
             return false;
-        }
-
-        private static MapPolyline GetPolyline(this Map MyMap)
-        {
-            foreach (var child in MyMap.Children)
-            {
-                if (child is MapPolyline)
-                    return (MapPolyline) child;
-            }
-            return null;
         }
 
     }

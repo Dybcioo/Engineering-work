@@ -53,6 +53,7 @@ namespace SuperKurier
         private bool activationFunction = true;
         private CompanyEntities companyEntities = new CompanyEntities();
         private bool regionVisibility = false;
+        private DataModel.Region region = null;
 
         public MainWindow()
         {
@@ -84,28 +85,28 @@ namespace SuperKurier
         {
             if(activationFunction)
             {
-                if (regionVisibility)
+                Location location = MyMap.ViewportPointToLocation(Mouse.GetPosition(MyMap));
+                var temp = MyMap.GetCurrentRegion(location, companyEntities);
+                if (temp != null && regionVisibility)
                 {
-                    Location location = MyMap.ViewportPointToLocation(Mouse.GetPosition(MyMap));
-                    var temp = MyMap.GetCurrentRegion(location, companyEntities);
-                    if (temp != null)
+                    ContextMenu context = new ContextMenu();
+                    context.IsOpen = true;
+                    var editRegion = new MenuItem() { Header = "Edytuj region" };
+                    var removeRegion = new MenuItem() { Header = "Usuń region" };
+                    var infoRegion = new MenuItem() { Header = "Info" };
+
+                    infoRegion.Click += (s, es) => MessageBox.Show($"Kod: {temp.code}");
+
+                    editRegion.Click += async (s, es) =>
                     {
-                        ContextMenu context = new ContextMenu();
-                        context.IsOpen = true;
-                        var editRegion = new MenuItem() { Header = "Edytuj region" };
-                        var removeRegion = new MenuItem() { Header = "Usuń region" };
-                        var infoRegion = new MenuItem() { Header = "Info" };
-
-                        infoRegion.Click += (s, es) => MessageBox.Show($"Kod: {temp.code}");
-
-                        editRegion.Click += (s, es) =>
-                        {
-                            
-                        };
-                        context.Items.Add(editRegion);
-                        context.Items.Add(removeRegion);
-                        context.Items.Add(infoRegion);
-                    }
+                        MyMap.Children.Remove(MyMap.GetPolyline(temp));
+                        while (e.LeftButton == MouseButtonState.Released) { await Task.Delay(25); }
+                        CreateRegions_Click(s, es);
+                        region = temp;
+                    };
+                    context.Items.Add(editRegion);
+                    context.Items.Add(removeRegion);
+                    context.Items.Add(infoRegion);
                 }
                 else
                 {
@@ -141,10 +142,29 @@ namespace SuperKurier
             MyMap.ClearTextInMap();
             btnClearRegion.Visibility = Visibility.Hidden;
             btnAddRegion.Visibility = Visibility.Hidden;
-            if (MyMap.IsAllowRegion(location, polyline.Locations[2], companyEntities))
+            DataModel.Localization startLocal = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
+            DataModel.Localization endLocal = new DataModel.Localization() { latitude = polyline.Locations[2].Latitude.ToString(), longitude = polyline.Locations[2].Longitude.ToString() };
+            if (region != null)
             {
-                DataModel.Localization startLocal = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
-                DataModel.Localization endLocal = new DataModel.Localization() { latitude = polyline.Locations[2].Latitude.ToString(), longitude = polyline.Locations[2].Longitude.ToString() };
+                if(MyMap.IsAllowRegion(location, polyline.Locations[2], companyEntities, region.id))
+                {
+                   var start = companyEntities.Localization.First(l => l.id == region.idStartLocalization);
+                   var end = companyEntities.Localization.First(l => l.id == region.idEndLocalization);
+                    start.latitude = startLocal.latitude;
+                    start.longitude = startLocal.longitude;
+                    end.latitude = endLocal.latitude;
+                    end.longitude = endLocal.longitude;
+                    companyEntities.SaveChanges();
+                    MessageBox.Show("Region edytowano pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Nowy region nie może pokrywać regionów już istniejących!", "", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                
+            }
+            else if(MyMap.IsAllowRegion(location, polyline.Locations[2], companyEntities))
+            {
                 companyEntities.Localization.Add(startLocal);
                 companyEntities.Localization.Add(endLocal);
                 companyEntities.SaveChanges();
@@ -197,6 +217,7 @@ namespace SuperKurier
             regionSquare = true;
             activationFunction = false;
         }
+
         private async void MyMap_MouseMove(object sender, MouseEventArgs e)
         {
             Location location2 = new Location();
