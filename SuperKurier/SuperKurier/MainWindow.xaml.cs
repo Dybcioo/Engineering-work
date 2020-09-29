@@ -3,6 +3,7 @@ using ConnectionSQL;
 using DataModel;
 using Microsoft.Maps.MapControl.WPF;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Device.Location;
@@ -14,7 +15,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
 namespace SuperKurier
 {
@@ -141,8 +143,7 @@ namespace SuperKurier
             activationFunction = true;
             MyMap.Children.Remove(polyline);
             MyMap.ClearTextInMap();
-            btnClearRegion.Visibility = Visibility.Hidden;
-            btnAddRegion.Visibility = Visibility.Hidden;
+            RegionOption.Visibility = Visibility.Hidden;
         }
 
         private void BtnAddRegion_Click(object sender, RoutedEventArgs e)
@@ -150,8 +151,7 @@ namespace SuperKurier
             activationFunction = true;
             MyMap.Children.Remove(polyline);
             MyMap.ClearTextInMap();
-            btnClearRegion.Visibility = Visibility.Hidden;
-            btnAddRegion.Visibility = Visibility.Hidden;
+            RegionOption.Visibility = Visibility.Hidden;
             DataModel.Localization startLocal = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
             DataModel.Localization endLocal = new DataModel.Localization() { latitude = polyline.Locations[2].Latitude.ToString(), longitude = polyline.Locations[2].Longitude.ToString() };
             if (region != null)
@@ -254,8 +254,11 @@ namespace SuperKurier
                     regionSquare = false;
                     polyline.Stroke = new SolidColorBrush(Colors.Green);
                     MyMap.ShowDistance(polyline);
-                    btnAddRegion.Visibility = Visibility.Visible;
-                    btnClearRegion.Visibility = Visibility.Visible;
+                    RegionOption.Visibility = Visibility.Visible;
+                    DoubleAnimation widthAnimation = new DoubleAnimation() {From = 0, To = 300, Duration = TimeSpan.FromSeconds(1), RepeatBehavior = new RepeatBehavior(1) };
+                    DoubleAnimation opacityAnimation = new DoubleAnimation() {From = 0.0, To = 1.0, Duration = TimeSpan.FromSeconds(1), RepeatBehavior = new RepeatBehavior(1) };
+                    RegionOption.BeginAnimation(StackPanel.WidthProperty, widthAnimation);
+                    RegionOption.BeginAnimation(StackPanel.OpacityProperty, opacityAnimation);
                 }     
             }    
         }

@@ -258,12 +258,17 @@
         </Grid>
         <Grid x:Name="GridRegion" Grid.Row="1" Grid.Column="1" Background="{Binding BackgroundOption}" Visibility="Visible">
             <Button x:Name="btnShowRegions" Content="Pokaż regiony" HorizontalAlignment="Left" Margin="50,10,0,0" VerticalAlignment="Top" Width="175"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="BtnShowRegions_Click"/>
-            <Button x:Name="btnAddRegion" Content="Dodaj/Edytuj region" HorizontalAlignment="Right" Visibility="Hidden" Margin="0,10,250,0" VerticalAlignment="Top" Width="175"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="BtnAddRegion_Click"/>
-            <Button x:Name="btnClearRegion" Content="Wyczyść" HorizontalAlignment="Right" Visibility="Hidden" Margin="0,10,50,0" VerticalAlignment="Top" Width="175"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="BtnClearRegion_Click"/>
             <m:Map Name="MyMap" Margin="0,50,0,0" CredentialsProvider="4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA"
                    Mode="Road" Grid.Row="1" Grid.Column="1" ZoomLevel="14" Center="52.1657, 22.2839"
                    MouseDoubleClick="MyMap_MouseDoubleClick" MouseRightButtonDown="ContextMenu_RightClick" MouseMove="MyMap_MouseMove" >
             </m:Map>
+            <StackPanel x:Name="RegionOption" Grid.Row="1" Grid.Column="1" Width="300" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Hidden" Height="350" Margin="0,50,0,0">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="{Binding BackgroundOption}" Opacity="0.8"/>
+                </StackPanel.Background>
+                <Button x:Name="btnAddRegion" Content="Dodaj/Edytuj region" HorizontalAlignment="Right"  Margin="0,250,50,0" VerticalAlignment="Bottom" Width="175"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="BtnAddRegion_Click"/>
+                <Button x:Name="btnClearRegion" Content="Wyczyść" HorizontalAlignment="Right"  Margin="0,20,50,10" VerticalAlignment="Bottom" Width="175"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="BtnClearRegion_Click"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>
