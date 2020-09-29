@@ -23,9 +23,13 @@ namespace SuperKurier
         {
             foreach (var child in MyMap.Children)
             {
-                if (child is MapPolyline)
+                if (!(child is MapPolyline))
+                    continue;
+
+                var polyline = (MapPolyline)child;
+                if (polyline.StrokeThickness == 1)
                 {
-                    MyMap.Children.Remove((MapPolyline)child);
+                    MyMap.Children.Remove(polyline);
                     break;
                 }
             }
@@ -68,7 +72,7 @@ namespace SuperKurier
             List<Pushpin> pins = MyMap.GetPushpins();
             MapPolyline polyline = new MapPolyline();
             polyline.Stroke = new SolidColorBrush(Colors.Orange);
-            polyline.StrokeThickness = 2;
+            polyline.StrokeThickness = 1;
             polyline.Opacity = 0.7;
             LocationCollection locations = new LocationCollection();
             foreach (var pin in pins)
