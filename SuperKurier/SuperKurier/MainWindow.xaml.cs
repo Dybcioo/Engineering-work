@@ -100,7 +100,8 @@ namespace SuperKurier
         private void BtnClearRegion_Click(object sender, RoutedEventArgs e)
         {
             activationFunction = true;
-            MyMap.ClearAllMap();
+            MyMap.Children.Remove(polyline);
+            MyMap.ClearTextInMap();
             btnClearRegion.Visibility = Visibility.Hidden;
             btnAddRegion.Visibility = Visibility.Hidden;
         }
@@ -108,24 +109,33 @@ namespace SuperKurier
         private void BtnAddRegion_Click(object sender, RoutedEventArgs e)
         {
             activationFunction = true;
-            MyMap.ClearAllMap();
+            MyMap.Children.Remove(polyline);
+            MyMap.ClearTextInMap();
             btnClearRegion.Visibility = Visibility.Hidden;
             btnAddRegion.Visibility = Visibility.Hidden;
-            DataModel.Localization startLocal = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
-            DataModel.Localization endLocal = new DataModel.Localization() { latitude = polyline.Locations[2].Latitude.ToString(), longitude = polyline.Locations[2].Longitude.ToString() };
-            companyEntities.Localization.Add(startLocal);
-            companyEntities.Localization.Add(endLocal);
-            companyEntities.SaveChanges();
-            DataModel.Region newRegion = new DataModel.Region();
-            newRegion.Warehouse = WarehouseSelected;
-            newRegion.idStartLocalization = startLocal.id;
-            newRegion.idEndLocalization = endLocal.id;
-            companyEntities.Region.Add(newRegion);
-            companyEntities.SaveChanges();
-            var temp = companyEntities.Region.OrderByDescending(r => r.id).First();
-            temp.code = newRegion.code = $"{WarehouseSelected.code}/{temp.id}";
-            companyEntities.SaveChanges();
-            MessageBox.Show("Region zapisano pomyślnie","" , MessageBoxButton.OK, MessageBoxImage.Information);
+            if (MyMap.IsAllowRegion(location, polyline.Locations[2], companyEntities))
+            {
+                DataModel.Localization startLocal = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
+                DataModel.Localization endLocal = new DataModel.Localization() { latitude = polyline.Locations[2].Latitude.ToString(), longitude = polyline.Locations[2].Longitude.ToString() };
+                companyEntities.Localization.Add(startLocal);
+                companyEntities.Localization.Add(endLocal);
+                companyEntities.SaveChanges();
+                DataModel.Region newRegion = new DataModel.Region();
+                newRegion.Warehouse = WarehouseSelected;
+                newRegion.idStartLocalization = startLocal.id;
+                newRegion.idEndLocalization = endLocal.id;
+                companyEntities.Region.Add(newRegion);
+                companyEntities.SaveChanges();
+                var temp = companyEntities.Region.OrderByDescending(r => r.id).First();
+                temp.code = newRegion.code = $"{WarehouseSelected.code}/{temp.id}";
+                companyEntities.SaveChanges();
+                MessageBox.Show("Region zapisano pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Zajete");
+            }
+            
         }
 
         private void BtnShowRegions_Click(object sender, RoutedEventArgs e)
@@ -144,7 +154,7 @@ namespace SuperKurier
         {
             polyline = new MapPolyline();
             polyline.Stroke = new SolidColorBrush(Colors.Blue);
-            polyline.StrokeThickness = 3;
+            polyline.StrokeThickness = 2;
             polyline.Opacity = 0.7; 
             location = MyMap.ViewportPointToLocation(Mouse.GetPosition(MyMap));
             LocationCollection locations = new LocationCollection();
@@ -181,7 +191,7 @@ namespace SuperKurier
                 {
                     regionSquare = false;
                     polyline.Stroke = new SolidColorBrush(Colors.Green);
-                    MyMap.ShowDistance();
+                    MyMap.ShowDistance(polyline);
                     btnAddRegion.Visibility = Visibility.Visible;
                     btnClearRegion.Visibility = Visibility.Visible;
                 }     

@@ -29,6 +29,11 @@ namespace SuperKurier
                     break;
                 }
             }
+            MyMap.ClearTextInMap();
+        }
+
+        public static void ClearTextInMap(this Map MyMap)
+        {
             List<MapLayer> mapLayers = new List<MapLayer>();
             foreach (var child in MyMap.Children)
             {
@@ -42,14 +47,27 @@ namespace SuperKurier
                 MyMap.Children.Remove(ml);
             }
         }
+        public static void ClearAllMap(this Map MyMap)
+        {
+            List<UIElement> mapLayers = new List<UIElement>();
+            foreach (var child in MyMap.Children)
+            {
+                mapLayers.Add((UIElement)child);
+            }
+            foreach (var ml in mapLayers)
+            {
+                MyMap.Children.Remove(ml);
+            }
+            counter = 1;
+        }
 
         public static void ConnectPushpins(this Map MyMap)
         {
             MyMap.ClearPolyline();
             List<Pushpin> pins = MyMap.GetPushpins();
             MapPolyline polyline = new MapPolyline();
-            polyline.Stroke = new SolidColorBrush(Colors.Blue);
-            polyline.StrokeThickness = 5;
+            polyline.Stroke = new SolidColorBrush(Colors.Orange);
+            polyline.StrokeThickness = 2;
             polyline.Opacity = 0.7;
             LocationCollection locations = new LocationCollection();
             foreach (var pin in pins)
@@ -58,14 +76,14 @@ namespace SuperKurier
             }
             polyline.Locations = locations;
             MyMap.Children.Add(polyline);
-            MyMap.ShowDistance();
+            MyMap.ShowDistance(polyline);
         }
 
         public static void DrawSquare(this Map MyMap, DataModel.Localization startLocal, DataModel.Localization endLocal)
         {
             MapPolyline polyline = new MapPolyline();
             polyline.Stroke = new SolidColorBrush(Colors.Blue);
-            polyline.StrokeThickness = 3;
+            polyline.StrokeThickness = 2;
             polyline.Opacity = 0.7;
             LocationCollection locations = new LocationCollection();
             locations.Add(new Location() { Latitude = double.Parse(startLocal.latitude),   Longitude = double.Parse(startLocal.longitude)});
@@ -77,13 +95,68 @@ namespace SuperKurier
             MyMap.Children.Add(polyline);
         }
 
-        public static void ShowDistance(this Map MyMap)
+        public static bool IsAllowRegion(this Map MyMap, Location startLocal, Location endLocal, CompanyEntities companyEntities)
+        {
+            var regions = companyEntities.Region.ToList();
+            var localizations = companyEntities.Localization.ToList();
+            foreach (var region in regions)
+            {
+                var startTmp = localizations.Find(l => l.id == region.idStartLocalization);
+                var endTmp = localizations.Find(l => l.id == region.idEndLocalization);
+                var startLocalTmp = new Location() { Latitude = double.Parse(startTmp.latitude), Longitude = double.Parse(startTmp.longitude) };
+                var endLocalTmp = new Location() { Latitude = double.Parse(endTmp.latitude), Longitude = double.Parse(endTmp.longitude) };
+                if (startLocalTmp.Latitude < endLocalTmp.Latitude)
+                {
+                    if (startLocal.Latitude < startLocalTmp.Latitude && endLocal.Latitude > startLocalTmp.Latitude)
+                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
+                    if (startLocal.Latitude > startLocalTmp.Latitude && startLocal.Latitude < endLocalTmp.Latitude)
+                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
+                    if(startLocal.Latitude > endLocalTmp.Latitude && endLocal.Latitude < endLocalTmp.Latitude)
+                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
+                }
+                else
+                {
+                    if (startLocal.Latitude > startLocalTmp.Latitude && endLocal.Latitude < startLocalTmp.Latitude)
+                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
+                    if (startLocal.Latitude < startLocalTmp.Latitude && startLocal.Latitude > endLocalTmp.Latitude)
+                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
+                    if (startLocal.Latitude < endLocalTmp.Latitude && endLocal.Latitude > endLocalTmp.Latitude)
+                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
+                }
+            }
+            return true;
+        }
+
+        private static bool CheckLonglitude(Location startLocal, Location endLocal, Location startLocalTmp, Location endLocalTmp)
+        {
+            if (startLocalTmp.Longitude < endLocalTmp.Longitude)
+            {
+                if (startLocal.Longitude < startLocalTmp.Longitude && endLocal.Longitude > startLocalTmp.Longitude)
+                    return false;
+                if (startLocal.Longitude > startLocalTmp.Longitude && startLocal.Longitude < endLocalTmp.Longitude)
+                    return false;
+                if (startLocal.Longitude > endLocalTmp.Longitude && endLocal.Longitude < endLocalTmp.Longitude)
+                    return false;
+            }
+            else
+            {
+                if (startLocal.Longitude > startLocalTmp.Longitude && endLocal.Longitude < startLocalTmp.Longitude)
+                    return false;
+                if (startLocal.Longitude < startLocalTmp.Longitude && startLocal.Longitude > endLocalTmp.Longitude)
+                    return false;
+                if (startLocal.Longitude < endLocalTmp.Longitude && endLocal.Longitude > endLocalTmp.Longitude)
+                    return false;
+            }
+            return true;
+        }
+
+        public static void ShowDistance(this Map MyMap, MapPolyline mapPolyline)
         {
             var geo1 = new GeoCoordinate();
             var geo2 = new GeoCoordinate();
             int i = 0;
             double km = 0;
-            foreach (var location in MyMap.GetPolyline().Locations)
+            foreach (var location in mapPolyline.Locations)
             {
                 if (i < 1)
                 {
@@ -176,17 +249,6 @@ namespace SuperKurier
                     return (MapPolyline) child;
             }
             return null;
-        }
-
-        public static void ClearAllMap(this Map MyMap)
-        {
-            MyMap.ClearPolyline();
-            List<Pushpin> pins = MyMap.GetPushpins();
-            foreach (var pin in pins)
-            {
-                MyMap.Children.Remove(pin);
-            }
-            counter = 0;
         }
 
     }
