@@ -230,6 +230,19 @@ namespace SuperKurier
             return null;
         }
 
+        public static bool IsPolylineInLocalization(this Map MyMap, DataModel.Localization localization)
+        {
+            foreach (var child in MyMap.Children)
+            {
+                if (!(child is MapPolyline))
+                    continue;
+                var polyline = (MapPolyline)child;
+                if (polyline.Locations.Any(l => l.Latitude == double.Parse(localization.latitude) && l.Longitude == double.Parse(localization.longitude)))
+                    return true;
+            }
+            return false;
+        }
+
         private static bool CheckLonglitude(Location startLocal, Location endLocal, Location startLocalTmp, Location endLocalTmp)
         {
             if (startLocalTmp.Longitude < endLocalTmp.Longitude)

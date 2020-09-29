@@ -95,7 +95,6 @@ namespace SuperKurier
                     var infoRegion = new MenuItem() { Header = "Info" };
 
                     infoRegion.Click += (s, es) => MessageBox.Show($"Kod: {temp.code}");
-
                     editRegion.Click += async (s, es) =>
                     {
                         MyMap.Children.Remove(MyMap.GetPolyline(temp));
@@ -103,7 +102,6 @@ namespace SuperKurier
                         CreateRegions_Click(s, es);
                         region = temp;
                     };
-
                     removeRegion.Click += (s, es) =>
                     {
                         System.Windows.Forms.DialogResult result = (System.Windows.Forms.DialogResult)MessageBox.Show("Ar ju siur?", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -115,8 +113,6 @@ namespace SuperKurier
                             companyEntities.Region.Remove(temp);
                             companyEntities.SaveChanges();
                         }
-                        
-                        
                     };
                     context.Items.Add(editRegion);
                     context.Items.Add(removeRegion);
@@ -197,7 +193,7 @@ namespace SuperKurier
             {
                 MessageBox.Show("Nowy region nie może pokrywać regionów już istniejących!", "", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            
+            region = null;
         }
 
         private void BtnShowRegions_Click(object sender, RoutedEventArgs e)
@@ -208,6 +204,8 @@ namespace SuperKurier
             {
                 var startLocal = localizations.Find(l => l.id == region.idStartLocalization);
                 var endLocal = localizations.Find(l => l.id == region.idEndLocalization);
+                if (MyMap.IsPolylineInLocalization(startLocal))
+                    continue;
                 MyMap.DrawSquare(startLocal, endLocal);
                 regionVisibility = true;
             }
@@ -266,6 +264,7 @@ namespace SuperKurier
         {
             MyMap.ClearAllMap();
             regionVisibility = false;
+            region = null;
         }
 
         private void ConnectPushPins_Click(object sender, RoutedEventArgs e)
