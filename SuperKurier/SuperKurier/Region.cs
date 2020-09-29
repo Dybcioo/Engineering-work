@@ -150,6 +150,45 @@ namespace SuperKurier
             return true;
         }
 
+        public static DataModel.Region GetCurrentRegion(this Map MyMap, Location location, CompanyEntities companyEntities)
+        {
+            var regions = companyEntities.Region.ToList();
+            var localizations = companyEntities.Localization.ToList();
+            foreach (var region in regions)
+            {
+                var startTmp = localizations.Find(l => l.id == region.idStartLocalization);
+                var endTmp = localizations.Find(l => l.id == region.idEndLocalization);
+                var startLocalTmp = new Location() { Latitude = double.Parse(startTmp.latitude), Longitude = double.Parse(startTmp.longitude) };
+                var endLocalTmp = new Location() { Latitude = double.Parse(endTmp.latitude), Longitude = double.Parse(endTmp.longitude) };
+                if (startLocalTmp.Latitude < endLocalTmp.Latitude)
+                {
+                    if (location.Latitude > startLocalTmp.Latitude && location.Latitude < endLocalTmp.Latitude && CheckCurrentRegion(location, startLocalTmp, endLocalTmp))
+                        return region;
+                }
+                else
+                {
+                    if (location.Latitude < startLocalTmp.Latitude && location.Latitude > endLocalTmp.Latitude && CheckCurrentRegion(location, startLocalTmp, endLocalTmp))
+                        return region;
+                }
+            }
+            return null;
+        }
+
+        private static bool CheckCurrentRegion(Location location, Location startLocalTmp, Location endLocalTmp)
+        {
+            if (startLocalTmp.Longitude < endLocalTmp.Longitude)
+            {
+                if (location.Longitude > startLocalTmp.Longitude && location.Longitude < endLocalTmp.Longitude)
+                    return true;
+            }
+            else
+            {
+                if (location.Longitude < startLocalTmp.Longitude && location.Longitude > endLocalTmp.Longitude)
+                    return true;
+            }
+            return false;
+        }
+
         public static void ShowDistance(this Map MyMap, MapPolyline mapPolyline)
         {
             var geo1 = new GeoCoordinate();

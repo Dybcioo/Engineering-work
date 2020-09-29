@@ -52,6 +52,7 @@ namespace SuperKurier
         private bool regionSquare = false;
         private bool activationFunction = true;
         private CompanyEntities companyEntities = new CompanyEntities();
+        private bool regionVisibility = false;
 
         public MainWindow()
         {
@@ -83,18 +84,45 @@ namespace SuperKurier
         {
             if(activationFunction)
             {
-                ContextMenu context = new ContextMenu();
-                context.IsOpen = true;
-                var createRegions = new MenuItem() { Header = "Dodaj nowy region" };
-                var connectPushPins = new MenuItem() { Header = "Połącz pinezki" };
-                var clear = new MenuItem() { Header = "Wyczyść trase" };
-                clear.Click += ClearPolyline_Click;
-                connectPushPins.Click += ConnectPushPins_Click;
-                createRegions.Click += CreateRegions_Click;
-                context.Items.Add(createRegions);
-                context.Items.Add(connectPushPins);
-                context.Items.Add(clear);
+                if (regionVisibility)
+                {
+                    Location location = MyMap.ViewportPointToLocation(Mouse.GetPosition(MyMap));
+                    var temp = MyMap.GetCurrentRegion(location, companyEntities);
+                    if (temp != null)
+                    {
+                        ContextMenu context = new ContextMenu();
+                        context.IsOpen = true;
+                        var editRegion = new MenuItem() { Header = "Edytuj region" };
+                        var removeRegion = new MenuItem() { Header = "Usuń region" };
+                        var infoRegion = new MenuItem() { Header = "Info" };
+
+                        infoRegion.Click += (s, es) => MessageBox.Show($"Kod: {temp.code}");
+
+                        editRegion.Click += (s, es) =>
+                        {
+                            
+                        };
+                        context.Items.Add(editRegion);
+                        context.Items.Add(removeRegion);
+                        context.Items.Add(infoRegion);
+                    }
+                }
+                else
+                {
+                    ContextMenu context = new ContextMenu();
+                    context.IsOpen = true;
+                    var createRegions = new MenuItem() { Header = "Dodaj nowy region" };
+                    var connectPushPins = new MenuItem() { Header = "Połącz pinezki" };
+                    var clear = new MenuItem() { Header = "Wyczyść trase" };
+                    clear.Click += ClearPolyline_Click;
+                    connectPushPins.Click += ConnectPushPins_Click;
+                    createRegions.Click += CreateRegions_Click;
+                    context.Items.Add(createRegions);
+                    context.Items.Add(connectPushPins);
+                    context.Items.Add(clear);
+                }
             }
+            
         }
 
         private void BtnClearRegion_Click(object sender, RoutedEventArgs e)
@@ -133,7 +161,7 @@ namespace SuperKurier
             }
             else
             {
-                MessageBox.Show("Zajete");
+                MessageBox.Show("Nowy region nie może pokrywać regionów już istniejących!", "", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             
         }
@@ -147,6 +175,7 @@ namespace SuperKurier
                 var startLocal = localizations.Find(l => l.id == region.idStartLocalization);
                 var endLocal = localizations.Find(l => l.id == region.idEndLocalization);
                 MyMap.DrawSquare(startLocal, endLocal);
+                regionVisibility = true;
             }
         }
 
@@ -201,6 +230,7 @@ namespace SuperKurier
         private void ClearPolyline_Click(object sender, RoutedEventArgs e)
         {
             MyMap.ClearAllMap();
+            regionVisibility = false;
         }
 
         private void ConnectPushPins_Click(object sender, RoutedEventArgs e)
