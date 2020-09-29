@@ -12,7 +12,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -103,6 +102,21 @@ namespace SuperKurier
                         while (e.LeftButton == MouseButtonState.Released) { await Task.Delay(25); }
                         CreateRegions_Click(s, es);
                         region = temp;
+                    };
+
+                    removeRegion.Click += (s, es) =>
+                    {
+                        System.Windows.Forms.DialogResult result = (System.Windows.Forms.DialogResult)MessageBox.Show("Ar ju siur?", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if(result == System.Windows.Forms.DialogResult.Yes)
+                        {
+                            MyMap.Children.Remove(MyMap.GetPolyline(temp));
+                            companyEntities.Localization.Remove(temp.Localization);
+                            companyEntities.Localization.Remove(temp.Localization1);
+                            companyEntities.Region.Remove(temp);
+                            companyEntities.SaveChanges();
+                        }
+                        
+                        
                     };
                     context.Items.Add(editRegion);
                     context.Items.Add(removeRegion);
