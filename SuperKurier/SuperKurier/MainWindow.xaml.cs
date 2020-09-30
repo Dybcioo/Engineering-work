@@ -308,6 +308,7 @@ namespace SuperKurier
             BtnSettings.Background = Brushes.Transparent;
 
             GridSettings.Visibility = Visibility.Hidden;
+            GridRegion.Visibility = Visibility.Hidden;
             btn.Background = new SolidColorBrush(ColorBtn);
         }
 
@@ -323,6 +324,7 @@ namespace SuperKurier
         private void BtnRegion_Click(object sender, RoutedEventArgs e)
         {
             BtnBackgroundColor(BtnRegion);
+            GridRegion.Visibility = Visibility.Visible;
         }
         private void BtnWarehouse_Click(object sender, RoutedEventArgs e)
         {
@@ -402,6 +404,18 @@ namespace SuperKurier
             t.Start();
         }
 
-        
+        private void BtnEmployees_Click(object sender, RoutedEventArgs e)
+        {
+            btnEmployees.Background = new SolidColorBrush(Color.FromRgb(33, 150, 243));
+            btnCustomer.Background = Brushes.Black;
+            Panel.SetZIndex(btnEmployees, 1);
+        }
+
+        private void BtnCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            btnCustomer.Background = new SolidColorBrush(Color.FromRgb(33, 150, 243));
+            btnEmployees.Background = Brushes.Black;
+            Panel.SetZIndex(btnEmployees, 0);
+        }
     }
 }
