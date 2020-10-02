@@ -22,8 +22,6 @@ namespace DataModel
     
         public int id { get; set; }
         public string position1 { get; set; }
-        public decimal salary { get; set; }
-        public System.DateTime dateOfEmployment { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employee { get; set; }

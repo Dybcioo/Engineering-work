@@ -30,6 +30,8 @@ namespace DataModel
         public Nullable<int> idPosition { get; set; }
         public Nullable<int> idWarehouse { get; set; }
         public int idRegion { get; set; }
+        public Nullable<decimal> salary { get; set; }
+        public Nullable<System.DateTime> dateOfEmployment { get; set; }
     
         public virtual Address Address { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

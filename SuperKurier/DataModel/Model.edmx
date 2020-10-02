@@ -71,6 +71,8 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
           <Property Name="idPosition" Type="int" />
           <Property Name="idWarehouse" Type="int" />
           <Property Name="idRegion" Type="int" Nullable="false" />
+          <Property Name="salary" Type="money" />
+          <Property Name="dateOfEmployment" Type="date" />
         </EntityType>
         <EntityType Name="HistoryOfParcel">
           <Key>
@@ -123,8 +125,6 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="position" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="salary" Type="money" Nullable="false" />
-          <Property Name="dateOfEmployment" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Region">
           <Key>
@@ -671,6 +671,8 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
           <Property Name="idPosition" Type="Int32" />
           <Property Name="idWarehouse" Type="Int32" />
           <Property Name="idRegion" Type="Int32" Nullable="false" />
+          <Property Name="salary" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="dateOfEmployment" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Address" Relationship="Self.FK_Employee_Employee" FromRole="Employee" ToRole="Address" />
           <NavigationProperty Name="Document" Relationship="Self.FK_Document_Employee" FromRole="Employee" ToRole="Document" />
           <NavigationProperty Name="Position" Relationship="Self.FK_Employee_Position" FromRole="Employee" ToRole="Position" />
@@ -745,8 +747,6 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="position1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="salary" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="dateOfEmployment" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Position" FromRole="Position" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Region">
@@ -1269,6 +1269,8 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
                 <ScalarProperty Name="idPosition" ColumnName="idPosition" />
                 <ScalarProperty Name="idWarehouse" ColumnName="idWarehouse" />
                 <ScalarProperty Name="idRegion" ColumnName="idRegion" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+                <ScalarProperty Name="dateOfEmployment" ColumnName="dateOfEmployment" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1326,8 +1328,6 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
               <MappingFragment StoreEntitySet="Position">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="position1" ColumnName="position" />
-                <ScalarProperty Name="salary" ColumnName="salary" />
-                <ScalarProperty Name="dateOfEmployment" ColumnName="dateOfEmployment" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -162,6 +162,85 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Grid x:Name="Grid">
+                            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Fill="Transparent" />
+                            <Border x:Name="Rectangle1" CornerRadius="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"  Background="{TemplateBinding Background}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Tag" Value="Horizontal">
+                                <Setter TargetName="Rectangle1" Property="Width" Value="Auto" />
+                                <Setter TargetName="Rectangle1" Property="Height" Value="7" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--ScrollBars-->
+        <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+            <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
+            <Setter Property="Foreground" Value="LightGray" />
+            <Setter Property="Background" Value="DarkGray" />
+            <Setter Property="Width" Value="10" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid x:Name="GridRoot" Width="19" Background="{TemplateBinding Background}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.00001*" />
+                            </Grid.RowDefinitions>
+
+                            <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="false">
+                                <Track.Thumb>
+                                    <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" Style="{DynamicResource ScrollThumbs}" />
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="false" />
+                                </Track.IncreaseRepeatButton>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="false" />
+                                </Track.DecreaseRepeatButton>
+                            </Track>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
+                                <Setter Value="{DynamicResource ButtonSelectBrush}" TargetName="Thumb" Property="Background" />
+                            </Trigger>
+                            <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
+                                <Setter Value="{DynamicResource DarkBrush}" TargetName="Thumb" Property="Background" />
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="Orientation" Value="Horizontal">
+                                <Setter TargetName="GridRoot" Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Width" Value="Auto" />
+                                <Setter Property="Height" Value="12" />
+                                <Setter TargetName="Thumb" Property="Tag" Value="Horizontal" />
+                                <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand" />
+                                <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid >
         <Grid.ColumnDefinitions>
@@ -247,7 +326,7 @@
             <Line Grid.Row="1" Grid.Column="1"  X1="0" Y1="318" X2="10000"  Y2="318"
                 Stroke="{Binding ForegroundOption}" StrokeThickness="0.7"></Line>
             <Label Content="Twój magazyn:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="52,344,0,0" Foreground="{Binding ForegroundOption}"/>
-            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,344,0,0" Width="150" ItemsSource="{Binding Warehouses}" Background="{Binding InputOption}"
+            <ComboBox ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,344,0,0" Width="150" ItemsSource="{Binding Warehouses}" Background="{Binding InputOption}"
                       SelectedItem="{Binding WarehouseSelected, Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -270,19 +349,123 @@
                 <Button x:Name="btnClearRegion" Content="Wyczyść" HorizontalAlignment="Right"  Margin="0,20,50,10" VerticalAlignment="Bottom" Width="175"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="BtnClearRegion_Click"/>
             </StackPanel>
         </Grid>
-        <Grid x:Name="GridEmployee" Grid.Row="1" Grid.Column="1" Background="{Binding BackgroundOption}" Visibility="Visible">
+        <Grid x:Name="GridEmployee" Grid.Row="1" Grid.Column="1" Background="Orange" Visibility="Visible">
             <Button x:Name="btnEmployees"  HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Panel.ZIndex="1" Width="80" Height="20"  Background="#FF2196F3" Foreground="{Binding ForegroundOption}" Click="BtnEmployees_Click" >
                 <TextBlock Text="Pracownicy" VerticalAlignment="Center" FontSize="10" Margin="-10,0,0,0"/>
             </Button>
             <Button x:Name="btnCustomer"  HorizontalAlignment="Left"  Margin="65,0,0,0" VerticalAlignment="Top" Width="80" Height="20"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="BtnCustomer_Click">
                 <TextBlock Text="Klienci" VerticalAlignment="Center" FontSize="10" Margin="0,0,0,0"/>
             </Button>
-            <DockPanel x:Name="PanelEmployees" HorizontalAlignment="Stretch" Margin="0,20,0,0" VerticalAlignment="Stretch">
+            <DockPanel x:Name="PanelEmployees" HorizontalAlignment="Stretch" Margin="0,20,0,0" VerticalAlignment="Stretch" >
+                <DataGrid x:Name="DataGridEmployees" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,100,0,0"  VerticalAlignment="Stretch" ColumnWidth="*">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Kod"  Binding="{Binding code}"/>
+                        <DataGridTextColumn Header="Imię"  Binding="{Binding firstName}"/>
+                        <DataGridTextColumn Header="Nazwisko" Binding="{Binding lastName}" />
+                        <DataGridTextColumn Header="Kod Regionu" Binding="{Binding Region.code}" />
+                        <DataGridTextColumn Header="Stanowisko" Binding="{Binding Position.position}" />
+                        <DataGridTextColumn Header="Adres" >
+                            <DataGridTextColumn.Binding>
+                                <MultiBinding StringFormat="{}{0} ul.{1} {2}">
+                                    <Binding Path="Address.city" />
+                                    <Binding Path="Address.street" />
+                                    <Binding Path="Address.numberOfHouse" />
+                                </MultiBinding>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridRow">
+                            <EventSetter Event="MouseDoubleClick" Handler="DataGridEmployeesRow_MouseDoubleClick" />
+                        </Style>
+                    </DataGrid.Resources>
+                </DataGrid>
+            </DockPanel>
+            <DockPanel x:Name="PanelCustomer" HorizontalAlignment="Stretch" Margin="0,20,0,0" VerticalAlignment="Stretch" Visibility="Hidden" >
                 <DataGrid HorizontalAlignment="Stretch" Margin="0,100,0,0"  VerticalAlignment="Stretch" ColumnWidth="*"  />
             </DockPanel>
-            <DockPanel x:Name="PanelCustomer" HorizontalAlignment="Stretch" Margin="0,20,0,0" VerticalAlignment="Stretch" Visibility="Hidden">
-                <DataGrid HorizontalAlignment="Stretch" Margin="0,100,0,0"  VerticalAlignment="Stretch" ColumnWidth="*"  />
-            </DockPanel>
+
+            <ScrollViewer x:Name="EmployeeScrollViewer" IsDeferredScrollingEnabled="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.Background>
+                        <SolidColorBrush Color="{Binding BackgroundOption}" Opacity="0.8" />
+                    </Grid.Background>
+                    <StackPanel Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Margin="30"  Background="{Binding BackgroundOption}">
+                        <Label Content="Pracownik" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="0,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                        <Label Content="Imię:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,40,0,0" Foreground="{Binding ForegroundOption}"/>
+                        <TextBox x:Name="EmployeeFirstName" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                        <Label Content="Nazwisko:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
+                        <TextBox x:Name="EmployeeLastName" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                        <Label Content="Hasło:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
+                        <PasswordBox x:Name="EmployeePassword" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0"  VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                        <Label Content="Powtórz hasło:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
+                        <PasswordBox x:Name="EmployeeRepeatPassword" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0"  VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                        <Label Content="Wynagrodzenie:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
+                        <TextBox x:Name="EmployeeSalary" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                        <Label Content="Stanowisko:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
+                        <ComboBox ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,15,30,0"  ItemsSource="{Binding Positions}" Background="{Binding InputOption}"
+                            SelectedItem="{Binding PositionSelected, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding position}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Label Content="Magazyn:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
+                        <ComboBox ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,15,30,100"  ItemsSource="{Binding Warehouses}" Background="{Binding InputOption}"
+                            SelectedItem="{Binding WarehouseSelected, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding code}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel  Orientation="Vertical"  Margin="30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="1">
+                        <Grid Margin="0" Height="250" Background="{Binding BackgroundOption}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.4*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0" Content="Adres pracownika" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="0,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                            <Label Grid.Column="0" Grid.Row="1" Content="Kraj:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
+                            <TextBox x:Name="EmployeeCountry" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Height="23" Margin="30,45,30,0"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                            <Label Grid.Column="1" Grid.Row="1" Content="Kod pocztowy:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
+                            <TextBox x:Name="EmployeePostCode" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Height="23" Margin="30,45,30,0"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                            <Label Grid.Column="2" Grid.Row="1" Content="Miasto:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
+                            <TextBox x:Name="EmployeeCity" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" Height="23" Margin="30,45,30,0"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                            <Label Grid.Column="0" Grid.Row="2" Content="Ulica:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
+                            <TextBox x:Name="EmployeeStreet" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" Height="23" Margin="30,45,30,0"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                            <Label Grid.Column="1" Grid.Row="2" Content="Numer domu/mieszkania:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
+                            <TextBox Grid.Column="1" Grid.Row="2" x:Name="EmployeeNumberOfHouse" HorizontalAlignment="Stretch" Height="23" Margin="30,45,30,0"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                            <Label Grid.Column="2" Grid.Row="2" Content="Region:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
+                            <ComboBox ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120"  Grid.Column="2" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,45,30,0"  ItemsSource="{Binding Regions}" Background="{Binding InputOption}"
+                                SelectedItem="{Binding RegionSelected, Mode=TwoWay}">
+                                <ComboBox.ItemTemplate> 
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding code}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Grid>
+                        <Grid Margin="0,30,0,0" Height="350" >
+                            <m:Map MouseMove="EmployeeMap_MouseMove"   Name="EmployeeMap"  CredentialsProvider="4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA"
+                               Mode="Road" ZoomLevel="14" Center="52.1657, 22.2839" >
+                            </m:Map>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
 
         </Grid>
     </Grid>
