@@ -432,6 +432,9 @@ namespace SuperKurier
             Positions = new BindableCollection<Position>(companyEntities.Position.ToList());
             Regions = new BindableCollection<DataModel.Region>(companyEntities.Region.ToList());
             ResetContext();
+            btnEmployees.IsEnabled = false;
+            btnCustomer.IsEnabled = false;
+            PanelEmployees.IsEnabled = false;
         }
 
         private void EmployeeMap_MouseMove(object sender, MouseEventArgs e)
