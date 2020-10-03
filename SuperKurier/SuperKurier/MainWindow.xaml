@@ -357,7 +357,8 @@
                 <TextBlock Text="Klienci" VerticalAlignment="Center" FontSize="10" Margin="0,0,0,0"/>
             </Button>
             <DockPanel x:Name="PanelEmployees" HorizontalAlignment="Stretch" Margin="0,20,0,0" VerticalAlignment="Stretch" >
-                <DataGrid x:Name="DataGridEmployees" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,100,0,0"  VerticalAlignment="Stretch" ColumnWidth="*">
+                <Button x:Name="BtnNewEmployee" DockPanel.Dock="Top" Content="Dodaj pracownika" HorizontalAlignment="Right" Margin="0,40,100,0" VerticalAlignment="Top" Width="auto" Click="BtnNewEmployee_Click"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Grid.Column="1"/>
+                <DataGrid x:Name="DataGridEmployees" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,40,0,0"  VerticalAlignment="Stretch" ColumnWidth="*">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Kod"  Binding="{Binding code}"/>
                         <DataGridTextColumn Header="Imię"  Binding="{Binding firstName}"/>
@@ -385,7 +386,7 @@
                 <DataGrid HorizontalAlignment="Stretch" Margin="0,100,0,0"  VerticalAlignment="Stretch" ColumnWidth="*"  />
             </DockPanel>
 
-            <ScrollViewer x:Name="EmployeeScrollViewer" IsDeferredScrollingEnabled="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer Visibility="Hidden" x:Name="EmployeeScrollViewer" IsDeferredScrollingEnabled="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
@@ -394,7 +395,7 @@
                     <Grid.Background>
                         <SolidColorBrush Color="{Binding BackgroundOption}" Opacity="0.8" />
                     </Grid.Background>
-                    <materialDesign:PackIcon Grid.Column="1" Kind="Close" Foreground="#FF8B0D0D" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,5,0" Width="30" Height="30" Cursor="Hand"/>
+                    <materialDesign:PackIcon MouseDown="PackIcon_MouseDown" Grid.Column="1" Kind="Close" Foreground="#FF8B0D0D" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,5,0" Width="30" Height="30" Cursor="Hand"/>
                     <StackPanel Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Margin="30"  Background="{Binding BackgroundOption}">
                         <Label Content="Pracownik" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="0,0,0,0" Foreground="{Binding ForegroundOption}"/>
                         <Label Content="Imię:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,40,0,0" Foreground="{Binding ForegroundOption}"/>
@@ -461,7 +462,7 @@
                         </Grid>
                         <Grid Margin="0,30,0,0" Height="350" >
                             <m:Map MouseMove="EmployeeMap_MouseMove"   Name="EmployeeMap"  CredentialsProvider="4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA"
-                               Mode="Road" ZoomLevel="14" Center="52.1657, 22.2839" >
+                               Mode="Road" ZoomLevel="14" Center="52.1657, 22.2839" MouseDoubleClick="EmployeeMap_MouseDoubleClick" >
                             </m:Map>
                         </Grid>
                     </StackPanel>

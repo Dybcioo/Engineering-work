@@ -432,9 +432,7 @@ namespace SuperKurier
             Positions = new BindableCollection<Position>(companyEntities.Position.ToList());
             Regions = new BindableCollection<DataModel.Region>(companyEntities.Region.ToList());
             ResetContext();
-            btnEmployees.IsEnabled = false;
-            btnCustomer.IsEnabled = false;
-            PanelEmployees.IsEnabled = false;
+            TurnOnOffEmployeePanel(false);
         }
 
         private void EmployeeMap_MouseMove(object sender, MouseEventArgs e)
@@ -442,6 +440,35 @@ namespace SuperKurier
             EmployeeScrollViewer.ScrollToVerticalOffset(300D);
             
 
+        }
+
+        private void EmployeeMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            EmployeeMap.ClearAllMap();
+            EmployeeMap.CheckingPushpin(e);
+        }
+
+        private void BtnNewEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            TurnOnOffEmployeePanel(false);
+        }
+
+        private void PackIcon_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TurnOnOffEmployeePanel(true);
+        }
+
+        private void TurnOnOffEmployeePanel(bool isOff)
+        {
+            if (isOff)
+                EmployeeScrollViewer.Visibility = Visibility.Hidden;
+            else
+                EmployeeScrollViewer.Visibility = Visibility.Visible;
+
+            btnEmployees.IsEnabled = isOff;
+            btnCustomer.IsEnabled = isOff;
+            PanelEmployees.IsEnabled = isOff;
         }
     }
 }
