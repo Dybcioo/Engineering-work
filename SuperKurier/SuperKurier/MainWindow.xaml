@@ -394,6 +394,7 @@
                     <Grid.Background>
                         <SolidColorBrush Color="{Binding BackgroundOption}" Opacity="0.8" />
                     </Grid.Background>
+                    <materialDesign:PackIcon Grid.Column="1" Kind="Close" Foreground="#FF8B0D0D" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,5,0" Width="30" Height="30" Cursor="Hand"/>
                     <StackPanel Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Margin="30"  Background="{Binding BackgroundOption}">
                         <Label Content="Pracownik" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="0,0,0,0" Foreground="{Binding ForegroundOption}"/>
                         <Label Content="Imię:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,40,0,0" Foreground="{Binding ForegroundOption}"/>
@@ -451,7 +452,7 @@
                             <Label Grid.Column="2" Grid.Row="2" Content="Region:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
                             <ComboBox ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120"  Grid.Column="2" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,45,30,0"  ItemsSource="{Binding Regions}" Background="{Binding InputOption}"
                                 SelectedItem="{Binding RegionSelected, Mode=TwoWay}">
-                                <ComboBox.ItemTemplate> 
+                                <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding code}"/>
                                     </DataTemplate>
@@ -464,6 +465,7 @@
                             </m:Map>
                         </Grid>
                     </StackPanel>
+                    <Button x:Name="BtnSaveEmployee" Content="Zapisz" HorizontalAlignment="Right" Margin="0,774,30,0" VerticalAlignment="Top" Width="75" Click="BtnSaveDBSettings_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Grid.Column="1"/>
                 </Grid>
             </ScrollViewer>
 
