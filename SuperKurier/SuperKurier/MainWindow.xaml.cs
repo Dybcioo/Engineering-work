@@ -428,9 +428,19 @@ namespace SuperKurier
         private void DataGridEmployeesRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGridRow dgr = (DataGridRow)sender;
-            MessageBox.Show(((Employee)dgr.Item).lastName);
+            Employee empl = (Employee)dgr.Item;
             Positions = new BindableCollection<Position>(companyEntities.Position.ToList());
             Regions = new BindableCollection<DataModel.Region>(companyEntities.Region.ToList());
+            EmployeeFirstName.Text = empl?.firstName;
+            EmployeeLastName.Text = empl?.lastName;
+            EmployeePassword.Password = empl?.password;
+            EmployeeRepeatPassword.Password = empl?.password;
+            EmployeeSalary.Text = empl?.salary.ToString();
+            if(empl.Position != null)
+                PositionSelected = empl.Position;
+            if (empl.Warehouse != null)
+                WarehouseSelected = empl.Warehouse;
+
             ResetContext();
             TurnOnOffEmployeePanel(false);
         }
@@ -438,8 +448,6 @@ namespace SuperKurier
         private void EmployeeMap_MouseMove(object sender, MouseEventArgs e)
         {
             EmployeeScrollViewer.ScrollToVerticalOffset(300D);
-            
-
         }
 
         private void EmployeeMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -470,5 +478,6 @@ namespace SuperKurier
             btnCustomer.IsEnabled = isOff;
             PanelEmployees.IsEnabled = isOff;
         }
+
     }
 }
