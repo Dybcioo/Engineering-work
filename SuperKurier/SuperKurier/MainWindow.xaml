@@ -413,7 +413,7 @@
                             SelectedItem="{Binding PositionSelected, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding position}"/>
+                                    <TextBlock Text="{Binding position1}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
@@ -466,7 +466,8 @@
                             </m:Map>
                         </Grid>
                     </StackPanel>
-                    <Button x:Name="BtnSaveEmployee" Content="Zapisz" HorizontalAlignment="Right" Margin="0,774,30,0" VerticalAlignment="Top" Width="75" Click="BtnSaveDBSettings_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Grid.Column="1"/>
+                    <TextBlock x:Name="EmployeeId" Visibility="Hidden" Text=""></TextBlock>
+                    <Button x:Name="BtnSaveEmployee" Content="Zapisz" HorizontalAlignment="Right" Margin="0,774,30,0" VerticalAlignment="Top" Width="75" Click="BtnSaveEmployee_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Grid.Column="1"/>
                 </Grid>
             </ScrollViewer>
 

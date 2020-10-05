@@ -50,7 +50,7 @@ namespace SuperKurier
                 Properties.Settings.Default.Save();
             }
         }
-        public Position RegionSelected { get; set; }
+        public DataModel.Region RegionSelected { get; set; }
         public Position PositionSelected { get; set; }
         public Warehouse WarehouseSelected { get; set; }
         private MapPolyline polyline = null;
@@ -124,7 +124,10 @@ namespace SuperKurier
         {
             BtnBackgroundColor(BtnEmployee);
             Employees = new BindableCollection<Employee>(companyEntities.Employee.ToList());
+            Positions = new BindableCollection<Position>(companyEntities.Position.ToList());
+            Regions = new BindableCollection<DataModel.Region>(companyEntities.Region.ToList());
             DataGridEmployees.DataContext = Employees;
+            ResetContext();
         }
         private void BtnRegion_Click(object sender, RoutedEventArgs e)
         {
@@ -431,6 +434,7 @@ namespace SuperKurier
             Employee empl = (Employee)dgr.Item;
             Positions = new BindableCollection<Position>(companyEntities.Position.ToList());
             Regions = new BindableCollection<DataModel.Region>(companyEntities.Region.ToList());
+            EmployeeId.Text = empl?.id.ToString();
             EmployeeFirstName.Text = empl?.firstName;
             EmployeeLastName.Text = empl?.lastName;
             EmployeePassword.Password = empl?.password;
@@ -440,6 +444,8 @@ namespace SuperKurier
                 PositionSelected = empl.Position;
             if (empl.Warehouse != null)
                 WarehouseSelected = empl.Warehouse;
+            if (empl.Region != null)
+                RegionSelected = empl.Region;
             if(empl.Address != null)
             {
                 EmployeeCountry.Text = empl.Address.country;
@@ -452,6 +458,7 @@ namespace SuperKurier
             }
             ResetContext();
             TurnOnOffEmployeePanel(false);
+            BtnSaveEmployee.Content = "Edytuj";
         }
 
         private void EmployeeMap_MouseMove(object sender, MouseEventArgs e)
@@ -469,6 +476,7 @@ namespace SuperKurier
         private void BtnNewEmployee_Click(object sender, RoutedEventArgs e)
         {
             TurnOnOffEmployeePanel(false);
+            BtnSaveEmployee.Content = "Dodaj nowego pracownika";
         }
 
         private void PackIcon_MouseDown(object sender, MouseButtonEventArgs e)
@@ -479,7 +487,10 @@ namespace SuperKurier
         private void TurnOnOffEmployeePanel(bool isOff)
         {
             if (isOff)
+            {
+                ClearEmployeePanelControls();
                 EmployeeScrollViewer.Visibility = Visibility.Hidden;
+            }
             else
                 EmployeeScrollViewer.Visibility = Visibility.Visible;
 
@@ -488,5 +499,77 @@ namespace SuperKurier
             PanelEmployees.IsEnabled = isOff;
         }
 
+        private void BtnSaveEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            Location location = new Location();
+            Address address = new Address();
+            Employee employee = new Employee();
+
+            location = EmployeeMap.GetPushpinLocation();
+
+            if (!EmployeeId.Text.Equals(""))
+            {
+                employee = companyEntities.Employee.FirstOrDefault(em => em.id.ToString() == EmployeeId.Text);
+                if (employee?.Address == null)
+                {
+                    address = employee.Address;
+                }
+            }
+            else
+                employee.dateOfEmployment = DateTime.Now;
+
+            address.country = EmployeeCountry.Text;
+            address.city = EmployeeCity.Text;
+            address.postalCode = EmployeePostCode.Text;
+            address.street = EmployeeStreet.Text;
+            address.numberOfHouse = EmployeeNumberOfHouse.Text;
+            address.Localization = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
+
+            employee.firstName = EmployeeFirstName.Text;
+            employee.lastName = EmployeeLastName.Text;
+            employee.password = EmployeePassword.Password;
+            employee.salary = decimal.Parse(EmployeeSalary.Text);
+            employee.Position = PositionSelected;
+            employee.Warehouse = WarehouseSelected;
+            employee.Region = RegionSelected;
+            employee.Address = address;
+            
+            if(EmployeeId.Text.Equals(""))
+            {
+                employee.code = $"/{employee.firstName}/{employee.Warehouse.code}/{employee.Position.position1}";
+                companyEntities.Address.Add(address);
+                companyEntities.Employee.Add(employee);
+                companyEntities.SaveChanges();
+                employee = companyEntities.Employee.OrderByDescending(em => em.id).First();
+                employee.code = $"{employee.id}{employee.code}";
+                companyEntities.SaveChanges();
+            }
+            else
+                companyEntities.SaveChanges();
+
+            Employees = new BindableCollection<Employee>(companyEntities.Employee.ToList());
+            DataGridEmployees.DataContext = Employees;
+            TurnOnOffEmployeePanel(true);
+        }
+
+        private void ClearEmployeePanelControls()
+        {
+            EmployeeId.Text = "";
+            EmployeeFirstName.Text = "";
+            EmployeeLastName.Text = "";
+            EmployeePassword.Password = "";
+            EmployeeRepeatPassword.Password = "";
+            EmployeeSalary.Text = "";
+            PositionSelected = null;
+            WarehouseSelected = null;
+            RegionSelected = null;
+            EmployeeCountry.Text = "";
+            EmployeeCity.Text = "";
+            EmployeePostCode.Text = "";
+            EmployeeStreet.Text = "";
+            EmployeeNumberOfHouse.Text = "";
+            EmployeeMap.ClearAllMap();
+            ResetContext();
+        }
     }
 }

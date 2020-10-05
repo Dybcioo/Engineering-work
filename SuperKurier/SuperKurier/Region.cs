@@ -199,6 +199,18 @@ namespace SuperKurier
             return pins;
         }
 
+        public static Location GetPushpinLocation(this Map MyMap)
+        {
+            foreach (var child in MyMap.Children)
+            {
+                if (child is Pushpin)
+                {
+                    return ((Pushpin)child).Location;
+                }
+            }
+            return null;
+        }
+
         public static void CheckingPushpin(this Map MyMap, MouseButtonEventArgs e, Location location = null)
         {
             if(e.LeftButton == MouseButtonState.Pressed)
