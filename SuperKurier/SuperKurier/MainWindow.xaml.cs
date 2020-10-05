@@ -440,7 +440,16 @@ namespace SuperKurier
                 PositionSelected = empl.Position;
             if (empl.Warehouse != null)
                 WarehouseSelected = empl.Warehouse;
-
+            if(empl.Address != null)
+            {
+                EmployeeCountry.Text = empl.Address.country;
+                EmployeeCity.Text = empl.Address.city;
+                EmployeePostCode.Text = empl.Address.postalCode;
+                EmployeeStreet.Text = empl.Address.street;
+                EmployeeNumberOfHouse.Text = empl.Address.numberOfHouse;
+                if (empl.Address.Localization != null)
+                    EmployeeMap.CheckingPushpin(e, new Location() { Latitude = double.Parse(empl.Address.Localization.latitude), Longitude = double.Parse(empl.Address.Localization.longitude) });
+            }
             ResetContext();
             TurnOnOffEmployeePanel(false);
         }

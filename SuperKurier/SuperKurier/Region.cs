@@ -199,12 +199,16 @@ namespace SuperKurier
             return pins;
         }
 
-        public static void CheckingPushpin(this Map MyMap, MouseButtonEventArgs e)
+        public static void CheckingPushpin(this Map MyMap, MouseButtonEventArgs e, Location location = null)
         {
             if(e.LeftButton == MouseButtonState.Pressed)
             {
                 Point pt = Mouse.GetPosition(MyMap);
-                Location lt = MyMap.ViewportPointToLocation(pt);
+                Location lt;
+                if (location != null)
+                    lt = location;
+                else 
+                    lt = MyMap.ViewportPointToLocation(pt);
                 Pushpin pin = new Pushpin();
                 pin.Location = lt;
                 pin.Content = counter;
