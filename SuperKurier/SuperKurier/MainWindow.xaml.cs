@@ -2,6 +2,7 @@
 using ConnectionSQL;
 using DataModel;
 using Microsoft.Maps.MapControl.WPF;
+using SuperKurier.ViewModel;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -32,11 +33,10 @@ namespace SuperKurier
         public Color ColorBtn { get; set; }
         public string TestConnection { get; set; }
         public string ColorConnection { get; set; }
+        public bool IsBlack = true;
         public Connection Conn { get; set; }
-        public BindableCollection<DataModel.Region> Regions { get; set; }
-        public BindableCollection<Position> Positions { get; set; }
         public BindableCollection<Employee> Employees { get; set; }
-        public BindableCollection<Warehouse> Warehouses { get; set; }
+
         private Warehouse warehouseSelectedSetting;
 
         public Warehouse WarehouseSelectedSetting
@@ -50,9 +50,7 @@ namespace SuperKurier
                 Properties.Settings.Default.Save();
             }
         }
-        public DataModel.Region RegionSelected { get; set; }
-        public Position PositionSelected { get; set; }
-        public Warehouse WarehouseSelected { get; set; }
+        
         private MapPolyline polyline = null;
         private Location location = null;
         private bool regionSquare = false;
@@ -67,7 +65,7 @@ namespace SuperKurier
             DataContext = this;
             BlackAndWhiteLayout();
             GetDBSettings();
-            LoadWarehouse();
+            //LoadWarehouse();
         }
 
         private void LoadWarehouse()
@@ -75,7 +73,7 @@ namespace SuperKurier
             var temp = companyEntities.Warehouse.FirstOrDefault(w => w.id == Properties.Settings.Default.Warehouse);
             if (temp != null)
                 WarehouseSelectedSetting = temp;
-            Warehouses = new BindableCollection<Warehouse>(companyEntities.Warehouse.ToList());
+            //Warehouses = new BindableCollection<Warehouse>(companyEntities.Warehouse.ToList());
             ResetContext();
         }
 
@@ -124,8 +122,6 @@ namespace SuperKurier
         {
             BtnBackgroundColor(BtnEmployee);
             Employees = new BindableCollection<Employee>(companyEntities.Employee.ToList());
-            Positions = new BindableCollection<Position>(companyEntities.Position.ToList());
-            Regions = new BindableCollection<DataModel.Region>(companyEntities.Region.ToList());
             DataGridEmployees.DataContext = Employees;
             ResetContext();
         }
@@ -150,7 +146,8 @@ namespace SuperKurier
         }
         private void BtnToggleTheme_Click(object sender, RoutedEventArgs e)
         {
-            BlackAndWhiteLayout((bool)BtnToggleTheme.IsChecked);
+            IsBlack = (bool)BtnToggleTheme.IsChecked;
+            BlackAndWhiteLayout(IsBlack);
         }
 
         private void SaveDBSettings()
@@ -432,31 +429,11 @@ namespace SuperKurier
         {
             DataGridRow dgr = (DataGridRow)sender;
             Employee empl = (Employee)dgr.Item;
-            Positions = new BindableCollection<Position>(companyEntities.Position.ToList());
-            Regions = new BindableCollection<DataModel.Region>(companyEntities.Region.ToList());
-            EmployeeId.Text = empl?.id.ToString();
-            EmployeeFirstName.Text = empl?.firstName;
-            EmployeeLastName.Text = empl?.lastName;
             EmployeePassword.Password = empl?.password;
             EmployeeRepeatPassword.Password = empl?.password;
-            EmployeeSalary.Text = empl?.salary.ToString();
-            if(empl.Position != null)
-                PositionSelected = empl.Position;
-            if (empl.Warehouse != null)
-                WarehouseSelected = empl.Warehouse;
-            if (empl.Region != null)
-                RegionSelected = empl.Region;
-            if(empl.Address != null)
-            {
-                EmployeeCountry.Text = empl.Address.country;
-                EmployeeCity.Text = empl.Address.city;
-                EmployeePostCode.Text = empl.Address.postalCode;
-                EmployeeStreet.Text = empl.Address.street;
-                EmployeeNumberOfHouse.Text = empl.Address.numberOfHouse;
-                if (empl.Address.Localization != null)
-                    EmployeeMap.CheckingPushpin(e, new Location() { Latitude = double.Parse(empl.Address.Localization.latitude), Longitude = double.Parse(empl.Address.Localization.longitude) });
-            }
-            ResetContext();
+            if (empl.Address != null && empl.Address.Localization != null)
+                EmployeeMap.CheckingPushpin(e, new Location() { Latitude = double.Parse(empl.Address.Localization.latitude), Longitude = double.Parse(empl.Address.Localization.longitude) });
+            DataContext = new EmployeeEditViewModel(empl, IsBlack, this);
             TurnOnOffEmployeePanel(false);
             BtnSaveEmployee.Content = "Edytuj";
         }
@@ -477,6 +454,7 @@ namespace SuperKurier
         {
             TurnOnOffEmployeePanel(false);
             BtnSaveEmployee.Content = "Dodaj nowego pracownika";
+            DataContext = new EmployeeEditViewModel(new Employee(), IsBlack, this);
         }
 
         private void PackIcon_MouseDown(object sender, MouseButtonEventArgs e)
@@ -487,10 +465,7 @@ namespace SuperKurier
         private void TurnOnOffEmployeePanel(bool isOff)
         {
             if (isOff)
-            {
-                ClearEmployeePanelControls();
                 EmployeeScrollViewer.Visibility = Visibility.Hidden;
-            }
             else
                 EmployeeScrollViewer.Visibility = Visibility.Visible;
 
@@ -501,75 +476,12 @@ namespace SuperKurier
 
         private void BtnSaveEmployee_Click(object sender, RoutedEventArgs e)
         {
-            Location location = new Location();
-            Address address = new Address();
-            Employee employee = new Employee();
-
-            location = EmployeeMap.GetPushpinLocation();
-
-            if (!EmployeeId.Text.Equals(""))
-            {
-                employee = companyEntities.Employee.FirstOrDefault(em => em.id.ToString() == EmployeeId.Text);
-                if (employee?.Address == null)
-                {
-                    address = employee.Address;
-                }
-            }
-            else
-                employee.dateOfEmployment = DateTime.Now;
-
-            address.country = EmployeeCountry.Text;
-            address.city = EmployeeCity.Text;
-            address.postalCode = EmployeePostCode.Text;
-            address.street = EmployeeStreet.Text;
-            address.numberOfHouse = EmployeeNumberOfHouse.Text;
-            address.Localization = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
-
-            employee.firstName = EmployeeFirstName.Text;
-            employee.lastName = EmployeeLastName.Text;
-            employee.password = EmployeePassword.Password;
-            employee.salary = decimal.Parse(EmployeeSalary.Text);
-            employee.Position = PositionSelected;
-            employee.Warehouse = WarehouseSelected;
-            employee.Region = RegionSelected;
-            employee.Address = address;
-            
-            if(EmployeeId.Text.Equals(""))
-            {
-                employee.code = $"/{employee.firstName}/{employee.Warehouse.code}/{employee.Position.position1}";
-                companyEntities.Address.Add(address);
-                companyEntities.Employee.Add(employee);
-                companyEntities.SaveChanges();
-                employee = companyEntities.Employee.OrderByDescending(em => em.id).First();
-                employee.code = $"{employee.id}{employee.code}";
-                companyEntities.SaveChanges();
-            }
-            else
-                companyEntities.SaveChanges();
+            var btn = sender as Button;
+            btn.Command.Execute(btn.CommandParameter);
 
             Employees = new BindableCollection<Employee>(companyEntities.Employee.ToList());
             DataGridEmployees.DataContext = Employees;
             TurnOnOffEmployeePanel(true);
-        }
-
-        private void ClearEmployeePanelControls()
-        {
-            EmployeeId.Text = "";
-            EmployeeFirstName.Text = "";
-            EmployeeLastName.Text = "";
-            EmployeePassword.Password = "";
-            EmployeeRepeatPassword.Password = "";
-            EmployeeSalary.Text = "";
-            PositionSelected = null;
-            WarehouseSelected = null;
-            RegionSelected = null;
-            EmployeeCountry.Text = "";
-            EmployeeCity.Text = "";
-            EmployeePostCode.Text = "";
-            EmployeeStreet.Text = "";
-            EmployeeNumberOfHouse.Text = "";
-            EmployeeMap.ClearAllMap();
-            ResetContext();
         }
     }
 }

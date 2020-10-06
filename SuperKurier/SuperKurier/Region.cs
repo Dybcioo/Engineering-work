@@ -211,6 +211,8 @@ namespace SuperKurier
             return null;
         }
 
+        public static void ReserCounter(this Map MyMap) => counter = 1;
+
         public static void CheckingPushpin(this Map MyMap, MouseButtonEventArgs e, Location location = null)
         {
             if(e.LeftButton == MouseButtonState.Pressed)
