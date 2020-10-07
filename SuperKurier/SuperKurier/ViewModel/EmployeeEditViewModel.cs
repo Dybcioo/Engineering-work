@@ -52,58 +52,27 @@ namespace SuperKurier.ViewModel
             }
         }
 
-        public string EmployeePassword
-        {
-            get { return Employee.password; }
-            set
-            {
-                if (value != Employee.password)
-                {
-                    Employee.password = value;
-                    OnPropertyChange("EmployeePassword");
-                }
-            }
-        }
+        private string _employeeSalary;
 
-        public string EmployeeRepeatPassword
-        {
-            get { return Employee.password; }
-            set
-            {
-                if (value != Employee.password)
-                {
-                    Employee.password = value;
-                    OnPropertyChange("EmployeeRepeatPassword");
-                }
-            }
-        }
-
-        public decimal EmployeeSalary
+        public string EmployeeSalary
         {
             get 
             {
-                if (Employee.salary != null)
-                    return (decimal) Employee.salary;
+                if (_employeeSalary != null)
+                    return _employeeSalary;
+                else if(Employee.salary != null)
+                    return ((decimal)Employee.salary).ToString("0.##");
                 else
-                    return 0M;
+                    return "0";
             }
             set
             {
-                if (value != Employee.salary)
+                if (value != _employeeSalary)
                 {
-                    Employee.salary = value;
-                    OnPropertyChange("EmployeeSalary");
-                    //ValidateProperty(value, "EmployeeSalary");
+                    _employeeSalary = value;
+                    OnPropertyChange("EmployeeSalary");   
                 }
             }
-        }
-
-        private void ValidateProperty<T>(T value, string name)
-        {
-            Validator.ValidateProperty(value, new ValidationContext(this, null, null)
-            {
-                MemberName = name
-            });
         }
 
         public BindableCollection<DataModel.Region> Regions { get; set; }
@@ -187,10 +156,26 @@ namespace SuperKurier.ViewModel
             get
             {
                 string result = null;
-                if (columnName == "EmployeeSalary")
+                switch (columnName)
                 {
-                    if (string.IsNullOrEmpty(EmployeeSalary.ToString()))
-                        result = "Please enter a First Name";
+                    case "EmployeeSalary":
+                        decimal value;
+                        if (decimal.TryParse(EmployeeSalary, out value))
+                        {
+                            if(value < 0)
+                            {
+                                result = "Wypłata musi być większa od zera";
+                            }
+                            else
+                            {
+                                Employee.salary = value;
+                            }
+                        }
+                        else
+                        {
+                            result = "Podana wartość nie jest liczbą";
+                        }
+                        break;
                 }
                 return result;
             }

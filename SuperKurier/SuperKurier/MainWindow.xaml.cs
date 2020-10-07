@@ -427,8 +427,6 @@ namespace SuperKurier
         {
             DataGridRow dgr = (DataGridRow)sender;
             Employee empl = (Employee)dgr.Item;
-            EmployeePassword.Password = empl?.password;
-            EmployeeRepeatPassword.Password = empl?.password;
             if (empl.Address != null && empl.Address.Localization != null)
                 EmployeeMap.CheckingPushpin(e, new Location() { Latitude = double.Parse(empl.Address.Localization.latitude), Longitude = double.Parse(empl.Address.Localization.longitude) });
             DataContext = new EmployeeEditViewModel(empl, IsBlack, this);
