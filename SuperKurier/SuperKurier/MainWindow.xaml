@@ -425,27 +425,33 @@
                     <StackPanel Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Margin="30,30,30,45"  Background="{Binding BackgroundOption}">
                         <Label Content="Pracownik" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="0,0,0,0" Foreground="{Binding ForegroundOption}"/>
                         <Label Content="Imię:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,40,0,0" Foreground="{Binding ForegroundOption}"/>
-                        <TextBox x:Name="EmployeeFirstName" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" Text="{Binding EmployeeFirstName}"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                        <TextBox x:Name="EmployeeFirstName" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" Text="{Binding EmployeeFirstName, UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
                         <Label Content="Nazwisko:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
-                        <TextBox x:Name="EmployeeLastName" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" Text="{Binding EmployeeLastName}" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                        <TextBox x:Name="EmployeeLastName" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" Text="{Binding EmployeeLastName, UpdateSourceTrigger=PropertyChanged,
+                        ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
                         <Label Content="Wynagrodzenie:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
-                        <TextBox x:Name="EmployeeSalary" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" TextWrapping="Wrap" Text="{Binding Path=EmployeeSalary,UpdateSourceTrigger=PropertyChanged,
+                        <TextBox x:Name="EmployeeSalary" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" TextWrapping="Wrap" Text="{Binding Path=EmployeeSalary, UpdateSourceTrigger=PropertyChanged,
                         ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
                         <Label Content="Stanowisko:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
                         <ComboBox x:Name="EmployeePosition" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,15,30,0"  ItemsSource="{Binding Positions}" Background="{Binding InputOption}"
-                            SelectedItem="{Binding PositionSelected, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
+                            SelectedItem="{Binding PositionSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" IsSynchronizedWithCurrentItem="True" >
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding position1}"/>
+                                    <TextBlock Text="{Binding position1, UpdateSourceTrigger=PropertyChanged,
+                                ValidatesOnDataErrors=true, NotifyOnValidationError=true}" />
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                         <Label Content="Magazyn:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
                         <ComboBox x:Name="EmployeeWarehouse" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,15,30,100"  ItemsSource="{Binding Warehouses}" Background="{Binding InputOption}"
-                            SelectedItem="{Binding WarehouseSelected, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
+                            SelectedItem="{Binding WarehouseSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" IsSynchronizedWithCurrentItem="True">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding code}"/>
+                                    <TextBlock Text="{Binding code, UpdateSourceTrigger=PropertyChanged,
+                                     ValidatesOnDataErrors=true, NotifyOnValidationError=true}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
@@ -464,22 +470,29 @@
                             </Grid.RowDefinitions>
                             <Label Grid.Column="0" Grid.Row="0" Content="Adres pracownika" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="0,0,0,0" Foreground="{Binding ForegroundOption}"/>
                             <Label Grid.Column="0" Grid.Row="1" Content="Kraj:" HorizontalAlignment="Stretch" VerticalAlignment="Top"  Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
-                            <TextBox x:Name="EmployeeCountry" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Height="23"  Margin="20,45,30,0" Text="{Binding EmployeeCountry}" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                            <TextBox x:Name="EmployeeCountry" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Height="23"  Margin="20,45,30,0" Text="{Binding EmployeeCountry, UpdateSourceTrigger=PropertyChanged,
+                             ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
                             <Label Grid.Column="1" Grid.Row="2" Content="Kod pocztowy:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
-                            <TextBox x:Name="EmployeePostCode" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" Height="23" Margin="30,45,30,0" Text="{Binding EmployeePostCode}" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                            <TextBox x:Name="EmployeePostCode" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" Height="23" Margin="30,45,30,0" Text="{Binding EmployeePostCode, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
                             <Label Grid.Column="1" Grid.Row="1" Content="Miasto:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
-                            <TextBox x:Name="EmployeeCity" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Height="23" Margin="30,45,30,0" Text="{Binding EmployeeCity}" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                            <TextBox x:Name="EmployeeCity" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Height="23" Margin="30,45,30,0" Text="{Binding EmployeeCity, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
                             <Label Grid.Column="2" Grid.Row="1" Content="Ulica:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
-                            <TextBox x:Name="EmployeeStreet" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" Height="23" Margin="30,45,30,0" Text="{Binding EmployeeStreet}" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                            <TextBox x:Name="EmployeeStreet" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Stretch" Height="23" Margin="30,45,30,0" Text="{Binding EmployeeStreet, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
                             <Label Grid.Column="0" Grid.Row="2" Content="Numer domu/" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,5,0,0" Foreground="{Binding ForegroundOption}"/>
                             <Label Grid.Column="0" Grid.Row="2" Content="mieszkania:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,20,0,0" Foreground="{Binding ForegroundOption}"/>
-                            <TextBox Grid.Column="0" Grid.Row="2" x:Name="EmployeeNumberOfHouse" HorizontalAlignment="Stretch" Height="23" Margin="20,45,30,0" Text="{Binding EmployeeNumberOfHouse}" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                            <TextBox Grid.Column="0" Grid.Row="2" x:Name="EmployeeNumberOfHouse" HorizontalAlignment="Stretch" Height="23" Margin="20,45,30,0" Text="{Binding EmployeeNumberOfHouse, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
                             <Label Grid.Column="2" Grid.Row="2" Content="Region:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,10,0,0" Foreground="{Binding ForegroundOption}"/>
                             <ComboBox x:Name="EmployeeRegion" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120"  Grid.Column="2" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,45,30,0"  ItemsSource="{Binding Path=Regions}" Background="{Binding InputOption}"
-                                SelectedItem="{Binding Path=RegionSelected, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
+                                SelectedItem="{Binding Path=RegionSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                ValidatesOnDataErrors=true, NotifyOnValidationError=true}" IsSynchronizedWithCurrentItem="True">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding code}"/>
+                                        <TextBlock Text="{Binding code, UpdateSourceTrigger=PropertyChanged,
+                                        ValidatesOnDataErrors=true, NotifyOnValidationError=true}"/>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>

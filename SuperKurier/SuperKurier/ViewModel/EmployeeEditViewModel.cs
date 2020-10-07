@@ -176,6 +176,58 @@ namespace SuperKurier.ViewModel
                             result = "Podana wartość nie jest liczbą";
                         }
                         break;
+                    case "EmployeeCountry":
+                        if (string.IsNullOrWhiteSpace(EmployeeCountry))
+                            result = "Pole nie może być puste";
+                        else if (EmployeeCountry.Length > 20)
+                            result = "Długość nazwy kraju nie może przekraczać 20 znaków";
+                        break;
+                    case "EmployeeCity":
+                        if (string.IsNullOrWhiteSpace(EmployeeCity))
+                            result = "Pole nie może być puste";
+                        else if (EmployeeCity.Length > 30)
+                            result = "Długość nazwy miasta nie może przekraczać 30 znaków";
+                        break;
+                    case "EmployeePostCode":
+                        if (string.IsNullOrWhiteSpace(EmployeePostCode))
+                            result = "Pole nie może być puste";
+                        else if (EmployeePostCode.Length > 10)
+                            result = "Długość kodu pocztowego nie może przekraczać 10 znaków";
+                        break;
+                    case "EmployeeStreet":
+                        if (EmployeeStreet.Length > 30)
+                            result = "Długość nazwy ulicy nie może przekraczać 30 znaków";
+                        break;
+                    case "EmployeeNumberOfHouse":
+                        if (string.IsNullOrWhiteSpace(EmployeeNumberOfHouse))
+                            result = "Pole nie może być puste";
+                        else if (EmployeeNumberOfHouse.Length > 10)
+                            result = "Długość numeru domu nie może przekraczać 10 znaków";
+                        break;
+                    case "EmployeeFirstName":
+                        if (string.IsNullOrWhiteSpace(EmployeeFirstName))
+                            result = "Pole nie może być puste";
+                        else if (EmployeeFirstName.Length > 20)
+                            result = "Długość imienia nie może przekraczać 20 znaków";
+                        break;
+                    case "EmployeeLastName":
+                        if (string.IsNullOrWhiteSpace(EmployeeLastName))
+                            result = "Pole nie może być puste";
+                        else if (EmployeeLastName.Length > 30)
+                            result = "Długość nazwiska nie może przekraczać 30 znaków";
+                        break;
+                    case "PositionSelected":
+                        if (PositionSelected == null)
+                            result = "Pole nie może być puste";
+                        break;
+                    case "WarehouseSelected":
+                        if (WarehouseSelected == null)
+                            result = "Pole nie może być puste";
+                        break;
+                    case "RegionSelected":
+                        if (RegionSelected == null)
+                            result = "Pole nie może być puste";
+                        break;
                 }
                 return result;
             }
