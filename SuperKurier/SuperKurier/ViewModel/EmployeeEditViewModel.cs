@@ -97,34 +97,10 @@ namespace SuperKurier.ViewModel
         }
 
 
-        private BindableCollection<DataModel.Region> _regions;
-        public BindableCollection<DataModel.Region> Regions
-        {
-            get { return _regions; }
-            set
-            {
-                if (value != _regions)
-                {
-                    _regions = value;
-                    OnPropertyChange("Regions");
-                }
-            }
-        }
+        public BindableCollection<DataModel.Region> Regions { get; set; }
         public BindableCollection<Position> Positions { get; set; }
         public BindableCollection<Warehouse> Warehouses { get; set; }
-        private DataModel.Region _regionSelected;
-        public DataModel.Region RegionSelected
-        {
-            get { return _regionSelected; }
-            set
-            {
-                if (value != _regionSelected)
-                {
-                    _regionSelected = value;
-                    OnPropertyChange("RegionSelected");
-                }
-            }
-        }
+        public DataModel.Region RegionSelected { get; set; }
         public Position PositionSelected { get; set; }
         public Warehouse WarehouseSelected { get; set; }
 
@@ -213,16 +189,9 @@ namespace SuperKurier.ViewModel
             if (employee.Region != null)
                 RegionSelected = employee.Region;
 
-            Int32 selectedIndex = MainWindow.EmployeeRegion.SelectedIndex;
-            MainWindow.EmployeeRegion.SelectedIndex = -1;
-            MainWindow.EmployeeRegion.Items.Refresh();
-            MainWindow.EmployeeRegion.SelectedIndex = selectedIndex;
-
             SaveEmployee = new RelayCommand(
                 () => ExecuteSaveEmployee(),
                 () => true);
-
-            
         }
 
         private void ExecuteSaveEmployee()
@@ -233,8 +202,6 @@ namespace SuperKurier.ViewModel
 
             if (Employee.dateOfEmployment == null)
                 Employee.dateOfEmployment = DateTime.Now;
-
-            
 
             Employee.Position = PositionSelected;
             Employee.Warehouse = WarehouseSelected;

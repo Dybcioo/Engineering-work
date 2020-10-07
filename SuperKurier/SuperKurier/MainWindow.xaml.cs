@@ -36,9 +36,8 @@ namespace SuperKurier
         public bool IsBlack = true;
         public Connection Conn { get; set; }
         public BindableCollection<Employee> Employees { get; set; }
-
+        public BindableCollection<Warehouse> Warehouses { get; set; }
         private Warehouse warehouseSelectedSetting;
-
         public Warehouse WarehouseSelectedSetting
         {
             get 
@@ -65,7 +64,7 @@ namespace SuperKurier
             DataContext = this;
             BlackAndWhiteLayout();
             GetDBSettings();
-            //LoadWarehouse();
+            LoadWarehouse();
         }
 
         private void LoadWarehouse()
@@ -73,7 +72,7 @@ namespace SuperKurier
             var temp = companyEntities.Warehouse.FirstOrDefault(w => w.id == Properties.Settings.Default.Warehouse);
             if (temp != null)
                 WarehouseSelectedSetting = temp;
-            //Warehouses = new BindableCollection<Warehouse>(companyEntities.Warehouse.ToList());
+            Warehouses = new BindableCollection<Warehouse>(companyEntities.Warehouse.ToList());
             ResetContext();
         }
 
@@ -163,7 +162,6 @@ namespace SuperKurier
             connectionString.ConnectionStrings["CompanyEntities"].ConnectionString = cs;
             config.Save();
             ConfigurationManager.RefreshSection("connectionStrings");
-
         }
 
         private void GetDBSettings()
