@@ -34,5 +34,22 @@ namespace DataModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Parcel> Parcel { get; set; }
         public virtual Warehouse Warehouse { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var item = obj as Region;
+
+            if (item == null)
+            {
+                return false;
+            }
+
+            return this.id.Equals(item.id);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.id.GetHashCode();
+        }
     }
 }

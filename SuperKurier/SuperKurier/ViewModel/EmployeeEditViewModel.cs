@@ -221,6 +221,8 @@ namespace SuperKurier.ViewModel
             SaveEmployee = new RelayCommand(
                 () => ExecuteSaveEmployee(),
                 () => true);
+
+            
         }
 
         private void ExecuteSaveEmployee()
