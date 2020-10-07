@@ -241,6 +241,27 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Foreground" Value="{Binding ForegroundOption}"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,2,40,2" />
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="true">
+                            <Border Background="OrangeRed" DockPanel.Dock="right" Margin="5,0,0,0" Width="20" Height="20" CornerRadius="10"
+                                    ToolTip="{Binding ElementName=customAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                                <TextBlock Text="!" VerticalAlignment="center" HorizontalAlignment="center" FontWeight="Bold">
+                                </TextBlock>
+                            </Border>
+                            <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center" >
+                                <Border BorderBrush="OrangeRed" BorderThickness="1" />
+                            </AdornedElementPlaceholder>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid >
         <Grid.ColumnDefinitions>
@@ -395,6 +416,9 @@
                     <Grid.Background>
                         <SolidColorBrush Color="{Binding BackgroundOption}" Opacity="0.8" />
                     </Grid.Background>
+                    <Grid.CommandBindings>
+                        <CommandBinding Command="New" CanExecute="AddCustomer_CanExecute" />
+                    </Grid.CommandBindings>
                     <Grid Grid.Column="1" Margin="0,0,10,0" Cursor="Hand" MouseDown="PackIcon_MouseDown" Width="30" Height="30" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Right" >
                         <materialDesign:PackIcon Kind="Close" Foreground="#FF8B0D0D"   Width="30" Height="30" />
                     </Grid>
@@ -409,7 +433,8 @@
                         <Label Content="Powtórz hasło:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
                         <PasswordBox x:Name="EmployeeRepeatPassword" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
                         <Label Content="Wynagrodzenie:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
-                        <TextBox x:Name="EmployeeSalary" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" TextWrapping="Wrap" Text="{Binding EmployeeSalary}" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
+                        <TextBox x:Name="EmployeeSalary" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" TextWrapping="Wrap" Text="{Binding Path=EmployeeSalary,UpdateSourceTrigger=LostFocus,
+                        ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
                         <Label Content="Stanowisko:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
                         <ComboBox x:Name="EmployeePosition" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,15,30,0"  ItemsSource="{Binding Positions}" Background="{Binding InputOption}"
                             SelectedItem="{Binding PositionSelected, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
@@ -469,7 +494,7 @@
                             </m:Map>
                         </Grid>
                     </StackPanel>
-                    <Button x:Name="BtnSaveEmployee" Content="Zapisz" Command="{Binding SaveEmployee}" Click="BtnSaveEmployee_Click" HorizontalAlignment="Right" Margin="0,774,30,0" VerticalAlignment="Top" Width="auto" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Grid.Column="1"/>
+                    <Button x:Name="BtnSaveEmployee" Content="Zapisz" Command="New" Click="BtnSaveEmployee_Click" HorizontalAlignment="Right" Margin="0,774,30,0" VerticalAlignment="Top" Width="auto" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Grid.Column="1"/>
                 </Grid>
             </ScrollViewer>
 

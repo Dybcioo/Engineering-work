@@ -5,6 +5,7 @@ using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
@@ -15,7 +16,7 @@ using System.Windows.Media;
 
 namespace SuperKurier.ViewModel
 {
-    class EmployeeEditViewModel : INotifyPropertyChanged
+    class EmployeeEditViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         private Employee Employee;
         private CompanyEntities CompanyEntities = new CompanyEntities();
@@ -92,10 +93,18 @@ namespace SuperKurier.ViewModel
                 {
                     Employee.salary = value;
                     OnPropertyChange("EmployeeSalary");
+                    //ValidateProperty(value, "EmployeeSalary");
                 }
             }
         }
 
+        private void ValidateProperty<T>(T value, string name)
+        {
+            Validator.ValidateProperty(value, new ValidationContext(this, null, null)
+            {
+                MemberName = name
+            });
+        }
 
         public BindableCollection<DataModel.Region> Regions { get; set; }
         public BindableCollection<Position> Positions { get; set; }
@@ -171,6 +180,22 @@ namespace SuperKurier.ViewModel
 
         public ICommand SaveEmployee { get; private set; }
 
+        public string Error => throw new NotImplementedException();
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = null;
+                if (columnName == "EmployeeSalary")
+                {
+                    if (string.IsNullOrEmpty(EmployeeSalary.ToString()))
+                        result = "Please enter a First Name";
+                }
+                return result;
+            }
+        }
+
         public EmployeeEditViewModel(Employee employee, bool black, MainWindow window)
         {
             BlackAndWhiteLayout(black);
@@ -194,7 +219,9 @@ namespace SuperKurier.ViewModel
                 () => true);
         }
 
-        private void ExecuteSaveEmployee()
+        public EmployeeEditViewModel() { }
+
+        public void ExecuteSaveEmployee()
         {
             Location location = new Location();
             location = MainWindow.EmployeeMap.GetPushpinLocation();
@@ -204,7 +231,10 @@ namespace SuperKurier.ViewModel
                 Employee.dateOfEmployment = DateTime.Now;
 
             Employee.Position = PositionSelected;
+            Employee.idPosition = PositionSelected.id;
+            Employee.idWarehouse = WarehouseSelected.id;
             Employee.Warehouse = WarehouseSelected;
+            Employee.idRegion = RegionSelected.id;
             Employee.Region = RegionSelected;
 
             if (Employee.code == null)

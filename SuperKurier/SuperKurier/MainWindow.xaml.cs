@@ -474,12 +474,25 @@ namespace SuperKurier
 
         private void BtnSaveEmployee_Click(object sender, RoutedEventArgs e)
         {
-            var btn = sender as Button;
-            btn.Command.Execute(btn.CommandParameter);
-
+            ((EmployeeEditViewModel)DataContext).ExecuteSaveEmployee();
             Employees = new BindableCollection<Employee>(companyEntities.Employee.ToList());
             DataGridEmployees.DataContext = Employees;
             TurnOnOffEmployeePanel(true);
+        }
+        private int _noOfErrorsOnScreen = 0;
+
+        private void Validation_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+                _noOfErrorsOnScreen++;
+            else
+                _noOfErrorsOnScreen--;
+        }
+
+        private void AddCustomer_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = _noOfErrorsOnScreen == 0;
+            e.Handled = true;
         }
     }
 }
