@@ -277,7 +277,7 @@ namespace SuperKurier.ViewModel
             if (Employee.code == null)
             {
                 Employee.Address.Localization = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
-                Employee.code = $"/{Employee.firstName}/{Employee.Warehouse.code}/{Employee.Position.position1}";
+                Employee.code = $"/{Employee.firstName}/{Employee.Position.position1}";
                 CompanyEntities.Address.Add(Employee.Address);
                 CompanyEntities.Employee.Add(Employee);
                 CompanyEntities.SaveChanges();
@@ -288,6 +288,7 @@ namespace SuperKurier.ViewModel
             {
                 Employee.Address.Localization.latitude = location.Latitude.ToString();
                 Employee.Address.Localization.longitude = location.Longitude.ToString();
+                Employee.code = $"{Employee.id}/{Employee.firstName}/{Employee.Position.position1}";
                 var empl = CompanyEntities.Employee.Find(Employee.id);
                 var address = CompanyEntities.Address.Find(Employee.Address.id);
                 var localization = CompanyEntities.Localization.Find(address.Localization.id);

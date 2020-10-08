@@ -492,5 +492,14 @@ namespace SuperKurier
             e.CanExecute = _noOfErrorsOnScreen == 0;
             e.Handled = true;
         }
+
+        private void BtnSearchEmployees_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            List<Employee> employees = new List<Employee>();
+            employees = companyEntities.Employee.ToList();
+            string text = BtnSearchEmployees.Text.ToUpper();
+            Employees = new BindableCollection<Employee>(employees.Where(em => em.firstName.ToUpper().Contains(text) || em.lastName.ToUpper().Contains(text) || em.code.ToUpper().Contains(text)));
+            DataGridEmployees.DataContext = Employees;
+        }
     }
 }

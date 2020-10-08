@@ -378,14 +378,23 @@
                 <TextBlock Text="Klienci" VerticalAlignment="Center" FontSize="10" Margin="0,0,0,0"/>
             </Button>
             <DockPanel x:Name="PanelEmployees" HorizontalAlignment="Stretch" Margin="0,20,0,0" VerticalAlignment="Stretch" >
-                <Button x:Name="BtnNewEmployee" DockPanel.Dock="Top" Content="Dodaj pracownika" HorizontalAlignment="Right" Margin="0,40,100,0" VerticalAlignment="Top" Width="auto" Click="BtnNewEmployee_Click"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Grid.Column="1"/>
+                <Label DockPanel.Dock="Top" Width="auto" HorizontalAlignment="Left" Margin="0,40,0,0" Content="Szukaj"/>
+                <TextBox x:Name="BtnSearchEmployees" DockPanel.Dock="Top" HorizontalAlignment="Left" Margin="50,-20,0,0" ToolTip="Wyszukaj pracownika" VerticalAlignment="Top" Width="200" Height="20" Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}" TextChanged="BtnSearchEmployees_TextChanged"/>
+                <Button x:Name="BtnNewEmployee" DockPanel.Dock="Top" Content="Dodaj pracownika" HorizontalAlignment="Right" Margin="0,-20,100,0" VerticalAlignment="Top" Width="auto" Click="BtnNewEmployee_Click"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Grid.Column="1"/>
                 <DataGrid x:Name="DataGridEmployees" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,40,0,0"  VerticalAlignment="Stretch" ColumnWidth="*">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Kod"  Binding="{Binding code}"/>
                         <DataGridTextColumn Header="Imię"  Binding="{Binding firstName}"/>
                         <DataGridTextColumn Header="Nazwisko" Binding="{Binding lastName}" />
+                        <DataGridTextColumn Header="Wynagrodzenie" >
+                            <DataGridTextColumn.Binding>
+                                <MultiBinding StringFormat="{}{0:#,#.00} PLN">
+                                    <Binding Path="salary" />
+                                </MultiBinding>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
                         <DataGridTextColumn Header="Kod Regionu" Binding="{Binding Region.code}" />
-                        <DataGridTextColumn Header="Stanowisko" Binding="{Binding Position.position}" />
+                        <DataGridTextColumn Header="Stanowisko" Binding="{Binding Position.position1}" />
                         <DataGridTextColumn Header="Adres" >
                             <DataGridTextColumn.Binding>
                                 <MultiBinding StringFormat="{}{0} ul.{1} {2}">
@@ -407,7 +416,7 @@
                 <DataGrid HorizontalAlignment="Stretch" Margin="0,100,0,0"  VerticalAlignment="Stretch" ColumnWidth="*"  />
             </DockPanel>
 
-            <ScrollViewer Visibility="Visible"  x:Name="EmployeeScrollViewer" IsDeferredScrollingEnabled="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer Visibility="Hidden"  x:Name="EmployeeScrollViewer" IsDeferredScrollingEnabled="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
@@ -431,8 +440,9 @@
                         <TextBox x:Name="EmployeeLastName" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" Text="{Binding EmployeeLastName, UpdateSourceTrigger=PropertyChanged,
                         ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}"/>
                         <Label Content="Wynagrodzenie:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
-                        <TextBox x:Name="EmployeeSalary" HorizontalAlignment="Stretch" Height="23" Margin="30,15,30,0" TextWrapping="Wrap" Text="{Binding Path=EmployeeSalary, UpdateSourceTrigger=PropertyChanged,
+                        <TextBox x:Name="EmployeeSalary" HorizontalAlignment="Stretch" Height="23" Margin="30,15,50,0" TextWrapping="Wrap" Text="{Binding Path=EmployeeSalary, UpdateSourceTrigger=PropertyChanged,
                         ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                        <Label Content="PLN" HorizontalAlignment="Right" VerticalAlignment="Top" Width="auto"  Margin="0,-25,15,0" Foreground="{Binding ForegroundOption}"/>
                         <Label Content="Stanowisko:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="30,30,0,0" Foreground="{Binding ForegroundOption}"/>
                         <ComboBox x:Name="EmployeePosition" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="30,15,30,0"  ItemsSource="{Binding Positions}" Background="{Binding InputOption}"
                             SelectedItem="{Binding PositionSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
