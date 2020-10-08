@@ -110,6 +110,7 @@ namespace SuperKurier
 
             GridSettings.Visibility = Visibility.Hidden;
             GridRegion.Visibility = Visibility.Hidden;
+            GridEmployee.Visibility = Visibility.Hidden;
             btn.Background = new SolidColorBrush(ColorBtn);
         }
 
@@ -122,7 +123,7 @@ namespace SuperKurier
             BtnBackgroundColor(BtnEmployee);
             Employees = new BindableCollection<Employee>(companyEntities.Employee.ToList());
             DataGridEmployees.DataContext = Employees;
-            ResetContext();
+            GridEmployee.Visibility = Visibility.Visible;
         }
         private void BtnRegion_Click(object sender, RoutedEventArgs e)
         {

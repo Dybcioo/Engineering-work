@@ -370,7 +370,7 @@
                 <Button x:Name="btnClearRegion" Content="Wyczyść" HorizontalAlignment="Right"  Margin="0,20,50,10" VerticalAlignment="Bottom" Width="175"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="BtnClearRegion_Click"/>
             </StackPanel>
         </Grid>
-        <Grid x:Name="GridEmployee" Grid.Row="1" Grid.Column="1" Background="Orange" Visibility="Visible">
+        <Grid x:Name="GridEmployee" Grid.Row="1" Grid.Column="1" Background="{Binding BackgroundOption}" Visibility="Hidden">
             <Button x:Name="btnEmployees"  HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Panel.ZIndex="1" Width="80" Height="20"  Background="#FF2196F3" Foreground="{Binding ForegroundOption}" Click="BtnEmployees_Click" >
                 <TextBlock Text="Pracownicy" VerticalAlignment="Center" FontSize="10" Margin="-10,0,0,0"/>
             </Button>
@@ -378,7 +378,7 @@
                 <TextBlock Text="Klienci" VerticalAlignment="Center" FontSize="10" Margin="0,0,0,0"/>
             </Button>
             <DockPanel x:Name="PanelEmployees" HorizontalAlignment="Stretch" Margin="0,20,0,0" VerticalAlignment="Stretch" >
-                <Label DockPanel.Dock="Top" Width="auto" HorizontalAlignment="Left" Margin="0,40,0,0" Content="Szukaj"/>
+                <Label DockPanel.Dock="Top" Width="auto" HorizontalAlignment="Left" Margin="0,40,0,0" Content="Szukaj" Foreground="{Binding ForegroundOption}"/>
                 <TextBox x:Name="BtnSearchEmployees" DockPanel.Dock="Top" HorizontalAlignment="Left" Margin="50,-20,0,0" ToolTip="Wyszukaj pracownika" VerticalAlignment="Top" Width="200" Height="20" Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}" TextChanged="BtnSearchEmployees_TextChanged"/>
                 <Button x:Name="BtnNewEmployee" DockPanel.Dock="Top" Content="Dodaj pracownika" HorizontalAlignment="Right" Margin="0,-20,100,0" VerticalAlignment="Top" Width="auto" Click="BtnNewEmployee_Click"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Grid.Column="1"/>
                 <DataGrid x:Name="DataGridEmployees" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,40,0,0"  VerticalAlignment="Stretch" ColumnWidth="*">
