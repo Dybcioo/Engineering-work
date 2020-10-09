@@ -1,20 +1,21 @@
-﻿<Window x:Class="SuperKurier.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SuperKurier"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF" 
-        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
-        fw:AcrylicWindow.Enabled="True" 
+﻿<Page x:Class="SuperKurier.View.SettingView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SuperKurier.View"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF" 
+      xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+      fw:AcrylicWindow.Enabled="True" 
         fw:AcrylicWindow.NoiseOpacity="0"
         fw:AcrylicWindow.TintColor="{Binding BackgroundOption}"
         fw:AcrylicWindow.TintOpacity="0.8"
         mc:Ignorable="d"
-        
-         Height="600" Width="1080"  Foreground="{Binding ForegroundOption}" WindowStyle="SingleBorderWindow"  WindowStartupLocation="CenterScreen" IsTabStop="True">
-    <Window.Resources>
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SettingView">
+    
+    <Page.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -262,62 +263,43 @@
                 </Setter.Value>
             </Setter>
         </Style>
-    </Window.Resources>
-    <Grid >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="20"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid x:Name="GridMenu" Grid.Row="1" Background="Transparent">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="100"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="1" >
-                <Button x:Name="BtnParcel" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
-                    <Grid Width="150">
-                        <materialDesign:PackIcon Kind="SwapHorizontal" VerticalAlignment="Center"></materialDesign:PackIcon>
-                        <TextBlock HorizontalAlignment="Center">Przesyłki</TextBlock>
-                    </Grid>
-                </Button>
-                <Button x:Name="BtnEmployee" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
-                    <Grid Width="150">
-                        <materialDesign:PackIcon Kind="People" VerticalAlignment="Center"></materialDesign:PackIcon>
-                        <TextBlock HorizontalAlignment="Center">Kurierzy</TextBlock>
-                    </Grid>
-                </Button>
-                <Button x:Name="BtnRegion" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
-                    <Grid Width="150">
-                        <materialDesign:PackIcon Kind="Location" VerticalAlignment="Center"></materialDesign:PackIcon>
-                        <TextBlock HorizontalAlignment="Center">Regiony</TextBlock>
-                    </Grid>
-                </Button>
-                <Button x:Name="BtnWarehouse" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
-                    <Grid Width="150">
-                        <materialDesign:PackIcon Kind="Warehouse" VerticalAlignment="Center"></materialDesign:PackIcon>
-                        <TextBlock HorizontalAlignment="Center">Magazyny</TextBlock>
-                    </Grid>
-                </Button>
-                <Button x:Name="BtnTransport" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
-                    <Grid Width="150">
-                        <materialDesign:PackIcon Kind="LocalShipping"></materialDesign:PackIcon>
-                        <TextBlock HorizontalAlignment="Center">Transport</TextBlock>
-                    </Grid>
-                </Button>
-                <Button x:Name="BtnSettings" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
-                    <Grid Width="150">
-                        <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center"></materialDesign:PackIcon>
-                        <TextBlock HorizontalAlignment="Center">Ustawienia</TextBlock>
-                    </Grid>
-                </Button>
-            </StackPanel>
-        </Grid>
-        <Frame Content="{Binding SelectedViewModel}" Grid.Row="1" Grid.Column="1"/>
+    </Page.Resources>
+    <Grid>
+        <Label Content="Wygląd aplikacji:" HorizontalAlignment="Left" Margin="27,22,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}"/>
+        <Line Grid.Row="1" Grid.Column="1"  X1="0" Y1="50" X2="10000"  Y2="50" 
+              Stroke="{Binding ForegroundOption}" StrokeThickness="0.7"></Line>
+        <ToggleButton x:Name="BtnToggleTheme" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="89,66,0,0" Click="BtnToggleTheme_Click" IsChecked="True"></ToggleButton>
+        <Label Content="Jasny" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="27,60,0,0" Foreground="{Binding ForegroundOption}"/>
+        <Label Content="Ciemny" HorizontalAlignment="Left" Margin="142,60,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}"/>
+        <Label Content="Połączenie z bazą danych:" HorizontalAlignment="Left" Margin="27,102,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}" />
+        <Line Grid.Row="1" Grid.Column="1"  X1="0" Y1="130" X2="10000"  Y2="130" 
+              Stroke="{Binding ForegroundOption}" StrokeThickness="0.7"></Line>
+        <TextBox x:Name="DBServer" HorizontalAlignment="Left" Height="23" Margin="142,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{Binding InputOption}"/>
+        <TextBox x:Name="DBData" HorizontalAlignment="Left" Height="23" Margin="578,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{Binding InputOption}"/>
+        <TextBox x:Name="DBUser" HorizontalAlignment="Left" Height="23" Margin="142,204,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{Binding InputOption}"/>
+        <PasswordBox x:Name="DBPassword" HorizontalAlignment="Left" Height="23" Margin="578,204,0,0"  VerticalAlignment="Top" Width="120" Background="{Binding InputOption}" />
+        <Label Content="Serwer SQL:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="52,144,0,0" Foreground="{Binding ForegroundOption}"/>
+        <Label Content="Baza danych:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="476,144,0,0" Foreground="{Binding ForegroundOption}"/>
+        <Label Content="Hasło:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="514,204,0,0" Foreground="{Binding ForegroundOption}"/>
+        <Label Content="Użytkownik:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="52,204,0,0" Foreground="{Binding ForegroundOption}"/>
+        <Button x:Name="BtnSaveDBSettings" Content="Zapisz" HorizontalAlignment="Right" Margin="0,244,50,0" VerticalAlignment="Top" Width="75" Click="BtnSaveDBSettings_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}"/>
+        <Button x:Name="BtnTestConn"  HorizontalAlignment="Left" Margin="24,245,0,0" FontWeight="ExtraLight" VerticalAlignment="Top" Width="113" Background="Transparent" BorderBrush="Transparent" Foreground="{Binding ForegroundOption}" Click="BtnTestConn_Click">
+            <TextBlock TextDecorations="Underline">
+                    Test
+            </TextBlock>
+        </Button>
+        <Label Content="{Binding TestConnection}" HorizontalAlignment="Left" Margin="142,252,0,0" VerticalAlignment="Top" Foreground="{Binding ColorConnection}" />
+        <Label Content="Magazyny:" HorizontalAlignment="Left" Margin="27,290,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}" />
+        <Line Grid.Row="1" Grid.Column="1"  X1="0" Y1="318" X2="10000"  Y2="318"
+                Stroke="{Binding ForegroundOption}" StrokeThickness="0.7"></Line>
+        <Label Content="Twój magazyn:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="52,344,0,0" Foreground="{Binding ForegroundOption}"/>
+        <ComboBox ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,344,0,0" Width="150" ItemsSource="{Binding Warehouses}" Background="{Binding InputOption}"
+                      SelectedItem="{Binding WarehouseSelected, Mode=TwoWay}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding code}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
     </Grid>
-</Window>
+</Page>

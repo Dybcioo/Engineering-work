@@ -38,6 +38,9 @@ namespace SuperKurier.Command
                 case "BtnEmployee":
                     viewModel.SelectedViewModel = new EmployeeViewModel();
                     break;
+                case "BtnSettings":
+                    viewModel.SelectedViewModel = new SettingViewModel();
+                    break;
             }
             temp.Background = new SolidColorBrush(viewModel.ColorBtn);
         }

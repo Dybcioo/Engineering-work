@@ -70,6 +70,7 @@ namespace SuperKurier.ViewModel
             BlackAndWhiteLayout();
         }
 
+
         private void BlackAndWhiteLayout(bool black = true)
         {
             if (black)

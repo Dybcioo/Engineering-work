@@ -26,6 +26,9 @@
             <DataTemplate DataType="{x:Type viewModel:EmployeeViewModel}">
                 <view:EmployeeView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:SettingViewModel}">
+                <view:SettingView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
