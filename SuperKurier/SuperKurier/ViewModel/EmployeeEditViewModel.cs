@@ -2,6 +2,7 @@
 using DataModel;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Maps.MapControl.WPF;
+using SuperKurier.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +25,7 @@ namespace SuperKurier.ViewModel
         public string ForegroundOption { get; set; }
         public string InputOption { get; set; }
         public Color ColorBtn { get; set; }
-        private MainWindow MainWindow;
+        private EmployeeView employeeView;
 
         public string EmployeeFirstName
         {
@@ -233,13 +234,13 @@ namespace SuperKurier.ViewModel
             }
         }
 
-        public EmployeeEditViewModel(Employee employee, bool black, MainWindow window)
+        public EmployeeEditViewModel(Employee employee, bool black, EmployeeView window)
         {
             BlackAndWhiteLayout(black);
             Employee = employee;
             if (Employee.Address == null)
                 Employee.Address = new Address();
-            MainWindow = window;
+            employeeView = window;
             Positions = new BindableCollection<Position>(CompanyEntities.Position.ToList());
             Regions = new BindableCollection<DataModel.Region>(CompanyEntities.Region.ToList());
             Warehouses = new BindableCollection<Warehouse>(CompanyEntities.Warehouse.ToList());
@@ -261,8 +262,8 @@ namespace SuperKurier.ViewModel
         public void ExecuteSaveEmployee()
         {
             Location location = new Location();
-            location = MainWindow.EmployeeMap.GetPushpinLocation();
-            MainWindow.EmployeeMap.ReserCounter();
+            location = employeeView.EmployeeMap.GetPushpinLocation();
+            employeeView.EmployeeMap.ReserCounter();
 
             if (Employee.dateOfEmployment == null)
                 Employee.dateOfEmployment = DateTime.Now;

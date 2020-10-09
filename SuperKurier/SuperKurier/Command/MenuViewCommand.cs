@@ -34,9 +34,12 @@ namespace SuperKurier.Command
             {
                 case "BtnRegion":
                     viewModel.SelectedViewModel = new RegionViewModel();
-                    temp.Background = new SolidColorBrush(viewModel.ColorBtn);
+                    break;
+                case "BtnEmployee":
+                    viewModel.SelectedViewModel = new EmployeeViewModel();
                     break;
             }
+            temp.Background = new SolidColorBrush(viewModel.ColorBtn);
         }
     }
 }

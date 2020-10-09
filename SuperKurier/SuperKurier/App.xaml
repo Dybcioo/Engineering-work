@@ -23,6 +23,9 @@
             <DataTemplate DataType="{x:Type viewModel:RegionViewModel}">
                 <view:RegionView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:EmployeeViewModel}">
+                <view:EmployeeView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
