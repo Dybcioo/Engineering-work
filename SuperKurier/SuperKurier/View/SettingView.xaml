@@ -268,7 +268,7 @@
         <Label Content="Wygląd aplikacji:" HorizontalAlignment="Left" Margin="27,22,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}"/>
         <Line Grid.Row="1" Grid.Column="1"  X1="0" Y1="50" X2="10000"  Y2="50" 
               Stroke="{Binding ForegroundOption}" StrokeThickness="0.7"></Line>
-        <ToggleButton x:Name="BtnToggleTheme" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="89,66,0,0" Click="BtnToggleTheme_Click" IsChecked="True"></ToggleButton>
+        <ToggleButton  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="89,66,0,0" Command="{Binding BlackAndWhiteCommand}" IsChecked="{Binding IsBlack}"></ToggleButton>
         <Label Content="Jasny" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="27,60,0,0" Foreground="{Binding ForegroundOption}"/>
         <Label Content="Ciemny" HorizontalAlignment="Left" Margin="142,60,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}"/>
         <Label Content="Połączenie z bazą danych:" HorizontalAlignment="Left" Margin="27,102,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}" />

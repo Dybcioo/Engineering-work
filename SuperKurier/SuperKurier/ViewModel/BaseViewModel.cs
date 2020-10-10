@@ -1,7 +1,9 @@
-﻿using System;
+﻿using SuperKurier.Command;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -65,13 +67,26 @@ namespace SuperKurier.ViewModel
             }
         }
 
+        private static bool _isBlack = false;
+
+        public  bool IsBlack 
+        {
+            get { return Properties.Settings.Default.IsBlack; } 
+            set
+            {
+                Properties.Settings.Default.IsBlack = value;
+                BlackAndWhiteLayout(IsBlack);
+                OnPropertChanged(nameof(IsBlack));
+            }
+        }
+
         public BaseViewModel()
         {
-            BlackAndWhiteLayout();
+            BlackAndWhiteLayout(Properties.Settings.Default.IsBlack);
         }
 
 
-        private void BlackAndWhiteLayout(bool black = true)
+        public void BlackAndWhiteLayout(bool black)
         {
             if (black)
             {

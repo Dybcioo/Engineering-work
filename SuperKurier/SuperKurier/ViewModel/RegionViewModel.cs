@@ -17,7 +17,6 @@ namespace SuperKurier.ViewModel
 {
     class RegionViewModel : BaseViewModel
     {
-        
 
     }
 }

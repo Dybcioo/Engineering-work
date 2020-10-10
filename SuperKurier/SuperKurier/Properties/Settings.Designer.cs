@@ -82,5 +82,17 @@ namespace SuperKurier.Properties {
                 this["Warehouse"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsBlack {
+            get {
+                return ((bool)(this["IsBlack"]));
+            }
+            set {
+                this["IsBlack"] = value;
+            }
+        }
     }
 }

@@ -119,10 +119,7 @@ namespace SuperKurier.View
             Warehouses = new BindableCollection<Warehouse>(companyEntities.Warehouse.ToList());
             //ResetContext();
         }
-        private void BtnToggleTheme_Click(object sender, RoutedEventArgs e)
-        {
-            //IsBlack = (bool)BtnToggleTheme.IsChecked;
-        }
+
 
     }
 }
