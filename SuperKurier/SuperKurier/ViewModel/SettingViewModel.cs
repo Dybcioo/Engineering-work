@@ -1,4 +1,6 @@
-﻿using SuperKurier.Command;
+﻿using Caliburn.Micro;
+using DataModel;
+using SuperKurier.Command;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +24,29 @@ namespace SuperKurier.ViewModel
             }
         }
 
+        private CompanyEntities companyEntities = new CompanyEntities();
+        public BindableCollection<Warehouse> Warehouses { get; set; }
+        private Warehouse warehouseSelectedSetting;
+        public Warehouse WarehouseSelectedSetting
+        {
+            get
+            { return warehouseSelectedSetting; }
+            set
+            {
+                warehouseSelectedSetting = value;
+                Properties.Settings.Default.Warehouse = WarehouseSelectedSetting.id;
+                Properties.Settings.Default.Save();
+                OnPropertChanged(nameof(WarehouseSelectedSetting));
+            }
+        }
+
         public SettingViewModel(MainViewModel mainViewModel)
         {
             BlackAndWhiteCommand = new BlackAndWhiteCommand(mainViewModel);
+            var temp = companyEntities.Warehouse.FirstOrDefault(w => w.id == Properties.Settings.Default.Warehouse);
+            if (temp != null)
+                WarehouseSelectedSetting = temp;
+            Warehouses = new BindableCollection<Warehouse>(companyEntities.Warehouse.ToList());
         }
     }
 }

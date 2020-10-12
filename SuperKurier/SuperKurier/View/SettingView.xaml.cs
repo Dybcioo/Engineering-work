@@ -25,32 +25,12 @@ namespace SuperKurier.View
     /// </summary>
     public partial class SettingView : Page
     {
-
-        public string TestConnection { get; set; }
-        public string ColorConnection { get; set; }
-
         public Connection Conn { get; set; }
-
-        public BindableCollection<Warehouse> Warehouses { get; set; }
-        private Warehouse warehouseSelectedSetting;
-        public Warehouse WarehouseSelectedSetting
-        {
-            get
-            { return warehouseSelectedSetting; }
-            set
-            {
-                warehouseSelectedSetting = value;
-                Properties.Settings.Default.Warehouse = WarehouseSelectedSetting.id;
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        private CompanyEntities companyEntities = new CompanyEntities();
 
         public SettingView()
         {
             InitializeComponent();
-            LoadWarehouse();
+            GetDBSettings();
         }
 
         private void SaveDBSettings()
@@ -84,42 +64,19 @@ namespace SuperKurier.View
         private void BtnTestConn_Click(object sender, RoutedEventArgs e)
         {
             BtnTestConn.IsEnabled = false;
-            TestConnection = "";
-            //ResetContext();
-            var t = new Thread(() =>
+            TestConnLabel.Content = "";
+            Conn = new Connection(DBServer.Text, DBData.Text, DBUser.Text, DBPassword.Password);
+            if (Conn.ConnectionSql())
             {
-                Application.Current.Dispatcher.Invoke((Action)delegate
-                {
-                    Conn = new Connection(DBServer.Text, DBData.Text, DBUser.Text, DBPassword.Password);
-                });
-                if (Conn.ConnectionSql())
-                {
-                    TestConnection = "Udane połączenie z bazą danych";
-                    ColorConnection = "Green";
-                }
-                else
-                {
-                    TestConnection = "Nieudane połącznie z bazą danych";
-                    ColorConnection = "Red";
-                }
-                Application.Current.Dispatcher.Invoke((Action)delegate {
-                    BtnTestConn.IsEnabled = true;
-                    //ResetContext();
-                });
-            });
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
+                TestConnLabel.Content = "Udane połączenie z bazą danych";
+                TestConnLabel.Foreground = Brushes.Green;
+            }
+            else
+            {
+                TestConnLabel.Content = "Nieudane połącznie z bazą danych";
+                TestConnLabel.Foreground = Brushes.Red;
+            }
+            BtnTestConn.IsEnabled = true;
         }
-
-        private void LoadWarehouse()
-        {
-            var temp = companyEntities.Warehouse.FirstOrDefault(w => w.id == Properties.Settings.Default.Warehouse);
-            if (temp != null)
-                WarehouseSelectedSetting = temp;
-            Warehouses = new BindableCollection<Warehouse>(companyEntities.Warehouse.ToList());
-            //ResetContext();
-        }
-
-
     }
 }

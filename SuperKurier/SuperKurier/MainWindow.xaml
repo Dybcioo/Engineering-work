@@ -318,6 +318,6 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Frame Content="{Binding SelectedViewModel}" Grid.Row="1" Grid.Column="1"/>
+        <Frame Content="{Binding SelectedViewModel}" Grid.Row="1" Grid.Column="1" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

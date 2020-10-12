@@ -288,13 +288,13 @@
                     Test
             </TextBlock>
         </Button>
-        <Label Content="{Binding TestConnection}" HorizontalAlignment="Left" Margin="142,252,0,0" VerticalAlignment="Top" Foreground="{Binding ColorConnection}" />
+        <Label x:Name="TestConnLabel"  HorizontalAlignment="Left" Margin="142,252,0,0" VerticalAlignment="Top" Foreground="{Binding ColorConnection}" />
         <Label Content="Magazyny:" HorizontalAlignment="Left" Margin="27,290,0,0" VerticalAlignment="Top" Foreground="{Binding ForegroundOption}" />
         <Line Grid.Row="1" Grid.Column="1"  X1="0" Y1="318" X2="10000"  Y2="318"
                 Stroke="{Binding ForegroundOption}" StrokeThickness="0.7"></Line>
         <Label Content="Twój magazyn:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="52,344,0,0" Foreground="{Binding ForegroundOption}"/>
         <ComboBox ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,344,0,0" Width="150" ItemsSource="{Binding Warehouses}" Background="{Binding InputOption}"
-                      SelectedItem="{Binding WarehouseSelected, Mode=TwoWay}">
+                      SelectedItem="{Binding WarehouseSelectedSetting, Mode=TwoWay}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding code}"/>
