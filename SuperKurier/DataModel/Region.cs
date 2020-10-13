@@ -25,7 +25,7 @@ namespace DataModel
         public string code { get; set; }
         public int idStartLocalization { get; set; }
         public int idEndLocalization { get; set; }
-        public int idWarehouse { get; set; }
+        public Nullable<int> idWarehouse { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employee { get; set; }
@@ -34,22 +34,5 @@ namespace DataModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Parcel> Parcel { get; set; }
         public virtual Warehouse Warehouse { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            var item = obj as Region;
-
-            if (item == null)
-            {
-                return false;
-            }
-
-            return this.id.Equals(item.id);
-        }
-
-        public override int GetHashCode()
-        {
-            return this.id.GetHashCode();
-        }
     }
 }

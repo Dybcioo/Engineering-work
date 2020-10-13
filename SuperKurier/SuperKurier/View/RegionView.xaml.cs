@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using DataModel;
 using Microsoft.Maps.MapControl.WPF;
+using SuperKurier.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,31 +25,7 @@ namespace SuperKurier.View
     /// </summary>
     public partial class RegionView : Page
     {
-        public RegionView()
-        {
-            InitializeComponent();
-        }
-
-        public string BackgroundOption { get; set; }
-        public string ForegroundOption { get; set; }
-        public string InputOption { get; set; }
-        public Color ColorBtn { get; set; }
-        public bool IsBlack = true;
-        public BindableCollection<Employee> Employees { get; set; }
-        public BindableCollection<Warehouse> Warehouses { get; set; }
-        private Warehouse warehouseSelectedSetting;
-        public Warehouse WarehouseSelectedSetting
-        {
-            get
-            { return warehouseSelectedSetting; }
-            set
-            {
-                warehouseSelectedSetting = value;
-                Properties.Settings.Default.Warehouse = WarehouseSelectedSetting.id;
-                Properties.Settings.Default.Save();
-            }
-        }
-
+        
         private MapPolyline polyline = null;
         private Location location = null;
         private bool regionSquare = false;
@@ -56,6 +33,11 @@ namespace SuperKurier.View
         private CompanyEntities companyEntities = new CompanyEntities();
         private bool regionVisibility = false;
         private DataModel.Region region = null;
+
+        public RegionView()
+        {
+            InitializeComponent();
+        }
 
         private void MyMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -85,17 +67,25 @@ namespace SuperKurier.View
                     {
                         MyMap.Children.Remove(MyMap.GetPolyline(temp));
                         while (e.LeftButton == MouseButtonState.Released) { await Task.Delay(25); }
+                        var viewModel = (RegionViewModel)this.DataContext;
+                        viewModel.WarehouseSelectedRegion = viewModel.Warehouses.First(w => w.id == temp.idWarehouse);
                         CreateRegions_Click(s, es);
                         region = temp;
                     };
                     removeRegion.Click += (s, es) =>
                     {
-                        System.Windows.Forms.DialogResult result = (System.Windows.Forms.DialogResult)MessageBox.Show("Ar ju siur?", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        System.Windows.Forms.DialogResult result = (System.Windows.Forms.DialogResult)MessageBox.Show($"Na pewno chcesz usunąć region {temp.code}?", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
                         if (result == System.Windows.Forms.DialogResult.Yes)
                         {
+                            var emplTemp = companyEntities.Employee.Where(e => e.idRegion == temp.id);
+                            foreach (var employee in emplTemp)
+                            {
+                                employee.idRegion = null;
+                            }
                             MyMap.Children.Remove(MyMap.GetPolyline(temp));
                             companyEntities.Localization.Remove(temp.Localization);
                             companyEntities.Localization.Remove(temp.Localization1);
+                            temp.idWarehouse = null;
                             companyEntities.Region.Remove(temp);
                             companyEntities.SaveChanges();
                         }
@@ -138,6 +128,7 @@ namespace SuperKurier.View
             RegionOption.Visibility = Visibility.Hidden;
             DataModel.Localization startLocal = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
             DataModel.Localization endLocal = new DataModel.Localization() { latitude = polyline.Locations[2].Latitude.ToString(), longitude = polyline.Locations[2].Longitude.ToString() };
+            Warehouse warehouse = (Warehouse)RegionWarehouse.SelectedItem;
             if (region != null)
             {
                 if (MyMap.IsAllowRegion(location, polyline.Locations[2], companyEntities, region.id))
@@ -148,6 +139,9 @@ namespace SuperKurier.View
                     start.longitude = startLocal.longitude;
                     end.latitude = endLocal.latitude;
                     end.longitude = endLocal.longitude;
+                    var reg = companyEntities.Region.Find(region.id);
+                    reg.code = $"{warehouse.code}/{reg.id}";
+                    reg.idWarehouse = warehouse.id;
                     companyEntities.SaveChanges();
                     MessageBox.Show("Region edytowano pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -159,17 +153,17 @@ namespace SuperKurier.View
             }
             else if (MyMap.IsAllowRegion(location, polyline.Locations[2], companyEntities))
             {
+                DataModel.Region newRegion = new DataModel.Region();
                 companyEntities.Localization.Add(startLocal);
                 companyEntities.Localization.Add(endLocal);
                 companyEntities.SaveChanges();
-                DataModel.Region newRegion = new DataModel.Region();
-                newRegion.Warehouse = WarehouseSelectedSetting;
+                newRegion.idWarehouse = warehouse.id;
                 newRegion.idStartLocalization = startLocal.id;
                 newRegion.idEndLocalization = endLocal.id;
                 companyEntities.Region.Add(newRegion);
                 companyEntities.SaveChanges();
                 var temp = companyEntities.Region.OrderByDescending(r => r.id).First();
-                temp.code = newRegion.code = $"{WarehouseSelectedSetting.code}/{temp.id}";
+                temp.code =  $"{warehouse.code}/{temp.id}";
                 companyEntities.SaveChanges();
                 MessageBox.Show("Region zapisano pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -178,6 +172,7 @@ namespace SuperKurier.View
                 MessageBox.Show("Nowy region nie może pokrywać regionów już istniejących!", "", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             region = null;
+            BtnShowRegions_Click(sender, e);
         }
 
         private void BtnShowRegions_Click(object sender, RoutedEventArgs e)

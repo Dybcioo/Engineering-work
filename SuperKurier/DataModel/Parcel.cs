@@ -45,22 +45,5 @@ namespace DataModel
         public virtual Warehouse Warehouse { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ParcelMoving> ParcelMoving { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            var item = obj as Parcel;
-
-            if (item == null)
-            {
-                return false;
-            }
-
-            return this.id.Equals(item.id);
-        }
-
-        public override int GetHashCode()
-        {
-            return this.id.GetHashCode();
-        }
     }
 }

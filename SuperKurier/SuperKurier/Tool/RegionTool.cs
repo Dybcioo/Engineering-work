@@ -115,20 +115,38 @@ namespace SuperKurier
                 if (startLocalTmp.Latitude < endLocalTmp.Latitude)
                 {
                     if (startLocal.Latitude < startLocalTmp.Latitude && endLocal.Latitude > startLocalTmp.Latitude)
-                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
+                    {
+                        if (CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp) == false)
+                            return false;
+                    }
                     if (startLocal.Latitude > startLocalTmp.Latitude && startLocal.Latitude < endLocalTmp.Latitude)
-                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
-                    if(startLocal.Latitude > endLocalTmp.Latitude && endLocal.Latitude < endLocalTmp.Latitude)
-                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
+                    {
+                        if (CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp) == false)
+                            return false;
+                    }
+                    if (startLocal.Latitude > endLocalTmp.Latitude && endLocal.Latitude < endLocalTmp.Latitude)
+                    {
+                        if (CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp) == false)
+                            return false;
+                    }
                 }
                 else
                 {
                     if (startLocal.Latitude > startLocalTmp.Latitude && endLocal.Latitude < startLocalTmp.Latitude)
-                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
+                    {
+                        if (CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp) == false)
+                            return false;
+                    }
                     if (startLocal.Latitude < startLocalTmp.Latitude && startLocal.Latitude > endLocalTmp.Latitude)
-                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
+                    {
+                        if (CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp) == false)
+                            return false;
+                    }
                     if (startLocal.Latitude < endLocalTmp.Latitude && endLocal.Latitude > endLocalTmp.Latitude)
-                        return CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp);
+                    {
+                        if (CheckLonglitude(startLocal, endLocal, startLocalTmp, endLocalTmp) == false)
+                            return false;
+                    }
                 }
             }
             return true;

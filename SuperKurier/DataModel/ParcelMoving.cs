@@ -23,23 +23,5 @@ namespace DataModel
         public virtual Document Document { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual Parcel Parcel { get; set; }
-        
-        public override bool Equals(object obj)
-        {
-            var item = obj as ParcelMoving;
-
-            if (item == null)
-            {
-                return false;
-            }
-
-            return this.id.Equals(item.id);
-        }
-
-        public override int GetHashCode()
-        {
-            return this.id.GetHashCode();
-        }
-
     }
 }

@@ -21,22 +21,5 @@ namespace DataModel
     
         public virtual Parcel Parcel { get; set; }
         public virtual Warehouse Warehouse { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            var item = obj as HistoryOfParcel;
-
-            if (item == null)
-            {
-                return false;
-            }
-
-            return this.id.Equals(item.id);
-        }
-
-        public override int GetHashCode()
-        {
-            return this.id.GetHashCode();
-        }
     }
 }
