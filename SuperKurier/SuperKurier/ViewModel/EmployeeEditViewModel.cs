@@ -284,6 +284,7 @@ namespace SuperKurier.ViewModel
                 CompanyEntities.SaveChanges();
                 Employee = CompanyEntities.Employee.OrderByDescending(em => em.id).First();
                 Employee.code = $"{Employee.id}{Employee.code}";
+                MessageBox.Show($"Pracownik o kodzie {Employee.code} został zapisany pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
@@ -296,14 +297,17 @@ namespace SuperKurier.ViewModel
                 CompanyEntities.Entry(localization).CurrentValues.SetValues(Employee.Address.Localization);
                 CompanyEntities.Entry(address).CurrentValues.SetValues(Employee.Address);
                 CompanyEntities.Entry(empl).CurrentValues.SetValues(Employee);
+                MessageBox.Show($"Pracownik o kodzie {Employee.code} został edytowany pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
                 CompanyEntities.SaveChanges();
         }
 
         public void ExecuteDeleteEmployee()
         {
-            CompanyEntities.Employee.Remove(CompanyEntities.Employee.Find(Employee.id));
+            var emoloyeeToDelete = CompanyEntities.Employee.Find(Employee.id);
+            CompanyEntities.Employee.Remove(emoloyeeToDelete);
             CompanyEntities.SaveChanges();
+            MessageBox.Show($"Pracownik o kodzie {emoloyeeToDelete.code} został usunięty pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
