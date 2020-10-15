@@ -116,7 +116,17 @@ namespace SuperKurier.View
 
         private void AddCustomer_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = _noOfErrorsOnScreen == 0;
+
+            if(EmployeeMap.GetPushpinLocation() == null)
+            {
+                e.CanExecute = false;
+                MapBorder.BorderThickness = new Thickness(1);
+            }
+            else
+            {
+                e.CanExecute = _noOfErrorsOnScreen == 0;
+                MapBorder.BorderThickness = new Thickness(0);
+            }
             e.Handled = true;
         }
 

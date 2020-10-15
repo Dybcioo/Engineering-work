@@ -229,6 +229,10 @@ namespace SuperKurier.ViewModel
                         if (RegionSelected == null)
                             result = "Pole nie może być puste";
                         break;
+                    case "EmployeeMap":
+                        if (employeeView.EmployeeMap.GetPushpinLocation() == null)
+                            result = "Pole nie może być puste";
+                        break;
                 }
                 return result;
             }
