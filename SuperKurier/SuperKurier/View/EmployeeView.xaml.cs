@@ -143,7 +143,10 @@ namespace SuperKurier.View
 
         private void BtnDeleteEmployee_Click(object sender, RoutedEventArgs e)
         {
-
+            ((EmployeeEditViewModel)DataContext).ExecuteDeleteEmployee();
+            Employees = new BindableCollection<Employee>(companyEntities.Employee.ToList());
+            DataGridEmployees.DataContext = Employees;
+            TurnOnOffEmployeePanel(true);
         }
     }
 }

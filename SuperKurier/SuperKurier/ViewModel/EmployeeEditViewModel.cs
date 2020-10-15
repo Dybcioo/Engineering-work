@@ -229,10 +229,6 @@ namespace SuperKurier.ViewModel
                         if (RegionSelected == null)
                             result = "Pole nie może być puste";
                         break;
-                    case "EmployeeMap":
-                        if (employeeView.EmployeeMap.GetPushpinLocation() == null)
-                            result = "Pole nie może być puste";
-                        break;
                 }
                 return result;
             }
@@ -302,6 +298,12 @@ namespace SuperKurier.ViewModel
                 CompanyEntities.Entry(empl).CurrentValues.SetValues(Employee);
             }
                 CompanyEntities.SaveChanges();
+        }
+
+        public void ExecuteDeleteEmployee()
+        {
+            CompanyEntities.Employee.Remove(CompanyEntities.Employee.Find(Employee.id));
+            CompanyEntities.SaveChanges();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
