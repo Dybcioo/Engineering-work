@@ -310,7 +310,7 @@
             <DataGrid HorizontalAlignment="Stretch" Margin="0,100,0,0"  VerticalAlignment="Stretch" ColumnWidth="*"  />
         </DockPanel>
 
-        <ScrollViewer Visibility="Hidden"  x:Name="EmployeeScrollViewer" IsDeferredScrollingEnabled="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer Visibility="Hidden" x:Name="EmployeeScrollViewer" IsDeferredScrollingEnabled="True"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -410,6 +410,7 @@
                     </Grid>
                 </StackPanel>
                 <Button x:Name="BtnSaveEmployee" Content="Zapisz" Command="New" Click="BtnSaveEmployee_Click" HorizontalAlignment="Right" Margin="0,690,30,20" VerticalAlignment="Top" Width="auto" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Grid.Column="1"/>
+                <Button x:Name="BtnDeleteEmployee" Content="Usuń pracownika" Click="BtnDeleteEmployee_Click" HorizontalAlignment="Left" Margin="30,690,0,20" VerticalAlignment="Top" Width="auto" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Grid.Column="1"/>
             </Grid>
         </ScrollViewer>
     </Grid>

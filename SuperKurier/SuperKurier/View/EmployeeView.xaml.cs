@@ -59,6 +59,7 @@ namespace SuperKurier.View
             DataContext = new EmployeeEditViewModel(empl, IsBlack, this);
             TurnOnOffEmployeePanel(false);
             BtnSaveEmployee.Content = "Edytuj";
+            BtnDeleteEmployee.Visibility = Visibility.Visible;
         }
 
         private void EmployeeMap_MouseMove(object sender, MouseEventArgs e)
@@ -77,6 +78,7 @@ namespace SuperKurier.View
         {
             TurnOnOffEmployeePanel(false);
             BtnSaveEmployee.Content = "Dodaj nowego pracownika";
+            BtnDeleteEmployee.Visibility = Visibility.Hidden;
             DataContext = new EmployeeEditViewModel(new Employee(), IsBlack, this);
         }
 
@@ -137,6 +139,11 @@ namespace SuperKurier.View
             string text = BtnSearchEmployees.Text.ToUpper();
             Employees = new BindableCollection<Employee>(employees.Where(em => em.firstName.ToUpper().Contains(text) || em.lastName.ToUpper().Contains(text) || em.code.ToUpper().Contains(text)));
             DataGridEmployees.DataContext = Employees;
+        }
+
+        private void BtnDeleteEmployee_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
