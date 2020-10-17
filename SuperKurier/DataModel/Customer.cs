@@ -26,7 +26,7 @@ namespace DataModel
         public string firstName { get; set; }
         public string lastName { get; set; }
         public int tel { get; set; }
-        public int idCompany { get; set; }
+        public Nullable<int> idCompany { get; set; }
     
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

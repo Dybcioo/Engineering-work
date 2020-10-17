@@ -36,7 +36,7 @@ namespace SuperKurier.Command
                     viewModel.SelectedViewModel = new RegionViewModel();
                     break;
                 case "BtnEmployee":
-                    viewModel.SelectedViewModel = new EmployeeViewModel();
+                    viewModel.SelectedViewModel = new CustomerViewModel();
                     break;
                 case "BtnSettings":
                     viewModel.SelectedViewModel = new SettingViewModel(viewModel);

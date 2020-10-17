@@ -30,10 +30,10 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="firstName" Type="nvarchar" MaxLength="25" Nullable="false" />
-          <Property Name="lastName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="25" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="30" />
           <Property Name="tel" Type="int" Nullable="false" />
-          <Property Name="idCompany" Type="int" Nullable="false" />
+          <Property Name="idCompany" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -211,7 +211,7 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Customer_Company">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
@@ -632,10 +632,10 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="firstName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="lastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="lastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="tel" Type="Int32" Nullable="false" />
-          <Property Name="idCompany" Type="Int32" Nullable="false" />
+          <Property Name="idCompany" Type="Int32" />
           <NavigationProperty Name="Company" Relationship="Self.FK_Customer_Company" FromRole="Customer" ToRole="Company" />
           <NavigationProperty Name="Parcel" Relationship="Self.FK_Parcel_Customer" FromRole="Customer" ToRole="Parcel" />
           <NavigationProperty Name="Parcel1" Relationship="Self.FK_Parcel_Customer1" FromRole="Customer" ToRole="Parcel" />
@@ -835,7 +835,7 @@ warning 6002: The table/view 'Company.dbo.Customer_Address' does not have a prim
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Customer_Company">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
           <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
