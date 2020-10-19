@@ -22,6 +22,8 @@ namespace SuperKurier.ViewModel
                 {
                     Customer.firstName = value;
                     OnPropertyChange("CustomerFirstName");
+                    OnPropertyChange("CustomerCompanyNIP");
+                    OnPropertyChange("CustomerCompanyName");
                 }
             }
         }
@@ -31,36 +33,46 @@ namespace SuperKurier.ViewModel
             get { return Customer.lastName; }
             set
             {
-                if (value != Customer.firstName)
+                if (value != Customer.lastName)
                 {
                     Customer.lastName = value;
+                    OnPropertyChange("CustomerLastName");
+                    OnPropertyChange("CustomerCompanyNIP");
+                    OnPropertyChange("CustomerCompanyName");
+                }
+            }
+        }
+
+        private string _customerCompanyName;
+
+        public string CustomerCompanyName
+        {
+            get { return _customerCompanyName; }
+            set
+            {
+                if (Customer.Company == null || value != _customerCompanyName)
+                {
+                    _customerCompanyName = value;
+                    OnPropertyChange("CustomerCompanyName");
+                    OnPropertyChange("CustomerFirstName");
                     OnPropertyChange("CustomerLastName");
                 }
             }
         }
 
-        public string CustomerCompanyName
-        {
-            get { return Customer.Company.name; }
-            set
-            {
-                if (Customer.Company == null || value != Customer.Company.name)
-                {
-                    Customer.Company.name = value;
-                    OnPropertyChange("CustomerCompanyName");
-                }
-            }
-        }
+        private string _customerCompanyNIP;
 
-        public int CustomerCompanyNIP
+        public string CustomerCompanyNIP
         {
-            get { return Customer.Company.NIP; }
+            get { return _customerCompanyNIP; }
             set
             {
-                if (Customer.Company == null || value != Customer.Company.NIP)
+                if (Customer.Company == null || value != _customerCompanyNIP)
                 {
-                    Customer.Company.NIP = value;
-                    OnPropertyChange("CustomerCompanyName");
+                    _customerCompanyNIP = value;
+                    OnPropertyChange("CustomerCompanyNIP");
+                    OnPropertyChange("CustomerFirstName");
+                    OnPropertyChange("CustomerLastName");
                 }
             }
         }
@@ -75,16 +87,40 @@ namespace SuperKurier.ViewModel
                 switch (columnName)
                 {
                     case "CustomerFirstName":
+                        if (!string.IsNullOrEmpty(CustomerCompanyName) || !string.IsNullOrEmpty(CustomerCompanyNIP))
+                            break;
                         if (string.IsNullOrWhiteSpace(CustomerFirstName))
                             result = "Pole nie może być puste";
-                        else if (CustomerFirstName.Length > 20)
-                            result = "Długość imienia nie może przekraczać 20 znaków";
+                        else if (CustomerFirstName.Length > 25)
+                            result = "Długość imienia nie może przekraczać 25 znaków";
                         break;
                     case "CustomerLastName":
+                        if (!string.IsNullOrEmpty(CustomerCompanyName) || !string.IsNullOrEmpty(CustomerCompanyNIP))
+                            break;
                         if (string.IsNullOrWhiteSpace(CustomerLastName))
                             result = "Pole nie może być puste";
                         else if (CustomerLastName.Length > 30)
                             result = "Długość nazwiska nie może przekraczać 30 znaków";
+                        break;
+                    case "CustomerCompanyName":
+                        if (!string.IsNullOrEmpty(CustomerFirstName) || !string.IsNullOrEmpty(CustomerLastName))
+                            break;
+                        if (string.IsNullOrWhiteSpace(CustomerCompanyName))
+                            result = "Pole nie może być puste";
+                        else if (CustomerCompanyName.Length > 25)
+                            result = "Nazwa firmy nie może przekraczać 25 znaków";
+                        break;
+                    case "CustomerCompanyNIP":
+                        int NIP;
+                        bool condition = int.TryParse(CustomerCompanyNIP, out NIP);
+                        if (!string.IsNullOrEmpty(CustomerFirstName) || !string.IsNullOrEmpty(CustomerLastName))
+                            break;
+                        if (string.IsNullOrEmpty(CustomerCompanyNIP))
+                            result = "Pole nie może być puste";
+                        else if (!condition)
+                            result = "NIP musi zawierać wyłącznie cyfry";
+                        else if (CustomerCompanyNIP.Length != 10)
+                            result = "NIP musi zawierać 10 cyfr";
                         break;
                 }
                 return result;
@@ -94,6 +130,8 @@ namespace SuperKurier.ViewModel
         public CustomerEditViewModel(Customer customer)
         {
             Customer = customer;
+            _customerCompanyNIP = Customer.Company?.NIP.ToString();
+            _customerCompanyName = Customer.Company?.name.ToString();
         }
 
         public void ExecuteSaveEmployee()

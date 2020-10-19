@@ -320,7 +320,7 @@
                     <SolidColorBrush Color="{Binding BackgroundOption}" Opacity="0.8" />
                 </Grid.Background>
                 <Grid.CommandBindings>
-                    <CommandBinding Command="New" CanExecute="AddCustomer_CanExecute" />
+                    <CommandBinding Command="New" CanExecute="AddEmployee_CanExecute" />
                 </Grid.CommandBindings>
                 <Grid Grid.Column="1" Margin="0,0,10,0" Cursor="Hand" MouseDown="PackIcon_MouseDown" Width="30" Height="30" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Right" >
                     <materialDesign:PackIcon Kind="Close" Foreground="#FF8B0D0D"   Width="30" Height="30" />

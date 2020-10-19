@@ -67,7 +67,6 @@ namespace SuperKurier.ViewModel
             }
         }
 
-        private static bool _isBlack = false;
 
         public  bool IsBlack 
         {

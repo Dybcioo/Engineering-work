@@ -52,8 +52,54 @@ namespace SuperKurier.View
 
         private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var temp = (Customer)((DataGridRow)sender).Item;
-            MessageBox.Show(temp.Address.First().city);
+            var customer = (Customer)((DataGridRow)sender).Item;
+            DataContext = new CustomerEditViewModel(customer);
+            TurnOnOffCustomerPanel(false);
+            BtnSaveCustomer.Content = "Edytuj";
+            BtnDeleteCustomer.Visibility = Visibility.Visible;
+        }
+
+        private void TurnOnOffCustomerPanel(bool isOff)
+        {
+            if (isOff)
+                CustomerScrollViewer.Visibility = Visibility.Hidden;
+            else
+                CustomerScrollViewer.Visibility = Visibility.Visible;
+
+            btnEmployees.IsEnabled = isOff;
+            btnCustomer.IsEnabled = isOff;
+            PanelCustomers.IsEnabled = isOff;
+        }
+
+        private int _noOfErrorsOnScreen = 0;
+
+        private void Validation_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+                _noOfErrorsOnScreen++;
+            else
+                _noOfErrorsOnScreen--;
+        }
+
+        private void AddCustomer_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+
+            if (CustomerMap.GetPushpinLocation() == null)
+            {
+                e.CanExecute = false;
+                MapBorder.BorderThickness = new Thickness(1);
+            }
+            else
+            {
+                e.CanExecute = _noOfErrorsOnScreen == 0;
+                MapBorder.BorderThickness = new Thickness(0);
+            }
+            e.Handled = true;
+        }
+
+        private void PackIcon_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TurnOnOffCustomerPanel(true);
         }
 
         private void BtnSearchCustomers_TextChanged(object sender, TextChangedEventArgs e)
@@ -67,6 +113,11 @@ namespace SuperKurier.View
                 (em.Company != null &&  em.Company.name.ToUpper().Contains(text)    ||
                 (em.Company != null && em.Company.NIP.ToString().Contains(text)))));
             DataGridCustomers.DataContext = Customers;
+        }
+
+        private void CustomerMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            CustomerScrollViewer.ScrollToVerticalOffset(300D);
         }
     }
 }

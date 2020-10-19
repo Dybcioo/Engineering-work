@@ -116,7 +116,7 @@ namespace SuperKurier.View
                 _noOfErrorsOnScreen--;
         }
 
-        private void AddCustomer_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void AddEmployee_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
 
             if(EmployeeMap.GetPushpinLocation() == null)
