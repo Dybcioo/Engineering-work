@@ -68,7 +68,8 @@ namespace SuperKurier.View
                         MyMap.Children.Remove(MyMap.GetPolyline(temp));
                         while (e.LeftButton == MouseButtonState.Released) { await Task.Delay(25); }
                         var viewModel = (RegionViewModel)this.DataContext;
-                        viewModel.WarehouseSelectedRegion = viewModel.Warehouses.First(w => w.id == temp.idWarehouse);
+                        viewModel.WarehouseSelectedRegion = viewModel.Warehouses.FirstOrDefault(w => w.id == temp.idWarehouse);
+                        viewModel.EmployeeSelectedRegion = viewModel.Employees.FirstOrDefault(e => e.idRegion == temp.id);
                         CreateRegions_Click(s, es);
                         region = temp;
                     };
@@ -129,6 +130,8 @@ namespace SuperKurier.View
             DataModel.Localization startLocal = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
             DataModel.Localization endLocal = new DataModel.Localization() { latitude = polyline.Locations[2].Latitude.ToString(), longitude = polyline.Locations[2].Longitude.ToString() };
             Warehouse warehouse = (Warehouse)RegionWarehouse.SelectedItem;
+            Employee empl = (Employee)RegionEmployee.SelectedItem;
+            var employee = companyEntities.Employee.FirstOrDefault(e => e.id == empl.id);
             if (region != null)
             {
                 if (MyMap.IsAllowRegion(location, polyline.Locations[2], companyEntities, region.id))
@@ -142,6 +145,8 @@ namespace SuperKurier.View
                     var reg = companyEntities.Region.Find(region.id);
                     reg.code = $"{warehouse.code}/{reg.id}";
                     reg.idWarehouse = warehouse.id;
+                    employee.idRegion = reg.id;
+                    employee.Region = reg;
                     companyEntities.SaveChanges();
                     MessageBox.Show("Region edytowano pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -164,6 +169,8 @@ namespace SuperKurier.View
                 companyEntities.SaveChanges();
                 var temp = companyEntities.Region.OrderByDescending(r => r.id).First();
                 temp.code =  $"{warehouse.code}/{temp.id}";
+                employee.idRegion = temp.id;
+                employee.Region = temp;
                 companyEntities.SaveChanges();
                 MessageBox.Show("Region zapisano pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }

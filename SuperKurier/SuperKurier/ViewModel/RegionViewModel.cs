@@ -31,10 +31,26 @@ namespace SuperKurier.ViewModel
             }
         }
 
+        public BindableCollection<Employee> Employees { get; set; }
+        private Employee _employeeSelectedRegion;
+        public Employee EmployeeSelectedRegion
+        {
+            get
+            { return _employeeSelectedRegion; }
+            set
+            {
+                _employeeSelectedRegion = value;
+                OnPropertChanged(nameof(EmployeeSelectedRegion));
+            }
+        }
+
         public RegionViewModel()
         {
             Warehouses = new BindableCollection<Warehouse>(new CompanyEntities().Warehouse.ToList());
             WarehouseSelectedRegion = Warehouses.FirstOrDefault();
+
+            Employees = new BindableCollection<Employee>(new CompanyEntities().Employee.Where(e => e.Position.position1.Equals("Kurier")).ToList());
+            EmployeeSelectedRegion = Employees.FirstOrDefault();
         }
 
     }
