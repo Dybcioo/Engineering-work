@@ -27,6 +27,7 @@ namespace DataModel
         public string lastName { get; set; }
         public int tel { get; set; }
         public Nullable<int> idCompany { get; set; }
+        public int idAddress { get; set; }
     
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -35,5 +36,6 @@ namespace DataModel
         public virtual ICollection<Parcel> Parcel1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Address> Address { get; set; }
+        public virtual Address Address1 { get; set; }
     }
 }

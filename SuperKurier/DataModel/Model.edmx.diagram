@@ -45,6 +45,8 @@
         <AssociationConnector Association="CompanyModel.FK_ParcelMoving_Parcel" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Region_Warehouse" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.Customer_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyModel.FK_Customer_Address" />
+        <AssociationConnector Association="CompanyModel.FK_HistoryOfParcel_Status" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

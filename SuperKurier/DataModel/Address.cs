@@ -19,6 +19,7 @@ namespace DataModel
         {
             this.Employee = new HashSet<Employee>();
             this.Customer = new HashSet<Customer>();
+            this.Customer1 = new HashSet<Customer>();
         }
     
         public int id { get; set; }
@@ -34,5 +35,7 @@ namespace DataModel
         public virtual ICollection<Employee> Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customer { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Customer> Customer1 { get; set; }
     }
 }
