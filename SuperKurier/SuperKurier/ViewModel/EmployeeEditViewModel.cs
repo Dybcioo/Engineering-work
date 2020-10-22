@@ -225,10 +225,6 @@ namespace SuperKurier.ViewModel
                         if (WarehouseSelected == null)
                             result = "Pole nie może być puste";
                         break;
-                    case "RegionSelected":
-                        if (RegionSelected == null)
-                            result = "Pole nie może być puste";
-                        break;
                 }
                 return result;
             }
@@ -242,15 +238,12 @@ namespace SuperKurier.ViewModel
                 Employee.Address = new Address();
             employeeView = window;
             Positions = new BindableCollection<Position>(CompanyEntities.Position.ToList());
-            Regions = new BindableCollection<DataModel.Region>(CompanyEntities.Region.ToList());
             Warehouses = new BindableCollection<Warehouse>(CompanyEntities.Warehouse.ToList());
 
             if (employee.Position != null)
                 PositionSelected = employee.Position;
             if (employee.Warehouse != null)
                 WarehouseSelected = employee.Warehouse;
-            if (employee.Region != null)
-                RegionSelected = employee.Region;
 
             SaveEmployee = new RelayCommand(
                 () => ExecuteSaveEmployee(),
@@ -272,8 +265,6 @@ namespace SuperKurier.ViewModel
             Employee.idPosition = PositionSelected.id;
             Employee.idWarehouse = WarehouseSelected.id;
             Employee.Warehouse = WarehouseSelected;
-            Employee.idRegion = RegionSelected.id;
-            Employee.Region = RegionSelected;
 
             if (Employee.code == null)
             {
