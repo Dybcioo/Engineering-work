@@ -17,11 +17,9 @@ namespace DataModel
         public int id { get; set; }
         public System.DateTime date { get; set; }
         public int idParcel { get; set; }
-        public int idWarehouse { get; set; }
         public int idStatus { get; set; }
     
         public virtual Parcel Parcel { get; set; }
-        public virtual Warehouse Warehouse { get; set; }
         public virtual Status Status { get; set; }
     }
 }

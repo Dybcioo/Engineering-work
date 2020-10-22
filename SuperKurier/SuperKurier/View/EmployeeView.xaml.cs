@@ -36,20 +36,6 @@ namespace SuperKurier.View
             DataGridEmployees.DataContext = Employees;
         }
 
-        private void BtnEmployees_Click(object sender, RoutedEventArgs e)
-        {
-            btnEmployees.Background = new SolidColorBrush(Color.FromRgb(33, 150, 243));
-            btnCustomer.Background = Brushes.Black;
-            Panel.SetZIndex(btnEmployees, 1);
-        }
-
-        private void BtnCustomer_Click(object sender, RoutedEventArgs e)
-        {
-            btnCustomer.Background = new SolidColorBrush(Color.FromRgb(33, 150, 243));
-            btnEmployees.Background = Brushes.Black;
-            Panel.SetZIndex(btnEmployees, 0);
-        }
-
         private void DataGridEmployeesRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGridRow dgr = (DataGridRow)sender;
@@ -94,8 +80,6 @@ namespace SuperKurier.View
             else
                 EmployeeScrollViewer.Visibility = Visibility.Visible;
 
-            btnEmployees.IsEnabled = isOff;
-            btnCustomer.IsEnabled = isOff;
             PanelEmployees.IsEnabled = isOff;
         }
 

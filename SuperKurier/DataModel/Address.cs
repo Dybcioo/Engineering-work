@@ -17,9 +17,8 @@ namespace DataModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Address()
         {
-            this.Employee = new HashSet<Employee>();
             this.Customer = new HashSet<Customer>();
-            this.Customer1 = new HashSet<Customer>();
+            this.Employee = new HashSet<Employee>();
         }
     
         public int id { get; set; }
@@ -32,10 +31,8 @@ namespace DataModel
     
         public virtual Localization Localization { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employee { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Customer> Customer1 { get; set; }
+        public virtual ICollection<Employee> Employee { get; set; }
     }
 }

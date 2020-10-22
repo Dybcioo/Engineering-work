@@ -19,7 +19,6 @@ namespace DataModel
         {
             this.Parcel = new HashSet<Parcel>();
             this.Parcel1 = new HashSet<Parcel>();
-            this.Address = new HashSet<Address>();
         }
     
         public int id { get; set; }
@@ -29,13 +28,11 @@ namespace DataModel
         public Nullable<int> idCompany { get; set; }
         public int idAddress { get; set; }
     
+        public virtual Address Address { get; set; }
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Parcel> Parcel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Parcel> Parcel1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Address> Address { get; set; }
-        public virtual Address Address1 { get; set; }
     }
 }

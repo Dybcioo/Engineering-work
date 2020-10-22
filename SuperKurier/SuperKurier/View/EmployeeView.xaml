@@ -265,12 +265,6 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <Button x:Name="btnEmployees"  HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Panel.ZIndex="1" Width="80" Height="20"  Background="#FF2196F3" Foreground="{Binding ForegroundOption}" Click="BtnEmployees_Click" >
-            <TextBlock Text="Pracownicy" VerticalAlignment="Center" FontSize="10" Margin="-10,0,0,0"/>
-        </Button>
-        <Button x:Name="btnCustomer"  HorizontalAlignment="Left"  Margin="65,0,0,0" VerticalAlignment="Top" Width="80" Height="20"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="BtnCustomer_Click">
-            <TextBlock Text="Klienci" VerticalAlignment="Center" FontSize="10" Margin="0,0,0,0"/>
-        </Button>
         <DockPanel x:Name="PanelEmployees" HorizontalAlignment="Stretch" Margin="0,20,0,0" VerticalAlignment="Stretch" >
             <Label DockPanel.Dock="Top" Width="auto" HorizontalAlignment="Left" Margin="0,40,0,0" Content="Szukaj" Foreground="{Binding ForegroundOption}"/>
             <TextBox x:Name="BtnSearchEmployees" DockPanel.Dock="Top" HorizontalAlignment="Left" Margin="50,-20,0,0" ToolTip="Wyszukaj pracownika" VerticalAlignment="Top" Width="200" Height="20" Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}" TextChanged="BtnSearchEmployees_TextChanged"/>

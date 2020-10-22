@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CompanyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CompanyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="id" />
@@ -567,7 +567,8 @@
             <End Role="Region" EntitySet="Region" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CompanyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -583,9 +584,8 @@
           <Property Name="postalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="idLocalization" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Localization" Relationship="Self.FK_Address_Localization" FromRole="Address" ToRole="Localization" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Customer_Address" FromRole="Address" ToRole="Customer" />
           <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Employee" FromRole="Address" ToRole="Employee" />
-          <NavigationProperty Name="Customer" Relationship="Self.Customer_Address" FromRole="Address" ToRole="Customer" />
-          <NavigationProperty Name="Customer1" Relationship="CompanyModel.FK_Customer_Address" FromRole="Address" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -605,12 +605,11 @@
           <Property Name="lastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="tel" Type="Int32" Nullable="false" />
           <Property Name="idCompany" Type="Int32" />
+          <Property Name="idAddress" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_Customer_Address" FromRole="Customer" ToRole="Address" />
           <NavigationProperty Name="Company" Relationship="Self.FK_Customer_Company" FromRole="Customer" ToRole="Company" />
           <NavigationProperty Name="Parcel" Relationship="Self.FK_Parcel_Customer" FromRole="Customer" ToRole="Parcel" />
           <NavigationProperty Name="Parcel1" Relationship="Self.FK_Parcel_Customer1" FromRole="Customer" ToRole="Parcel" />
-          <NavigationProperty Name="Address" Relationship="Self.Customer_Address" FromRole="Customer" ToRole="Address" />
-          <Property Name="idAddress" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Address1" Relationship="CompanyModel.FK_Customer_Address" FromRole="Customer" ToRole="Address" />
         </EntityType>
         <EntityType Name="Document">
           <Key>
@@ -658,11 +657,9 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="idParcel" Type="Int32" Nullable="false" />
-          <Property Name="idWarehouse" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Parcel" Relationship="Self.FK_HistoryOfParcel_Parcel" FromRole="HistoryOfParcel" ToRole="Parcel" />
-          <NavigationProperty Name="Warehouse" Relationship="Self.FK_HistoryOfParcel_Warehouse" FromRole="HistoryOfParcel" ToRole="Warehouse" />
           <Property Name="idStatus" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Status" Relationship="CompanyModel.FK_HistoryOfParcel_Status" FromRole="HistoryOfParcel" ToRole="Status" />
+          <NavigationProperty Name="Parcel" Relationship="Self.FK_HistoryOfParcel_Parcel" FromRole="HistoryOfParcel" ToRole="Parcel" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_HistoryOfParcel_Status" FromRole="HistoryOfParcel" ToRole="Status" />
         </EntityType>
         <EntityType Name="Localization">
           <Key>
@@ -743,8 +740,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="status1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="HistoryOfParcel" Relationship="Self.FK_HistoryOfParcel_Status" FromRole="Status" ToRole="HistoryOfParcel" />
           <NavigationProperty Name="Parcel" Relationship="Self.FK_Parcel_Status" FromRole="Status" ToRole="Parcel" />
-          <NavigationProperty Name="HistoryOfParcel" Relationship="CompanyModel.FK_HistoryOfParcel_Status" FromRole="Status" ToRole="HistoryOfParcel" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -780,7 +777,6 @@
           <Property Name="code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Document" Relationship="Self.FK_Document_Warehouse" FromRole="Warehouse" ToRole="Document" />
           <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Warehouse" FromRole="Warehouse" ToRole="Employee" />
-          <NavigationProperty Name="HistoryOfParcel" Relationship="Self.FK_HistoryOfParcel_Warehouse" FromRole="Warehouse" ToRole="HistoryOfParcel" />
           <NavigationProperty Name="Parcel" Relationship="Self.FK_Parcel_Warehouse" FromRole="Warehouse" ToRole="Parcel" />
           <NavigationProperty Name="Region" Relationship="Self.FK_Region_Warehouse" FromRole="Warehouse" ToRole="Region" />
         </EntityType>
@@ -793,6 +789,18 @@
             </Principal>
             <Dependent Role="Address">
               <PropertyRef Name="idLocalization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="idAddress" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -952,15 +960,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_HistoryOfParcel_Warehouse">
-          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+        <Association Name="FK_HistoryOfParcel_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
           <End Role="HistoryOfParcel" Type="Self.HistoryOfParcel" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Warehouse">
+            <Principal Role="Status">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="HistoryOfParcel">
-              <PropertyRef Name="idWarehouse" />
+              <PropertyRef Name="idStatus" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1060,10 +1068,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Customer_Address">
-          <End Role="Address" Type="Self.Address" Multiplicity="*" />
-          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
-        </Association>
         <EntityContainer Name="CompanyEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Address" EntityType="Self.Address" />
           <EntitySet Name="Company" EntityType="Self.Company" />
@@ -1084,6 +1088,10 @@
           <AssociationSet Name="FK_Address_Localization" Association="Self.FK_Address_Localization">
             <End Role="Localization" EntitySet="Localization" />
             <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Address" Association="Self.FK_Customer_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
           <AssociationSet Name="FK_Employee_Employee" Association="Self.FK_Employee_Employee">
             <End Role="Address" EntitySet="Address" />
@@ -1137,8 +1145,8 @@
             <End Role="Parcel" EntitySet="Parcel" />
             <End Role="HistoryOfParcel" EntitySet="HistoryOfParcel" />
           </AssociationSet>
-          <AssociationSet Name="FK_HistoryOfParcel_Warehouse" Association="Self.FK_HistoryOfParcel_Warehouse">
-            <End Role="Warehouse" EntitySet="Warehouse" />
+          <AssociationSet Name="FK_HistoryOfParcel_Status" Association="Self.FK_HistoryOfParcel_Status">
+            <End Role="Status" EntitySet="Status" />
             <End Role="HistoryOfParcel" EntitySet="HistoryOfParcel" />
           </AssociationSet>
           <AssociationSet Name="FK_Region_Localization" Association="Self.FK_Region_Localization">
@@ -1173,43 +1181,7 @@
             <End Role="Warehouse" EntitySet="Warehouse" />
             <End Role="Region" EntitySet="Region" />
           </AssociationSet>
-          <AssociationSet Name="Customer_Address" Association="Self.Customer_Address">
-            <End Role="Address" EntitySet="Address" />
-            <End Role="Customer" EntitySet="Customer" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Customer_Address" Association="CompanyModel.FK_Customer_Address">
-            <End Role="Address" EntitySet="Address" />
-            <End Role="Customer" EntitySet="Customer" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HistoryOfParcel_Status" Association="CompanyModel.FK_HistoryOfParcel_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="HistoryOfParcel" EntitySet="HistoryOfParcel" />
-          </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_Customer_Address">
-          <End Type="CompanyModel.Address" Role="Address" Multiplicity="1" />
-          <End Type="CompanyModel.Customer" Role="Customer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Address">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="idAddress" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_HistoryOfParcel_Status">
-          <End Type="CompanyModel.Status" Role="Status" Multiplicity="1" />
-          <End Type="CompanyModel.HistoryOfParcel" Role="HistoryOfParcel" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="HistoryOfParcel">
-              <PropertyRef Name="idStatus" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1241,12 +1213,12 @@
           <EntitySetMapping Name="Customer">
             <EntityTypeMapping TypeName="CompanyModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="idAddress" ColumnName="idAddress" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="firstName" ColumnName="firstName" />
                 <ScalarProperty Name="lastName" ColumnName="lastName" />
                 <ScalarProperty Name="tel" ColumnName="tel" />
                 <ScalarProperty Name="idCompany" ColumnName="idCompany" />
+                <ScalarProperty Name="idAddress" ColumnName="idAddress" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1284,10 +1256,10 @@
           <EntitySetMapping Name="HistoryOfParcel">
             <EntityTypeMapping TypeName="CompanyModel.HistoryOfParcel">
               <MappingFragment StoreEntitySet="HistoryOfParcel">
-                <ScalarProperty Name="idStatus" ColumnName="idStatus" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="idParcel" ColumnName="idParcel" />
+                <ScalarProperty Name="idStatus" ColumnName="idStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

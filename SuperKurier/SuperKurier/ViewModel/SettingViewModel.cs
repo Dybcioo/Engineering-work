@@ -42,11 +42,15 @@ namespace SuperKurier.ViewModel
 
         public SettingViewModel(MainViewModel mainViewModel)
         {
-            BlackAndWhiteCommand = new BlackAndWhiteCommand(mainViewModel);
-            var temp = companyEntities.Warehouse.FirstOrDefault(w => w.id == Properties.Settings.Default.Warehouse);
-            if (temp != null)
-                WarehouseSelectedSetting = temp;
-            Warehouses = new BindableCollection<Warehouse>(companyEntities.Warehouse.ToList());
+            try
+            {
+                BlackAndWhiteCommand = new BlackAndWhiteCommand(mainViewModel);
+                var temp = companyEntities.Warehouse.FirstOrDefault(w => w.id == Properties.Settings.Default.Warehouse);
+                if (temp != null)
+                    WarehouseSelectedSetting = temp;
+                Warehouses = new BindableCollection<Warehouse>(companyEntities.Warehouse.ToList());
+            }
+            catch (Exception ex) { }
         }
     }
 }
