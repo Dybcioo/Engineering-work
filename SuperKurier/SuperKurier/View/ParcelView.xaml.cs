@@ -24,5 +24,10 @@ namespace SuperKurier.View
         {
             InitializeComponent();
         }
+
+        private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
