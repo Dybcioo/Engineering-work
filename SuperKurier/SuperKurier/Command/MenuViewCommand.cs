@@ -41,6 +41,9 @@ namespace SuperKurier.Command
                 case "BtnSettings":
                     viewModel.SelectedViewModel = new SettingViewModel(viewModel);
                     break;
+                case "BtnParcel":
+                    viewModel.SelectedViewModel = new ParcelViewModel();
+                    break;
             }
             viewModel.BlackAndWhiteLayout(viewModel.IsBlack);
             
