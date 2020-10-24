@@ -73,6 +73,7 @@
           <Property Name="date" Type="datetime" Nullable="false" />
           <Property Name="idParcel" Type="int" Nullable="false" />
           <Property Name="idStatus" Type="int" Nullable="false" />
+          <Property Name="idEmployee" Type="int" />
         </EntityType>
         <EntityType Name="Localization">
           <Key>
@@ -99,6 +100,9 @@
           <Property Name="idTypeOfParcel" Type="int" Nullable="false" />
           <Property Name="idWarehouse" Type="int" Nullable="false" />
           <Property Name="idStatus" Type="int" Nullable="false" />
+          <Property Name="height" Type="numeric" Precision="5" Scale="0" />
+          <Property Name="width" Type="numeric" Precision="5" Scale="0" />
+          <Property Name="length" Type="numeric" Precision="5" Scale="0" />
         </EntityType>
         <EntityType Name="ParcelMoving">
           <Key>
@@ -282,6 +286,18 @@
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="idWarehouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryOfParcel_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="HistoryOfParcel" Type="Self.HistoryOfParcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HistoryOfParcel">
+              <PropertyRef Name="idEmployee" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -510,6 +526,10 @@
             <End Role="Warehouse" EntitySet="Warehouse" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
+          <AssociationSet Name="FK_HistoryOfParcel_Employee" Association="Self.FK_HistoryOfParcel_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="HistoryOfParcel" EntitySet="HistoryOfParcel" />
+          </AssociationSet>
           <AssociationSet Name="FK_HistoryOfParcel_Parcel" Association="Self.FK_HistoryOfParcel_Parcel">
             <End Role="Parcel" EntitySet="Parcel" />
             <End Role="HistoryOfParcel" EntitySet="HistoryOfParcel" />
@@ -648,6 +668,7 @@
           <NavigationProperty Name="Position" Relationship="Self.FK_Employee_Position" FromRole="Employee" ToRole="Position" />
           <NavigationProperty Name="Region" Relationship="Self.FK_Employee_Region" FromRole="Employee" ToRole="Region" />
           <NavigationProperty Name="Warehouse" Relationship="Self.FK_Employee_Warehouse" FromRole="Employee" ToRole="Warehouse" />
+          <NavigationProperty Name="HistoryOfParcel" Relationship="Self.FK_HistoryOfParcel_Employee" FromRole="Employee" ToRole="HistoryOfParcel" />
           <NavigationProperty Name="ParcelMoving" Relationship="Self.FK_ParcelMoving_Employee" FromRole="Employee" ToRole="ParcelMoving" />
         </EntityType>
         <EntityType Name="HistoryOfParcel">
@@ -658,6 +679,8 @@
           <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="idParcel" Type="Int32" Nullable="false" />
           <Property Name="idStatus" Type="Int32" Nullable="false" />
+          <Property Name="idEmployee" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_HistoryOfParcel_Employee" FromRole="HistoryOfParcel" ToRole="Employee" />
           <NavigationProperty Name="Parcel" Relationship="Self.FK_HistoryOfParcel_Parcel" FromRole="HistoryOfParcel" ToRole="Parcel" />
           <NavigationProperty Name="Status" Relationship="Self.FK_HistoryOfParcel_Status" FromRole="HistoryOfParcel" ToRole="Status" />
         </EntityType>
@@ -689,6 +712,9 @@
           <Property Name="idTypeOfParcel" Type="Int32" Nullable="false" />
           <Property Name="idWarehouse" Type="Int32" Nullable="false" />
           <Property Name="idStatus" Type="Int32" Nullable="false" />
+          <Property Name="height" Type="Decimal" Precision="5" Scale="0" />
+          <Property Name="width" Type="Decimal" Precision="5" Scale="0" />
+          <Property Name="length" Type="Decimal" Precision="5" Scale="0" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_Parcel_Customer" FromRole="Parcel" ToRole="Customer" />
           <NavigationProperty Name="Customer1" Relationship="Self.FK_Parcel_Customer1" FromRole="Parcel" ToRole="Customer" />
           <NavigationProperty Name="HistoryOfParcel" Relationship="Self.FK_HistoryOfParcel_Parcel" FromRole="Parcel" ToRole="HistoryOfParcel" />
@@ -936,6 +962,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_HistoryOfParcel_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="HistoryOfParcel" Type="Self.HistoryOfParcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="HistoryOfParcel">
+              <PropertyRef Name="idEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ParcelMoving_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="ParcelMoving" Type="Self.ParcelMoving" Multiplicity="*" />
@@ -1137,6 +1175,10 @@
             <End Role="Warehouse" EntitySet="Warehouse" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
+          <AssociationSet Name="FK_HistoryOfParcel_Employee" Association="Self.FK_HistoryOfParcel_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="HistoryOfParcel" EntitySet="HistoryOfParcel" />
+          </AssociationSet>
           <AssociationSet Name="FK_ParcelMoving_Employee" Association="Self.FK_ParcelMoving_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="ParcelMoving" EntitySet="ParcelMoving" />
@@ -1260,6 +1302,7 @@
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="idParcel" ColumnName="idParcel" />
                 <ScalarProperty Name="idStatus" ColumnName="idStatus" />
+                <ScalarProperty Name="idEmployee" ColumnName="idEmployee" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1288,6 +1331,9 @@
                 <ScalarProperty Name="idTypeOfParcel" ColumnName="idTypeOfParcel" />
                 <ScalarProperty Name="idWarehouse" ColumnName="idWarehouse" />
                 <ScalarProperty Name="idStatus" ColumnName="idStatus" />
+                <ScalarProperty Name="height" ColumnName="height" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="length" ColumnName="length" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

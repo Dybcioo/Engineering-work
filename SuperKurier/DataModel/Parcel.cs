@@ -34,6 +34,9 @@ namespace DataModel
         public int idTypeOfParcel { get; set; }
         public int idWarehouse { get; set; }
         public int idStatus { get; set; }
+        public Nullable<decimal> height { get; set; }
+        public Nullable<decimal> width { get; set; }
+        public Nullable<decimal> length { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }

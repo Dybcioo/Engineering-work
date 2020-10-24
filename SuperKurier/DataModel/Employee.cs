@@ -18,6 +18,7 @@ namespace DataModel
         public Employee()
         {
             this.Document = new HashSet<Document>();
+            this.HistoryOfParcel = new HashSet<HistoryOfParcel>();
             this.ParcelMoving = new HashSet<ParcelMoving>();
         }
     
@@ -39,6 +40,8 @@ namespace DataModel
         public virtual Position Position { get; set; }
         public virtual Region Region { get; set; }
         public virtual Warehouse Warehouse { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HistoryOfParcel> HistoryOfParcel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ParcelMoving> ParcelMoving { get; set; }
     }
