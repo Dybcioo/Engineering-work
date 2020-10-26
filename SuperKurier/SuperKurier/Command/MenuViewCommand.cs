@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -12,9 +13,9 @@ namespace SuperKurier.Command
 {
     class MenuViewCommand : ICommand
     {
-        MainViewModel viewModel;
+        BaseViewModel viewModel;
 
-        public MenuViewCommand(MainViewModel viewModel)
+        public MenuViewCommand(BaseViewModel viewModel)
         {
             this.viewModel = viewModel;
         }
@@ -28,7 +29,7 @@ namespace SuperKurier.Command
 
         public void Execute(object parameter)
         {
-            var temp = (Button)parameter;
+            var temp = (FrameworkElement)parameter;
 
             switch (temp?.Name)
             {
@@ -39,7 +40,7 @@ namespace SuperKurier.Command
                     viewModel.SelectedViewModel = new EmployeeViewModel();
                     break;
                 case "BtnSettings":
-                    viewModel.SelectedViewModel = new SettingViewModel(viewModel);
+                    viewModel.SelectedViewModel = new SettingViewModel((MainViewModel)viewModel);
                     break;
                 case "BtnParcel":
                     viewModel.SelectedViewModel = new ParcelViewModel();

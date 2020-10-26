@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace SuperKurier.ViewModel
@@ -17,6 +18,30 @@ namespace SuperKurier.ViewModel
         protected void OnPropertChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private ICommand _menuViewCommand;
+
+        public ICommand MenuViewCommand
+        {
+            get { return _menuViewCommand; }
+            set
+            {
+                _menuViewCommand = value;
+                OnPropertChanged(nameof(MenuViewCommand));
+            }
+        }
+
+        private BaseViewModel _selectedViewModel;
+
+        public BaseViewModel SelectedViewModel
+        {
+            get { return _selectedViewModel; }
+            set
+            {
+                _selectedViewModel = value;
+                OnPropertChanged(nameof(SelectedViewModel));
+            }
         }
 
         private string _backgroundOption;

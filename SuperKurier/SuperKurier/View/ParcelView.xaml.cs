@@ -1,4 +1,5 @@
 ﻿using DataModel;
+using SuperKurier.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,14 +49,15 @@ namespace SuperKurier.View
 
         }
 
-        private void SendParcel_MouseDown(object sender, MouseButtonEventArgs e)
+        private void btnSearchParcel_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
 
-        private void btnSearchParcel_TextChanged(object sender, TextChangedEventArgs e)
+        private void BtnParcelAdd_Click(object sender, RoutedEventArgs e)
         {
-
+            ((ParcelViewModel)DataContext).AddViewModel = new ParcelAddViewModel();
+            frame.Visibility = Visibility;
         }
     }
 }

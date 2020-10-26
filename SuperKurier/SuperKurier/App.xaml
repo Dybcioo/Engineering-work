@@ -35,6 +35,9 @@
             <DataTemplate DataType="{x:Type viewModel:ParcelViewModel}">
                 <view:ParcelView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:ParcelAddViewModel}">
+                <view:ParceleditView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,4 +1,4 @@
-﻿<Page x:Class="SuperKurier.View.ParcelView"
+﻿<Page x:Class="SuperKurier.View.ParceleditView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,7 +13,7 @@
         fw:AcrylicWindow.TintOpacity="0.8"
         mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ParcelView">
+      Title="ParcelAddView">
 
     <Page.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
@@ -264,90 +264,8 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="2.7*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="Transparent">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Background="Transparent" x:Name="BtnParcelAdd"  Width="70" Height="50"  Click="BtnParcelAdd_Click" BorderBrush="Transparent">
-                <materialDesign:PackIcon Kind="Send" Foreground="Green"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="45" Height="45"   />
-            </Button>
-            <Label VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,60,0,0" Foreground="{Binding ForegroundOption}">Nadaj przesyłkę</Label>
-
-            <Label Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="{Binding ForegroundOption}">Szukaj:</Label>
-            <TextBox Grid.Column="1" x:Name="btnSearchParcel" Margin="55,0,0,0" MaxWidth="250"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}" TextChanged="btnSearchParcel_TextChanged" />
-
-            <Grid Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Margin="21,0,0,0" Foreground="{Binding ForegroundOption}" VerticalAlignment="Center">Status:</Label>
-                <ComboBox Grid.Row="0" x:Name="ParcelStatus" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch"  Margin="65,0,0,0"  ItemsSource="{Binding Status}" Background="{Binding InputOption}"
-                                SelectedItem="{Binding StatusSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25" MaxWidth="250" VerticalAlignment="Center">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding status, UpdateSourceTrigger=PropertyChange}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-
-                <Label Grid.Row="1" Margin="5,0,0,0" Foreground="{Binding ForegroundOption}" VerticalAlignment="Center">Magazyn:</Label>
-                <ComboBox Grid.Row="1" x:Name="ParcelWarehouse" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch"  Margin="65,0,0,0"  ItemsSource="{Binding Warehouse}" Background="{Binding InputOption}"
-                                SelectedItem="{Binding WarehouseSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25" MaxWidth="250" VerticalAlignment="Center">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding code, UpdateSourceTrigger=PropertyChanged}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            
-
-                <Label Grid.Row="2" Margin="19,0,0,0" Foreground="{Binding ForegroundOption}" VerticalAlignment="Center">Rodzaj:</Label>
-                <ComboBox Grid.Row="2" x:Name="ParcelType" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch"  Margin="65,0,0,0"  ItemsSource="{Binding TypeOfParcel}" Background="{Binding InputOption}"
-                                SelectedItem="{Binding TypeOfParcelSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25" MaxWidth="250" VerticalAlignment="Center">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding type, UpdateSourceTrigger=PropertyChanged}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </Grid>
-            <Grid Grid.Column="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="0.8*"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Foreground="{Binding ForegroundOption}">Nadana po:</Label>
-                <DatePicker Grid.Row="0" Margin="10,18,50,0" Foreground="{Binding ForegroundOption}"></DatePicker>
-                <Label Grid.Row="1" Foreground="{Binding ForegroundOption}">Nadana przed:</Label>
-                <DatePicker Grid.Row="1" Margin="10,18,50,0" Foreground="{Binding ForegroundOption}"></DatePicker>
-                <Button Grid.Row="2" Height="25" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}">Szukaj</Button>
-            </Grid>
-        </Grid>
-        <DataGrid Grid.Row="1" x:Name="DataGridParcel" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" ColumnWidth="*">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Kod"  Binding="{Binding code}"/>
-                <DataGridTextColumn Header="Data nadania" Binding="{Binding dateOfShipment}" />
-                <DataGridTextColumn Header="Wartość" Binding="{Binding amount}" />
-                <DataGridTextColumn Header="Rodzaj przesyłki" Binding="{Binding TypeOfParcel.type}" />
-                <DataGridTextColumn Header="Status" Binding="{Binding Status.status}" />
-            </DataGrid.Columns>
-            <DataGrid.Resources>
-                <Style TargetType="DataGridRow">
-                    <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick" />
-                </Style>
-            </DataGrid.Resources>
-        </DataGrid>
-        <Frame Grid.RowSpan="2" Content="{Binding AddViewModel}" Name="frame"  NavigationUIVisibility="Hidden" Visibility="Hidden"/>
+        
+    <Grid Background="Green">
+        
     </Grid>
 </Page>
