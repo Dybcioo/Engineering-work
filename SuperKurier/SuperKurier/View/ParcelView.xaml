@@ -276,7 +276,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <materialDesign:PackIcon Kind="Send" Foreground="Green"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="45" Height="45" MouseDown="SendParcel_MouseDown" />
+            <Grid Grid.Column="0" Background="Transparent" Cursor="Hand" Width="50" Height="50" MouseDown="SendParcel_MouseDown">
+                <materialDesign:PackIcon Kind="Send" Foreground="Green"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="45" Height="45"   />
+            </Grid>
             <Label VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,60,0,0" Foreground="{Binding ForegroundOption}">Nadaj przesyłkę</Label>
 
             <Label Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="{Binding ForegroundOption}">Szukaj:</Label>
