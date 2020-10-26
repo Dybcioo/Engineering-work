@@ -8,5 +8,6 @@ namespace SuperKurier.ViewModel
 {
     class ParcelViewModel : BaseViewModel
     {
+
     }
 }

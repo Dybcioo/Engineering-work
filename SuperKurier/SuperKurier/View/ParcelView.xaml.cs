@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,12 +21,39 @@ namespace SuperKurier.View
     /// </summary>
     public partial class ParcelView : Page
     {
+
+        CompanyEntities companyEntities;
+
         public ParcelView()
         {
             InitializeComponent();
+
+            this.companyEntities = new CompanyEntities();
+            gridDataInitialize();
+        }
+
+        private void gridDataInitialize()
+        {
+            try
+            {
+                DataGridParcel.DataContext = companyEntities.Parcel.ToList();
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void SendParcel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void btnSearchParcel_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
