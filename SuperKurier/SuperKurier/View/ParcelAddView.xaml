@@ -11,9 +11,8 @@
         fw:AcrylicWindow.NoiseOpacity="0"
         fw:AcrylicWindow.TintColor="{Binding BackgroundOption}"
         fw:AcrylicWindow.TintOpacity="0.8"
-        mc:Ignorable="d"
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="ParcelAddView">
+        mc:Ignorable="d" d:DesignWidth="800"
+      Title="ParcelAddView" >
 
     <Page.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
@@ -264,8 +263,184 @@
             </Setter>
         </Style>
     </Page.Resources>
-        
-    <Grid Background="Green">
-        
+
+    <Grid >
+        <Grid Panel.ZIndex="1" VerticalAlignment="Top" Height="35" Background="{Binding BackgroundOption}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Foreground="{Binding ForegroundOption}" VerticalAlignment="Top"  Height="auto" FontWeight="Bold" FontSize="14">Nadawca</Label>
+            <Label Grid.Column="1" Foreground="{Binding ForegroundOption}" VerticalAlignment="Top"  Height="auto" FontWeight="Bold" FontSize="14">Odbiorca</Label>
+            <Label Grid.Column="2" Foreground="{Binding ForegroundOption}" VerticalAlignment="Top"  Height="auto" FontWeight="Bold" FontSize="14">Dane przesyłki</Label>
+            <Label Grid.Column="3" Foreground="{Binding ForegroundOption}" VerticalAlignment="Top"  Height="auto" FontWeight="Bold" FontSize="14">Mapa</Label>
+        </Grid>
+        <ScrollViewer x:Name="ParcelScrollViewer" VerticalScrollBarVisibility="Auto">
+            <Grid Background="{Binding BackgroundOption}" MinHeight="700">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.7*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="1.5*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Label Grid.Row="1" Content="Imię:" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="1" x:Name="SenderFirstName" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding SenderFirstName, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="2" Content="Nazwisko:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="2" x:Name="SenderLastName" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding SenderLastName, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="3" Content="Nazwa firmy:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="3" x:Name="SenderCompanyName" HorizontalAlignment="Stretch" Height="23" Margin="15,25,30,0" TextWrapping="Wrap" Text="{Binding Path=SenderCompanyName, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="4" Content="NIP:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="4" x:Name="SenderCompanyNIP" HorizontalAlignment="Stretch" Height="23" Margin="15,25,30,0" TextWrapping="Wrap" Text="{Binding Path=SenderCompanyNIP, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="5" Content="Numer telefonu:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="5" x:Name="SenderTel" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding SenderTel, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="6" Content="Kraj:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="6" x:Name="SenderCountry" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding SenderCountry, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="7" Content="Miasto:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="7" x:Name="SenderCity" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding SenderCity, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="8" Content="Kod pocztowy:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="8" x:Name="SenderPostalCode" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding SenderPostalCode, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="9" Content="Ulica:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="9" x:Name="SenderStreet" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding SenderStreet, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="10" Content="Numer domu/mieszkania:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="10" x:Name="SenderNumberOfHouse" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,50" Text="{Binding SenderNumberOfHouse, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.7*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="1.5*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="1" Content="Imię:" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="1" x:Name="ReceiverFirstName" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding ReceiverFirstName, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="2" Content="Nazwisko:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="2" x:Name="ReceiverLastName" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding ReceiverLastName, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="3" Content="Nazwa firmy:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="3" x:Name="ReceiverCompanyName" HorizontalAlignment="Stretch" Height="23" Margin="15,25,30,0" TextWrapping="Wrap" Text="{Binding Path=ReceiverCompanyName, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="4" Content="NIP:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto"  Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="4" x:Name="ReceiverCompanyNIP" HorizontalAlignment="Stretch" Height="23" Margin="15,25,30,0" TextWrapping="Wrap" Text="{Binding Path=ReceiverCompanyNIP, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="5" Content="Numer telefonu:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="5" x:Name="ReceiverTel" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding ReceiverTel, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="6" Content="Kraj:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="6" x:Name="ReceiverCountry" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding ReceiverCountry, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="7" Content="Miasto:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="7" x:Name="ReceiverCity" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding ReceiverCity, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="8" Content="Kod pocztowy:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="8" x:Name="ReceiverPostalCode" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding ReceiverPostalCode, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="9" Content="Ulica:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="9" x:Name="ReceiverStreet" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,0" Text="{Binding ReceiverStreet, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="10" Content="Numer domu/mieszkania:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="10" x:Name="ReceiverNumberOfHouse" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,50" Text="{Binding ReceiverNumberOfHouse, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                </Grid>
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.45*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="1" Content="Waga:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="1" x:Name="ParcelWeight" HorizontalAlignment="Stretch"  Height="23" Margin="15,35,30,50" Text="{Binding ParcelWeight, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="1" HorizontalAlignment="Right" Margin="0,35,5,50" Foreground="{Binding ForegroundOption}">Kg</Label>
+                    <Label Grid.Row="2" Content="Wysokość:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="2" x:Name="ParcelHeight" HorizontalAlignment="Stretch"  Height="23" Margin="15,35,30,50" Text="{Binding ParcelHeight, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="2" HorizontalAlignment="Right" Margin="0,35,5,50" Foreground="{Binding ForegroundOption}">cm</Label>
+                    <Label Grid.Row="3" Content="Szerokość:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="3" x:Name="ParcelWidth" HorizontalAlignment="Stretch"  Height="23" Margin="15,35,30,50" Text="{Binding ParcelWidth, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="3" HorizontalAlignment="Right" Margin="0,35,5,50" Foreground="{Binding ForegroundOption}">cm</Label>
+                    <Label Grid.Row="4" Content="Długość:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="4" x:Name="ParcelLength" HorizontalAlignment="Stretch"  Height="23" Margin="15,35,30,50" Text="{Binding ParcelLength, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="4" HorizontalAlignment="Right" Margin="0,35,5,50" Foreground="{Binding ForegroundOption}">cm</Label>
+                    <Label Grid.Row="5" Content="Szacowana wartość:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <TextBox Grid.Row="5" x:Name="ParcelWorth" HorizontalAlignment="Stretch"  Height="23" Margin="15,35,30,50" Text="{Binding ParcelWorth, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
+                    <Label Grid.Row="5" HorizontalAlignment="Right" Margin="0,35,5,50" Foreground="{Binding ForegroundOption}">zł</Label>
+                    <Label Grid.Row="6" Content="Typ:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}"/>
+                    <ComboBox Grid.Row="6" x:Name="ParcelType" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch" VerticalAlignment="Top"  Margin="15,35,30,50"  ItemsSource="{Binding ParcelType}" Background="{Binding InputOption}"
+                            SelectedItem="{Binding ParcelTypeSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" IsSynchronizedWithCurrentItem="True" Validation.Error="Validation_Error">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding type, UpdateSourceTrigger=PropertyChanged,
+                                ValidatesOnDataErrors=true, NotifyOnValidationError=true}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+                <Grid Grid.Column="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="1.8*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="0.4*"/>
+                        <RowDefinition Height="0.4*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <m:Map Grid.Row="1" Height="auto" Width="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ParcelMap" Margin="10" MouseMove="ParcelMap_MouseMove" CredentialsProvider="4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA"
+                   Mode="Road">
+                    </m:Map>
+                    <Grid Grid.Row="3" Margin="30" Background="{Binding InputOption}">
+                        <CheckBox  Foreground="{Binding ForegroundOption}"  >Generuj etykiete</CheckBox>
+                    </Grid>
+                    <Grid Grid.Row="4" Margin="30" Background="{Binding InputOption}">
+                        <CheckBox Foreground="{Binding ForegroundOption}" >Generuj potwierdzenie nadania</CheckBox>
+                    </Grid>
+                    
+                    <Button Grid.Row="5" Width="200" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}">Nadaj przesyłkę</Button>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

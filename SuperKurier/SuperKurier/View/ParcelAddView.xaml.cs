@@ -24,5 +24,20 @@ namespace SuperKurier.View
         {
             InitializeComponent();
         }
+
+        private int _noOfErrorsOnScreen = 0;
+
+        private void Validation_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+                _noOfErrorsOnScreen++;
+            else
+                _noOfErrorsOnScreen--;
+        }
+
+        private void ParcelMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            ParcelScrollViewer.ScrollToVerticalOffset(0D);
+        }
     }
 }
