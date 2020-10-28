@@ -101,6 +101,9 @@
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Tariff.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="TypeOfDocument.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

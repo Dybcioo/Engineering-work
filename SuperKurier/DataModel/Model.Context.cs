@@ -38,6 +38,7 @@ namespace DataModel
         public virtual DbSet<Region> Region { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<Tariff> Tariff { get; set; }
         public virtual DbSet<TypeOfDocument> TypeOfDocument { get; set; }
         public virtual DbSet<TypeOfParcel> TypeOfParcel { get; set; }
         public virtual DbSet<Warehouse> Warehouse { get; set; }
