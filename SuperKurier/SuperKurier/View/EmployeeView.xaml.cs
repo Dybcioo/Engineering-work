@@ -25,7 +25,6 @@ namespace SuperKurier.View
     public partial class EmployeeView : Page
     {
 
-        public bool IsBlack = true;
         public BindableCollection<Employee> Employees { get; set; }
         private CompanyEntities companyEntities = new CompanyEntities();
 
@@ -42,7 +41,7 @@ namespace SuperKurier.View
             Employee empl = (Employee)dgr.Item;
             if (empl.Address != null && empl.Address.Localization != null)
                 EmployeeMap.CheckingPushpin(e, new Location() { Latitude = double.Parse(empl.Address.Localization.latitude), Longitude = double.Parse(empl.Address.Localization.longitude) });
-            DataContext = new EmployeeEditViewModel(empl, IsBlack, this);
+            DataContext = new EmployeeEditViewModel(empl, this);
             TurnOnOffEmployeePanel(false);
             BtnSaveEmployee.Content = "Edytuj";
             BtnDeleteEmployee.Visibility = Visibility.Visible;
@@ -65,7 +64,7 @@ namespace SuperKurier.View
             TurnOnOffEmployeePanel(false);
             BtnSaveEmployee.Content = "Dodaj nowego pracownika";
             BtnDeleteEmployee.Visibility = Visibility.Hidden;
-            DataContext = new EmployeeEditViewModel(new Employee(), IsBlack, this);
+            DataContext = new EmployeeEditViewModel(new Employee(), this);
         }
 
         private void PackIcon_MouseDown(object sender, MouseButtonEventArgs e)

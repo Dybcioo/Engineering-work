@@ -17,14 +17,10 @@ using System.Windows.Media;
 
 namespace SuperKurier.ViewModel
 {
-    class EmployeeEditViewModel : INotifyPropertyChanged, IDataErrorInfo
+    class EmployeeEditViewModel : BaseViewModel, INotifyPropertyChanged, IDataErrorInfo
     {
         private Employee Employee;
         private CompanyEntities CompanyEntities = new CompanyEntities();
-        public string BackgroundOption { get; set; }
-        public string ForegroundOption { get; set; }
-        public string InputOption { get; set; }
-        public Color ColorBtn { get; set; }
         private EmployeeView employeeView;
 
         public string EmployeeFirstName
@@ -230,9 +226,8 @@ namespace SuperKurier.ViewModel
             }
         }
 
-        public EmployeeEditViewModel(Employee employee, bool black, EmployeeView window)
+        public EmployeeEditViewModel(Employee employee, EmployeeView window)
         {
-            BlackAndWhiteLayout(black);
             Employee = employee;
             if (Employee.Address == null)
                 Employee.Address = new Address();
@@ -308,24 +303,6 @@ namespace SuperKurier.ViewModel
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void BlackAndWhiteLayout(bool black)
-        {
-            if (black)
-            {
-                BackgroundOption = "Black";
-                ForegroundOption = "White";
-                InputOption = "#FF787878";
-                ColorBtn = Color.FromArgb(100, 104, 104, 104);
-            }
-            else
-            {
-                BackgroundOption = "White";
-                ForegroundOption = "Black";
-                InputOption = "#FF6EAAFF";
-                ColorBtn = Color.FromArgb(100, 193, 193, 193);
             }
         }
     }
