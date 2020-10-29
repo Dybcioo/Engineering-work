@@ -265,7 +265,7 @@
     </Page.Resources>
 
     <Grid >
-        <Grid Panel.ZIndex="1" VerticalAlignment="Top" Height="35" Background="{Binding BackgroundOption}">
+        <Grid Panel.ZIndex="1" VerticalAlignment="Top" Height="35" Background="{Binding BackgroundOption}" Opacity="0.8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
