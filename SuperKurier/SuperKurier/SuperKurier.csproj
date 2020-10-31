@@ -79,6 +79,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Device" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -106,6 +107,7 @@
     </ApplicationDefinition>
     <Compile Include="Command\BlackAndWhiteCommand.cs" />
     <Compile Include="Command\MenuViewCommand.cs" />
+    <Compile Include="Model\Route.cs" />
     <Compile Include="Tool\RegionTool.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CustomerEditViewModel.cs" />
