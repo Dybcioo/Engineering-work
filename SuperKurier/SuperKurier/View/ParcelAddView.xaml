@@ -265,6 +265,9 @@
     </Page.Resources>
 
     <Grid >
+        <Grid.CommandBindings>
+            <CommandBinding Command="New" CanExecute="SendParcel_CanExecute" />
+        </Grid.CommandBindings>
         <Grid Panel.ZIndex="1" VerticalAlignment="Top" Height="35" Background="{Binding BackgroundOption}" Opacity="0.8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -437,7 +440,7 @@
                         <RowDefinition Height="48*"/>
                     </Grid.RowDefinitions>
                     <m:Map Grid.Row="1"  MinHeight="300" Width="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ParcelMap" Margin="10" MouseDoubleClick="ParcelMap_MouseDoubleClick" MouseMove="ParcelMap_MouseMove" CredentialsProvider="4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA"
-                   Mode="Road">
+                   Mode="Road" MouseRightButtonDown="ParcelMap_MouseRightButtonDown">
                     </m:Map>
                     <Button Grid.Row="2" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40"  MaxWidth="250" >Oblicz koszt</Button>
                     <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" Margin="0,0,70,0" Foreground="{Binding ForegroundOption}">Koszt nadania przesyłki: </TextBlock>
@@ -449,7 +452,7 @@
                         <CheckBox Foreground="{Binding ForegroundOption}" >Generuj potwierdzenie nadania</CheckBox>
                     </Grid>
 
-                    <Button Grid.Row="7" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40" MaxWidth="250" Margin="60,24">Nadaj przesyłkę</Button>
+                    <Button Grid.Row="7" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40" MaxWidth="250" Margin="60,24" Command="New">Nadaj przesyłkę</Button>
                 </Grid>
             </Grid>
         </ScrollViewer>

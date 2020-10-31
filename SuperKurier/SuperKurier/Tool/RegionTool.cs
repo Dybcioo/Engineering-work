@@ -351,5 +351,13 @@ namespace SuperKurier
             return false;
         }
 
+        public static void PinPushpinWithName(this Map MyMap, Location location ,string name)
+        {
+            Pushpin pin = new Pushpin();
+            pin.Location = location;
+            pin.Content = name;
+            MyMap.Children.Add(pin);
+        }
+
     }
 }
