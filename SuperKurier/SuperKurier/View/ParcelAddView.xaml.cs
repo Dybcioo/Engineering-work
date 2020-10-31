@@ -90,23 +90,24 @@ namespace SuperKurier.View
             var parcelAddViewModel = (ParcelAddViewModel)DataContext;
 
             senderBuilder.Append($"&countryRegion={parcelAddViewModel.SenderCountry}");
-            senderBuilder.Append($"&locality={parcelAddViewModel.SenderStreet}");
+            senderBuilder.Append($"&locality={parcelAddViewModel.SenderCity}");
             senderBuilder.Append($"&postalCode={parcelAddViewModel.SenderPostalCode}");
-            senderBuilder.Append($"&addressLine={parcelAddViewModel.SenderNumberOfHouse}");
+            senderBuilder.Append($"&addressLine={parcelAddViewModel.SenderStreet} {parcelAddViewModel.SenderNumberOfHouse}");
             senderBuilder.Append($"&key={MAP_KEY}");
 
             var from = PinIt(senderBuilder.ToString(), "Nadawca");
 
             receiverBuilder.Append($"&countryRegion={parcelAddViewModel.ReceiverCountry}");
-            receiverBuilder.Append($"&locality={parcelAddViewModel.ReceiverStreet}");
+            receiverBuilder.Append($"&locality={parcelAddViewModel.ReceiverCity}");
             receiverBuilder.Append($"&postalCode={parcelAddViewModel.ReceiverPostalCode}");
-            receiverBuilder.Append($"&addressLine={parcelAddViewModel.ReceiverNumberOfHouse}");
+            receiverBuilder.Append($"&addressLine={parcelAddViewModel.ReceiverStreet} {parcelAddViewModel.ReceiverNumberOfHouse}");
             receiverBuilder.Append($"&key={MAP_KEY}");
 
             var to = PinIt(receiverBuilder.ToString(), "Odbiorca");
 
             string uri = $"http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0={from.Latitude},{from.Longitude}&wp.1={to.Latitude},{to.Longitude}&rpo=Points&key={MAP_KEY}";
             Route(DriveRoute(uri));
+            SetDistanceAndDuration();
         }
 
         private Location PinIt(string url, string person)
@@ -178,7 +179,35 @@ namespace SuperKurier.View
                 ParcelMap.Children.Add(routeLine);
 
                 ParcelMap.SetView(locs, new Thickness(30), 0);
+                var parcelAddViewModel = (ParcelAddViewModel)DataContext;
+                parcelAddViewModel.ParcelDistance = route.TravelDistance;
+                parcelAddViewModel.ParcelDuration = route.TravelDuration;
             }
+        }
+
+        private void SetDistanceAndDuration()
+        {
+            var parcelAddViewModel = (ParcelAddViewModel)DataContext;
+
+            double distance = parcelAddViewModel.ParcelDistance;
+
+            if (distance != 0)
+                ParcelDistance.Content = $"{distance} km";
+
+            double duration = parcelAddViewModel.ParcelDuration;
+
+            if (duration == 0)
+                return;
+            int hours = (int)duration / 3600;
+            int minutes = (int)(duration - (hours * 3600)) / 60;
+
+            string hoursString = "";
+            string minutesString = "";
+
+            hoursString = hours < 10 ? $"0{hours}" : hours.ToString();
+            minutesString = minutes < 10 ? $"0{minutes}" : minutes.ToString();
+
+            ParcelDuration.Content = $"{hoursString}:{minutesString} h";
         }
     }
 }
