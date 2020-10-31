@@ -276,13 +276,19 @@
             <Label Grid.Column="1" Foreground="{Binding ForegroundOption}" VerticalAlignment="Top"  Height="auto" FontWeight="Bold" FontSize="14">Odbiorca</Label>
             <Label Grid.Column="2" Foreground="{Binding ForegroundOption}" VerticalAlignment="Top"  Height="auto" FontWeight="Bold" FontSize="14">Dane przesyłki</Label>
             <Label Grid.Column="3" Foreground="{Binding ForegroundOption}" VerticalAlignment="Top"  Height="auto" FontWeight="Bold" FontSize="14">Mapa</Label>
+            <Grid Grid.Column="3" Margin="0,0,20,0" Cursor="Hand" MouseDown="Exit_MouseDown" Width="30" Height="30" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Right" >
+                <materialDesign:PackIcon Kind="Close" Foreground="#FF8B0D0D"   Width="30" Height="30" />
+            </Grid>
         </Grid>
         <ScrollViewer x:Name="ParcelScrollViewer" VerticalScrollBarVisibility="Auto">
             <Grid Background="{Binding BackgroundOption}" MinHeight="600">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.1*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.1*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.1*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" >
@@ -331,7 +337,7 @@
                     <TextBox Grid.Row="10" x:Name="SenderNumberOfHouse" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,50" Text="{Binding SenderNumberOfHouse, UpdateSourceTrigger=PropertyChanged,
                             ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
                 </Grid>
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.7*"/>
                         <RowDefinition Height="*"/>
@@ -377,7 +383,7 @@
                     <TextBox Grid.Row="10" x:Name="ReceiverNumberOfHouse" HorizontalAlignment="Stretch"  Height="23" Margin="15,25,30,50" Text="{Binding ReceiverNumberOfHouse, UpdateSourceTrigger=PropertyChanged,
                             ValidatesOnDataErrors=true, NotifyOnValidationError=true}" Validation.Error="Validation_Error"  TextWrapping="Wrap" VerticalAlignment="Top"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"/>
                 </Grid>
-                <Grid Grid.Column="2">
+                <Grid Grid.Column="4">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.5*"/>
                         <RowDefinition Height="*"/>
@@ -419,26 +425,31 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </Grid>
-                <Grid Grid.Column="3">
+                <Grid Grid.Column="6">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="24*"/>
-                        <RowDefinition Height="167*"/>
-                        <RowDefinition Height="49*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="30*"/>
                         <RowDefinition Height="19*"/>
+                        <RowDefinition Height="1*"/>
                         <RowDefinition Height="18*"/>
                         <RowDefinition Height="48*"/>
                     </Grid.RowDefinitions>
-                    <m:Map Grid.Row="1" Height="auto" Width="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ParcelMap" Margin="10" MouseMove="ParcelMap_MouseMove" CredentialsProvider="4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA"
+                    <m:Map Grid.Row="1"  MinHeight="300" Width="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ParcelMap" Margin="10" MouseDoubleClick="ParcelMap_MouseDoubleClick" MouseMove="ParcelMap_MouseMove" CredentialsProvider="4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA"
                    Mode="Road">
                     </m:Map>
-                    <Grid Grid.Row="3" Margin="30,0,30,0" Background="{Binding InputOption}">
+                    <Button Grid.Row="2" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40"  MaxWidth="250" >Oblicz koszt</Button>
+                    <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" Margin="0,0,70,0" Foreground="{Binding ForegroundOption}">Koszt nadania przesyłki: </TextBlock>
+                    <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Margin="120,0,0,0" Foreground="{Binding ForegroundOption}">0,00 zł</TextBlock>
+                    <Grid Grid.Row="4" Margin="30,0,30,0" MaxHeight="40" Width="250" HorizontalAlignment="Left" Background="{Binding InputOption}">
                         <CheckBox  Foreground="{Binding ForegroundOption}"  >Generuj etykiete</CheckBox>
                     </Grid>
-                    <Grid Grid.Row="4" Margin="30,0,30,0" Background="{Binding InputOption}">
+                    <Grid Grid.Row="6" Margin="30,0,30,0" MaxHeight="40" Width="250" HorizontalAlignment="Left" Background="{Binding InputOption}">
                         <CheckBox Foreground="{Binding ForegroundOption}" >Generuj potwierdzenie nadania</CheckBox>
                     </Grid>
 
-                    <Button Grid.Row="5" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Height="Auto" Margin="60,24">Nadaj przesyłkę</Button>
+                    <Button Grid.Row="7" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40" MaxWidth="250" Margin="60,24">Nadaj przesyłkę</Button>
                 </Grid>
             </Grid>
         </ScrollViewer>

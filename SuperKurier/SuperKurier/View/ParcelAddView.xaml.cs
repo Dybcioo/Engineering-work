@@ -39,5 +39,16 @@ namespace SuperKurier.View
         {
             ParcelScrollViewer.ScrollToVerticalOffset(0D);
         }
+
+        private void ParcelMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            ParcelMap.CheckingPushpin(e);
+        }
+
+        private void Exit_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
