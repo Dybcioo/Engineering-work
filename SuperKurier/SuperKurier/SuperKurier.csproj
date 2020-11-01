@@ -107,6 +107,9 @@
     </ApplicationDefinition>
     <Compile Include="Command\BlackAndWhiteCommand.cs" />
     <Compile Include="Command\MenuViewCommand.cs" />
+    <Compile Include="Control\InfoWindow.xaml.cs">
+      <DependentUpon>InfoWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Route.cs" />
     <Compile Include="Tool\RegionTool.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
@@ -137,6 +140,10 @@
     <Compile Include="View\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Control\InfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
