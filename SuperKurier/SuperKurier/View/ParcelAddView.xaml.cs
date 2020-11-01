@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maps.MapControl.WPF;
+using SuperKurier.Control;
 using SuperKurier.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,10 @@ namespace SuperKurier.View
     /// </summary>
     public partial class ParceleditView : Page
     {
+
+        public Location From { get; set; }
+        public Location To { get; set; }
+
         public ParceleditView()
         {
             InitializeComponent();
@@ -78,7 +83,29 @@ namespace SuperKurier.View
                     SetPushpins();
                 };
                 context.Items.Add(setPushpins);
+
+                var setManualPushpins = new MenuItem() { Header = "Dodaj pinezki samodzielnie" };
+                setManualPushpins.Click += (se, e) =>
+                {
+                    ParcelMap.ClearAllMap();
+                    if(From != null)
+                        ParcelMap.PinPushpinWithName(From, "Nadawca");
+                    if(To != null)
+                        ParcelMap.PinPushpinWithName(To, "Odbiorca");
+                    SetManualPushpins();
+                };
+                context.Items.Add(setManualPushpins);
             }
+        }
+
+        private void SetManualPushpins()
+        {
+            InfoWindow info = new InfoWindow();
+
+            if (From != null)
+                info.ShowInfo("Czy chcesz zmienić lokalizacje nadawcy?", "Zmiana lokalizacji","Nie","Tak");
+            else
+                info.ShowInfo("Dodaj lokalizację nadawcy poprzez dwukrotne kliknięcie na mapie!", "Dodaj pinezkę", "Ok");
         }
 
         private void SetPushpins()
@@ -95,7 +122,7 @@ namespace SuperKurier.View
             senderBuilder.Append($"&addressLine={parcelAddViewModel.SenderStreet} {parcelAddViewModel.SenderNumberOfHouse}");
             senderBuilder.Append($"&key={MAP_KEY}");
 
-            var from = PinIt(senderBuilder.ToString(), "Nadawca");
+            From = PinIt(senderBuilder.ToString(), "Nadawca");
 
             receiverBuilder.Append($"&countryRegion={parcelAddViewModel.ReceiverCountry}");
             receiverBuilder.Append($"&locality={parcelAddViewModel.ReceiverCity}");
@@ -103,9 +130,9 @@ namespace SuperKurier.View
             receiverBuilder.Append($"&addressLine={parcelAddViewModel.ReceiverStreet} {parcelAddViewModel.ReceiverNumberOfHouse}");
             receiverBuilder.Append($"&key={MAP_KEY}");
 
-            var to = PinIt(receiverBuilder.ToString(), "Odbiorca");
+            To = PinIt(receiverBuilder.ToString(), "Odbiorca");
 
-            string uri = $"http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0={from.Latitude},{from.Longitude}&wp.1={to.Latitude},{to.Longitude}&rpo=Points&key={MAP_KEY}";
+            string uri = $"http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0={From.Latitude},{From.Longitude}&wp.1={To.Latitude},{To.Longitude}&rpo=Points&key={MAP_KEY}";
             Route(DriveRoute(uri));
             SetDistanceAndDuration();
         }
