@@ -32,6 +32,7 @@ namespace SuperKurier.View
         private const string MAP_KEY = "4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA";
         public Location From { get; set; }
         public Location To { get; set; }
+        private bool Lock { get; set; }
 
         public ParceleditView()
         {
@@ -55,7 +56,7 @@ namespace SuperKurier.View
 
         private void Exit_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            
         }
 
         private void SendParcel_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -68,7 +69,7 @@ namespace SuperKurier.View
         {
             ContextMenu context = new ContextMenu();
             context.IsOpen = true;
-            if (_noOfErrorsOnScreen == 0)
+            if (_noOfErrorsOnScreen == 0 && !Lock)
             {
                 var setPushpins = new MenuItem() { Header = "Wyznacz pinezki na podstawie adresów" };
                 setPushpins.Click += (se, e) =>
@@ -78,33 +79,23 @@ namespace SuperKurier.View
                 };
                 context.Items.Add(setPushpins);
 
-                /*var setManualPushpins = new MenuItem() { Header = "Dodaj pinezki samodzielnie" };
+                var setManualPushpins = new MenuItem() { Header = "Dodaj pinezki samodzielnie" };
                 setManualPushpins.Click += (se, e) =>
                 {
                     ParcelMap.ClearAllMap();
-                    if(From != null)
+                    if (From != null)
                         ParcelMap.PinPushpinWithName(From, "Nadawca");
-                    if(To != null)
+                    if (To != null)
                         ParcelMap.PinPushpinWithName(To, "Odbiorca");
                     SetManualPushpinsAsync();
                 };
-                context.Items.Add(setManualPushpins);*/
+                context.Items.Add(setManualPushpins);
             }
-            var setManualPushpins = new MenuItem() { Header = "Dodaj pinezki samodzielnie" };
-            setManualPushpins.Click += (se, e) =>
-            {
-                ParcelMap.ClearAllMap();
-                if (From != null)
-                    ParcelMap.PinPushpinWithName(From, "Nadawca");
-                if (To != null)
-                    ParcelMap.PinPushpinWithName(To, "Odbiorca");
-                SetManualPushpinsAsync();
-            };
-            context.Items.Add(setManualPushpins);
         }
 
         private async void SetManualPushpinsAsync()
         {
+            Lock = true;
             InfoWindow info = new InfoWindow();
             string sender = "Nadawca";
             string receiver = "Odbiorca";
@@ -146,12 +137,23 @@ namespace SuperKurier.View
             if(From == null || To == null)
             {
                 info.ShowInfo("Ze względu na brak jednej z lokalizacji nie można wyznaczyć trasy.\nProszę powtórz procedurę dodawania pinezek.", "Błąd wyznaczania trasy", "Ok");
+                info.Close();
+                Lock = false;
                 return;
             }
             string uri = $"http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0={From.Latitude},{From.Longitude}&wp.1={To.Latitude},{To.Longitude}&rpo=Points&key={MAP_KEY}";
-            Route(DriveRoute(uri));
-            SetDistanceAndDuration();
+
+            var response = DriveRoute(uri);
+            if (response != null)
+            {
+                Route(response);
+                SetDistanceAndDuration();
+            }
+            else
+                info.ShowInfo("Nie można wyznaczyć trasy. Proszę spróbować jeszcze raz.", "Błąd wyznaczania trasy", "Ok");
+            
             info.Close();
+            Lock = false;
         }
 
         
@@ -182,8 +184,18 @@ namespace SuperKurier.View
             To = PinIt(receiverBuilder.ToString(), "Odbiorca");
 
             string uri = $"http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0={From.Latitude},{From.Longitude}&wp.1={To.Latitude},{To.Longitude}&rpo=Points&key={MAP_KEY}";
-            Route(DriveRoute(uri));
-            SetDistanceAndDuration();
+            var response = DriveRoute(uri);
+            if (response != null)
+            {
+                Route(response);
+                SetDistanceAndDuration();
+            }
+            else
+            {
+                InfoWindow info = new InfoWindow();
+                info.ShowInfo("Nie można wyznaczyć trasy. Proszę spróbować jeszcze raz.", "Błąd wyznaczania trasy", "Ok");
+                info.Close();
+            }
         }
 
         private Location PinIt(string url, string person)
@@ -213,15 +225,20 @@ namespace SuperKurier.View
         private BingMapsRESTService.Common.JSON.Response DriveRoute(string uri)
         {
             HttpWebRequest request = WebRequest.Create(uri) as HttpWebRequest;
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            try
             {
-                using (Stream stream = response.GetResponseStream())
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                 {
-                    DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(BingMapsRESTService.Common.JSON.Response));
+                    using (Stream stream = response.GetResponseStream())
+                    {
+                        DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(BingMapsRESTService.Common.JSON.Response));
 
-                    return ser.ReadObject(stream) as BingMapsRESTService.Common.JSON.Response;
+                        return ser.ReadObject(stream) as BingMapsRESTService.Common.JSON.Response;
+                    }
                 }
-            }
+            }catch(Exception e) { }
+
+            return null;
         }
 
         private void Route(BingMapsRESTService.Common.JSON.Response r)
