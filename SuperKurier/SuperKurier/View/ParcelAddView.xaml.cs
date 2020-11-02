@@ -1,6 +1,7 @@
 ﻿using DataModel;
 using Microsoft.Maps.MapControl.WPF;
 using SuperKurier.Control;
+using SuperKurier.Enums;
 using SuperKurier.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -157,10 +158,6 @@ namespace SuperKurier.View
             info.Close();
             Lock = false;
         }
-
-        
-
-
 
         private void SetPushpins()
         {
@@ -328,6 +325,15 @@ namespace SuperKurier.View
 
             int result = (int)(dimensions + distance + weight + worth);
 
+            switch(parcelAddViewModel.ParcelTypeSelected.id)
+            {
+                case (int)EnumTypeOfParcel.StandardParcel:
+                    break;
+                case (int)EnumTypeOfParcel.UnstandardParcel:
+                    result += (int)(result * 0.1);
+                    break;
+            }
+
             var myTariff = companyEntities.Tariff.FirstOrDefault(t => result >= t.valueFrom && result <= t.valueTo);
 
             if (myTariff == null)
@@ -337,8 +343,32 @@ namespace SuperKurier.View
                 return false;
             }
             parcelAddViewModel.MyTariff = myTariff;
-            Worth.Text = myTariff.cost.ToString();
+            if(parcelAddViewModel.ParcelTypeSelected.id == (int)EnumTypeOfParcel.CashOnDelivery)
+                Worth.Text = (myTariff.cost + 10).ToString();
+            else
+                Worth.Text = myTariff.cost.ToString();
             return true;
+        }
+
+        private void SendParcel_Click(object sender, RoutedEventArgs e)
+        {
+            var parcelAddViewModel = (ParcelAddViewModel)DataContext;
+            InfoWindow info = new InfoWindow();
+            if (!CalculateCost())
+                return;
+
+            if (parcelAddViewModel.ParcelTypeSelected.id == (int)EnumTypeOfParcel.CashOnDelivery)
+                info.ShowInfo($"Przesyłka została wyceniona na kwotę {parcelAddViewModel.MyTariff.cost + 10} zł. Chcesz nadać przesyłkę?", "Nadanie przeyłki", "Nie", "Tak");
+            else
+                info.ShowInfo($"Przesyłka została wyceniona na kwotę {parcelAddViewModel.MyTariff.cost} zł. Chcesz nadać przesyłkę?", "Nadanie przeyłki", "Nie", "Tak");
+
+            if (!info.Answer)
+                return;
+
+            if (parcelAddViewModel.SendParcel())
+                info.ShowInfo("Przesyłka została nadana!", "Nadanie przesyłki", "Ok");
+            else
+                info.ShowInfo("Nie udało się nadać przesyłki!", "Nadanie przesyłki", "Ok");
         }
     }
 }

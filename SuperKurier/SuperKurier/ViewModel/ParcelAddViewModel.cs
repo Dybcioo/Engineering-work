@@ -582,5 +582,10 @@ namespace SuperKurier.ViewModel
             ParcelType = new BindableCollection<TypeOfParcel>(CompanyEntities.TypeOfParcel.ToList());
             ParcelTypeSelected = ParcelType.FirstOrDefault();
         }
+
+        public bool SendParcel()
+        {
+            return true;
+        }
     }
 }

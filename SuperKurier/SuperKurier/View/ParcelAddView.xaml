@@ -454,7 +454,7 @@
                         <CheckBox Foreground="{Binding ForegroundOption}" >Generuj potwierdzenie nadania</CheckBox>
                     </Grid>
 
-                    <Button Grid.Row="7" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40" MaxWidth="250" Margin="60,24" Command="New">Nadaj przesyłkę</Button>
+                    <Button Grid.Row="7" Name="SendParcel" Click="SendParcel_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40" MaxWidth="250" Margin="60,24" Command="New">Nadaj przesyłkę</Button>
                 </Grid>
             </Grid>
         </ScrollViewer>
