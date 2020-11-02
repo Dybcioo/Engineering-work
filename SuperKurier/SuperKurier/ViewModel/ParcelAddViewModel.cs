@@ -6,10 +6,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SuperKurier.ViewModel
 {
-    class ParcelAddViewModel : BaseViewModel, IDataErrorInfo
+    class ParcelAddViewModel : ParcelViewModel, IDataErrorInfo
     {
         private CompanyEntities CompanyEntities = new CompanyEntities();
         private string _senderFirstName;
@@ -576,6 +577,7 @@ namespace SuperKurier.ViewModel
                 return result;
             }
         }
+
 
         public ParcelAddViewModel()
         {

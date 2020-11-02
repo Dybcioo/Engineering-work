@@ -59,7 +59,7 @@ namespace SuperKurier.View
 
         private void Exit_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            
+            ((ParcelAddViewModel)DataContext).VisibilityOption = Visibility.Hidden;
         }
 
         private void SendParcel_CanExecute(object sender, CanExecuteRoutedEventArgs e)

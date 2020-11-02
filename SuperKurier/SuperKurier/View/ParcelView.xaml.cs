@@ -56,7 +56,7 @@ namespace SuperKurier.View
 
         private void BtnParcelAdd_Click(object sender, RoutedEventArgs e)
         {
-            ((ParcelViewModel)DataContext).AddViewModel = new ParcelAddViewModel();
+            ((ParcelViewModel)DataContext).AddViewModel = new ParcelAddViewModel() { VisibilityOption = Visibility.Visible };
             frame.Visibility = Visibility;
         }
     }
