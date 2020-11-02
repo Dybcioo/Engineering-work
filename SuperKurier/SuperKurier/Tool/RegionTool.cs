@@ -359,5 +359,29 @@ namespace SuperKurier
             MyMap.Children.Add(pin);
         }
 
+        public static Task PinPushpinWhenClicked(this System.Windows.Controls.Control target, bool isExist, string name)
+        {
+            var tcs = new TaskCompletionSource<object>();
+            MouseButtonEventHandler onClick = null;
+            var myMap = (Map)target;
+            onClick = (sender, e) =>
+            {
+                if (isExist)
+                {
+                    var pushpins = myMap.GetPushpins();
+                    var pin = pushpins.FirstOrDefault(p => p.Content.Equals(name));
+                    if (pin != null)
+                        myMap.Children.Remove(pin);
+                }
+                Point pt = Mouse.GetPosition(myMap);
+                myMap.PinPushpinWithName(myMap.ViewportPointToLocation(pt), name);
+                e.Handled = true;
+                target.MouseDoubleClick -= onClick;
+                tcs.TrySetResult(null);
+            };
+            target.MouseDoubleClick += onClick;
+            return tcs.Task;
+        }
+
     }
 }

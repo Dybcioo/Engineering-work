@@ -29,7 +29,7 @@ namespace SuperKurier.View
     /// </summary>
     public partial class ParceleditView : Page
     {
-
+        private const string MAP_KEY = "4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA";
         public Location From { get; set; }
         public Location To { get; set; }
 
@@ -51,12 +51,6 @@ namespace SuperKurier.View
         private void ParcelMap_MouseMove(object sender, MouseEventArgs e)
         {
             ParcelScrollViewer.ScrollToVerticalOffset(0D);
-        }
-
-        private void ParcelMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
-            ParcelMap.CheckingPushpin(e);
         }
 
         private void Exit_MouseDown(object sender, MouseButtonEventArgs e)
@@ -84,7 +78,7 @@ namespace SuperKurier.View
                 };
                 context.Items.Add(setPushpins);
 
-                var setManualPushpins = new MenuItem() { Header = "Dodaj pinezki samodzielnie" };
+                /*var setManualPushpins = new MenuItem() { Header = "Dodaj pinezki samodzielnie" };
                 setManualPushpins.Click += (se, e) =>
                 {
                     ParcelMap.ClearAllMap();
@@ -92,25 +86,80 @@ namespace SuperKurier.View
                         ParcelMap.PinPushpinWithName(From, "Nadawca");
                     if(To != null)
                         ParcelMap.PinPushpinWithName(To, "Odbiorca");
-                    SetManualPushpins();
+                    SetManualPushpinsAsync();
                 };
-                context.Items.Add(setManualPushpins);
+                context.Items.Add(setManualPushpins);*/
             }
+            var setManualPushpins = new MenuItem() { Header = "Dodaj pinezki samodzielnie" };
+            setManualPushpins.Click += (se, e) =>
+            {
+                ParcelMap.ClearAllMap();
+                if (From != null)
+                    ParcelMap.PinPushpinWithName(From, "Nadawca");
+                if (To != null)
+                    ParcelMap.PinPushpinWithName(To, "Odbiorca");
+                SetManualPushpinsAsync();
+            };
+            context.Items.Add(setManualPushpins);
         }
 
-        private void SetManualPushpins()
+        private async void SetManualPushpinsAsync()
         {
             InfoWindow info = new InfoWindow();
-
+            string sender = "Nadawca";
+            string receiver = "Odbiorca";
             if (From != null)
-                info.ShowInfo("Czy chcesz zmienić lokalizacje nadawcy?", "Zmiana lokalizacji","Nie","Tak");
+            {
+                info.ShowInfo("Czy chcesz zmienić lokalizacje nadawcy?", "Zmiana lokalizacji", "Nie", "Tak");
+                if (info.Answer)
+                {
+                    info.ShowInfo("Dodaj lokalizację nadawcy poprzez dwukrotne kliknięcie na mapie!", "Dodaj pinezkę", "Ok");
+                    await ParcelMap.PinPushpinWhenClicked(true, sender);
+                }
+            }
             else
+            {
                 info.ShowInfo("Dodaj lokalizację nadawcy poprzez dwukrotne kliknięcie na mapie!", "Dodaj pinezkę", "Ok");
+                await ParcelMap.PinPushpinWhenClicked(false, sender);
+            }
+
+            if (To != null)
+            {
+                info.ShowInfo("Czy chcesz zmienić lokalizacje odbiorcy?", "Zmiana lokalizacji", "Nie", "Tak");
+                if (info.Answer)
+                {
+                    info.ShowInfo("Dodaj lokalizację odbiorcy poprzez dwukrotne kliknięcie na mapie!", "Dodaj pinezkę", "Ok");
+                    await ParcelMap.PinPushpinWhenClicked(true, receiver);
+                }
+            }
+            else
+            {
+                info.ShowInfo("Dodaj lokalizację odbiorcy poprzez dwukrotne kliknięcie na mapie!", "Dodaj pinezkę", "Ok");
+                await ParcelMap.PinPushpinWhenClicked(false, receiver);
+            }
+
+            var pushpins = ParcelMap.GetPushpins();
+
+            From = pushpins.FirstOrDefault(p => p.Content.Equals(sender)).Location;
+            To = pushpins.FirstOrDefault(p => p.Content.Equals(receiver)).Location;
+
+            if(From == null || To == null)
+            {
+                info.ShowInfo("Ze względu na brak jednej z lokalizacji nie można wyznaczyć trasy.\nProszę powtórz procedurę dodawania pinezek.", "Błąd wyznaczania trasy", "Ok");
+                return;
+            }
+            string uri = $"http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0={From.Latitude},{From.Longitude}&wp.1={To.Latitude},{To.Longitude}&rpo=Points&key={MAP_KEY}";
+            Route(DriveRoute(uri));
+            SetDistanceAndDuration();
+            info.Close();
         }
+
+        
+
+
 
         private void SetPushpins()
         {
-            const string MAP_KEY = "4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA";
             StringBuilder senderBuilder = new StringBuilder("http://dev.virtualearth.net/REST/v1/Locations?o=xml");
             StringBuilder receiverBuilder = new StringBuilder("http://dev.virtualearth.net/REST/v1/Locations?o=xml");
 

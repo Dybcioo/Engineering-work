@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -80,12 +81,14 @@ namespace SuperKurier.Control
 
         public void ShowInfo(string info)
         {
+            this.btnLeft.Visibility = Visibility.Visible;
             informationLabel.Content = info;
             this.ShowDialog();
         }
 
         public void ShowInfo(string info, string title)
         {
+            this.btnLeft.Visibility = Visibility.Visible;
             this.Title = title;
             informationLabel.Content = info;
             this.ShowDialog();
@@ -93,6 +96,8 @@ namespace SuperKurier.Control
 
         public void ShowInfo(string info, string title, string btnLeft , string btnRight)
         {
+            Answer = false;
+            this.btnLeft.Visibility = Visibility.Visible;
             this.btnLeft.Content = btnLeft;
             this.btnRight.Content = btnRight;
             this.Title = title;
@@ -111,13 +116,13 @@ namespace SuperKurier.Control
         private void btnLeft_Click(object sender, RoutedEventArgs e)
         {
             Answer = false;
-            this.Close();
+            this.Hide();
         }
 
         private void btnRight_Click(object sender, RoutedEventArgs e)
         {
             Answer = true;
-            this.Close();
+            this.Hide();
         }
 
         private void BlackAndWhiteLayout(bool black)
@@ -142,6 +147,12 @@ namespace SuperKurier.Control
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             BlackAndWhiteLayout(IsBlack);
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
         }
     }
 }
