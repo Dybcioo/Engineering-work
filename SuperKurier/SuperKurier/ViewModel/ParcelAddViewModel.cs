@@ -409,10 +409,13 @@ namespace SuperKurier.ViewModel
                             result = "NIP musi zawierać 10 cyfr";
                         break;
                     case "SenderTel":
+                        condition = int.TryParse(SenderTel, out NIP);
                         if (string.IsNullOrWhiteSpace(SenderTel))
                             result = "Pole nie może być puste";
+                        else if (!condition)
+                            result = "Numer telefonu musi zawierać wyłącznie cyfry";
                         else if (SenderTel.Length > 30)
-                            result = "Długość nazwiska nie może przekraczać 30 znaków";
+                            result = "Długość numeru telefonu nie może przekraczać 12 znaków";
                         break;
                     case "SenderCountry":
                         if (string.IsNullOrWhiteSpace(SenderCountry))
@@ -478,10 +481,13 @@ namespace SuperKurier.ViewModel
                             result = "NIP musi zawierać 10 cyfr";
                         break;
                     case "ReceiverTel":
+                        condition = int.TryParse(ReceiverTel, out NIP);
                         if (string.IsNullOrWhiteSpace(ReceiverTel))
                             result = "Pole nie może być puste";
-                        else if (ReceiverTel.Length > 30)
-                            result = "Długość nazwiska nie może przekraczać 30 znaków";
+                        else if (!condition)
+                            result = "Numer telefonu musi zawierać wyłącznie cyfry";
+                        else if (SenderTel.Length > 30)
+                            result = "Długość numeru telefonu nie może przekraczać 12 znaków";
                         break;
                     case "ReceiverCountry":
                         if (string.IsNullOrWhiteSpace(ReceiverCountry))
