@@ -355,6 +355,7 @@ namespace SuperKurier.ViewModel
         }
         public double ParcelDistance { get; set; }
         public double ParcelDuration { get; set; }
+        public Tariff MyTariff { get; set; }
 
         public BindableCollection<TypeOfParcel> ParcelType { get; set; }
         public TypeOfParcel ParcelTypeSelected { get; set; }

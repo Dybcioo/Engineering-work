@@ -1,4 +1,5 @@
-﻿using Microsoft.Maps.MapControl.WPF;
+﻿using DataModel;
+using Microsoft.Maps.MapControl.WPF;
 using SuperKurier.Control;
 using SuperKurier.ViewModel;
 using System;
@@ -33,6 +34,7 @@ namespace SuperKurier.View
         public Location From { get; set; }
         public Location To { get; set; }
         private bool Lock { get; set; }
+        private CompanyEntities companyEntities = new CompanyEntities();
 
         public ParceleditView()
         {
@@ -301,6 +303,42 @@ namespace SuperKurier.View
             minutesString = minutes < 10 ? $"0{minutes}" : minutes.ToString();
 
             ParcelDuration.Content = $"{hoursString}:{minutesString} h";
+        }
+
+        private void calculateCost_Click(object sender, RoutedEventArgs e)
+        {
+            CalculateCost();
+        }
+
+        private bool CalculateCost()
+        {
+            var parcelAddViewModel = (ParcelAddViewModel)DataContext;
+            InfoWindow info = new InfoWindow();
+            if (Lock || parcelAddViewModel.ParcelDistance == 0)
+            {
+                info.ShowInfo("Nie można obliczyć kosztu dopóki nie zostanie wyznaczona trasa!", "Błąd wyliczenia kosztów", "Ok");
+                info.Close();
+                return false;
+            }
+            double dimensions = double.Parse(parcelAddViewModel.ParcelHeight) + double.Parse(parcelAddViewModel.ParcelLength) + double.Parse(parcelAddViewModel.ParcelWidth);
+            dimensions *= 0.1;
+            double distance = parcelAddViewModel.ParcelDistance * 0.01;
+            double weight = double.Parse(parcelAddViewModel.ParcelWeight) * 0.1;
+            double worth = double.Parse(parcelAddViewModel.ParcelWorth) * 0.001;
+
+            int result = (int)(dimensions + distance + weight + worth);
+
+            var myTariff = companyEntities.Tariff.FirstOrDefault(t => result >= t.valueFrom && result <= t.valueTo);
+
+            if (myTariff == null)
+            {
+                info.ShowInfo("Nie można obliczyć kosztu!", "Błąd wyliczenia kosztów", "Ok");
+                info.Close();
+                return false;
+            }
+            parcelAddViewModel.MyTariff = myTariff;
+            Worth.Text = myTariff.cost.ToString();
+            return true;
         }
     }
 }

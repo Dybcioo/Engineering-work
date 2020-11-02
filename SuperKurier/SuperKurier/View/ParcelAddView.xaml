@@ -444,9 +444,9 @@
                     <m:Map Grid.Row="1"  MinHeight="300" Width="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ParcelMap" Margin="10" MouseMove="ParcelMap_MouseMove" CredentialsProvider="4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA"
                    Mode="Road" MouseRightButtonDown="ParcelMap_MouseRightButtonDown">
                     </m:Map>
-                    <Button Grid.Row="2" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40"  MaxWidth="250" >Oblicz koszt</Button>
+                    <Button Grid.Row="2" Name="calculateCost" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40"  MaxWidth="250" Click="calculateCost_Click">Oblicz koszt</Button>
                     <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" Margin="0,0,70,0" Foreground="{Binding ForegroundOption}">Koszt nadania przesyłki: </TextBlock>
-                    <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Margin="120,0,0,0" Foreground="{Binding ForegroundOption}">0,00 zł</TextBlock>
+                    <TextBlock Grid.Row="3" x:Name="Worth" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Margin="120,0,0,0" Foreground="{Binding ForegroundOption}">0,00 zł</TextBlock>
                     <Grid Grid.Row="4" Margin="30,0,30,0" MaxHeight="40" Width="250" HorizontalAlignment="Left" Background="{Binding InputOption}">
                         <CheckBox  Foreground="{Binding ForegroundOption}"  >Generuj etykiete</CheckBox>
                     </Grid>
