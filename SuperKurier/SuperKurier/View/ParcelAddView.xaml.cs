@@ -384,7 +384,10 @@ namespace SuperKurier.View
                 return;
 
             if (parcelAddViewModel.SendParcel(senderRegion, receiverRegion, From, To))
+            {
                 info.ShowInfo("Przesyłka została nadana!", "Nadanie przesyłki", "Ok");
+                parcelAddViewModel.VisibilityOption = Visibility.Hidden;
+            }
             else
                 info.ShowInfo("Nie udało się nadać przesyłki!", "Nadanie przesyłki", "Ok");
         }
