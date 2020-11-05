@@ -29,9 +29,6 @@
             <DataTemplate DataType="{x:Type viewModel:SettingViewModel}">
                 <view:SettingView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModel:CustomerViewModel}">
-                <view:CustomerView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:ParcelViewModel}">
                 <view:ParcelView/>
             </DataTemplate>
