@@ -1,4 +1,5 @@
-﻿using DataModel;
+﻿using Caliburn.Micro;
+using DataModel;
 using SuperKurier.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -37,8 +38,9 @@ namespace SuperKurier.View
         {
             try
             {
-                DataGridParcel.DataContext = companyEntities.Parcel.ToList();
-            }catch(Exception ex)
+                DataGridParcel.DataContext = new BindableCollection<Parcel>(companyEntities.Parcel.ToList());
+            }
+            catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

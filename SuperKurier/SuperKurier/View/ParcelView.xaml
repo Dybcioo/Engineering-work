@@ -337,10 +337,16 @@
         <DataGrid Grid.Row="1" x:Name="DataGridParcel" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" ColumnWidth="*">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Kod"  Binding="{Binding code}"/>
-                <DataGridTextColumn Header="Data nadania" Binding="{Binding dateOfShipment}" />
-                <DataGridTextColumn Header="Wartość" Binding="{Binding amount}" />
+                <DataGridTextColumn Header="Data nadania" Binding="{Binding dateOfShipment, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" />
+                <DataGridTextColumn Header="Szacowana wartość">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0:#,#.00} PLN">
+                            <Binding Path="amount" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Rodzaj przesyłki" Binding="{Binding TypeOfParcel.type}" />
-                <DataGridTextColumn Header="Status" Binding="{Binding Status.status}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Status.status1}" />
             </DataGrid.Columns>
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
