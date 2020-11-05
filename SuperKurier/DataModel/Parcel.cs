@@ -17,7 +17,6 @@ namespace DataModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Parcel()
         {
-            this.HistoryOfParcel = new HashSet<HistoryOfParcel>();
             this.ParcelMoving = new HashSet<ParcelMoving>();
         }
     
@@ -30,9 +29,9 @@ namespace DataModel
         public string signaturePath { get; set; }
         public int idSender { get; set; }
         public int idReceiver { get; set; }
-        public int idRegion { get; set; }
+        public Nullable<int> idSenderRegion { get; set; }
+        public int idReceiverRegion { get; set; }
         public int idTypeOfParcel { get; set; }
-        public int idWarehouse { get; set; }
         public int idStatus { get; set; }
         public Nullable<decimal> height { get; set; }
         public Nullable<decimal> width { get; set; }
@@ -42,14 +41,12 @@ namespace DataModel
     
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HistoryOfParcel> HistoryOfParcel { get; set; }
         public virtual MethodOfSend MethodOfSend { get; set; }
         public virtual Region Region { get; set; }
+        public virtual Region Region1 { get; set; }
         public virtual Status Status { get; set; }
         public virtual Tariff Tariff { get; set; }
         public virtual TypeOfParcel TypeOfParcel { get; set; }
-        public virtual Warehouse Warehouse { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ParcelMoving> ParcelMoving { get; set; }
     }

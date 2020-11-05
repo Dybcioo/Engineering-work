@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using DataModel;
+using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -617,8 +618,12 @@ namespace SuperKurier.ViewModel
             ParcelSendMethodSelected = ParcelSendMethod.FirstOrDefault();
         }
 
-        public bool SendParcel()
+        public bool SendParcel(DataModel.Region sender, DataModel.Region receiver)
         {
+            Parcel parcel = new Parcel()
+            {
+                
+            };
             return true;
         }
     }

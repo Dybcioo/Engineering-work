@@ -4,25 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="17c47681445640cd8734270f11f1e0f7" Name="Diagram1">
-        <EntityTypeShape EntityType="CompanyModel.Address" Width="1.5" PointX="1.5" PointY="19.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.Company" Width="1.5" PointX="1.5" PointY="26.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.Customer" Width="1.5" PointX="0.75" PointY="15.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.Document" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.Employee" Width="1.5" PointX="6" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.HistoryOfParcel" Width="1.5" PointX="11.25" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.Localization" Width="1.5" PointX="1.5" PointY="23.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.MethodOfSend" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.Parcel" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.ParcelMoving" Width="1.5" PointX="8.25" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.Position" Width="1.5" PointX="3.75" PointY="18.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.Region" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.Status" Width="1.5" PointX="0.75" PointY="29.75" IsExpanded="true" />
+      <Diagram DiagramId="406edba214944813afa926565a449884" Name="Diagram1">
+        <EntityTypeShape EntityType="CompanyModel.Address" Width="1.5" PointX="3.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.Company" Width="1.5" PointX="0.75" PointY="24.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.Customer" Width="1.5" PointX="3" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.Document" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.Employee" Width="1.5" PointX="6" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.HistoryOfParcel" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.Localization" Width="1.5" PointX="1.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.MethodOfSend" Width="1.5" PointX="3" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.Parcel" Width="1.5" PointX="5.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.ParcelMoving" Width="1.5" PointX="8.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.Position" Width="1.5" PointX="3.75" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.Region" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.Status" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="CompanyModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.Tariff" Width="1.5" PointX="0.75" PointY="32.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.TypeOfDocument" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.TypeOfParcel" Width="1.5" PointX="0.75" PointY="35" IsExpanded="true" />
-        <EntityTypeShape EntityType="CompanyModel.Warehouse" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.Tariff" Width="1.5" PointX="3" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.TypeOfDocument" Width="1.5" PointX="0.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.TypeOfParcel" Width="1.5" PointX="3" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyModel.Warehouse" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
         <AssociationConnector Association="CompanyModel.FK_Address_Localization" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Customer_Address" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Employee_Employee" ManuallyRouted="false" />
@@ -36,18 +36,16 @@
         <AssociationConnector Association="CompanyModel.FK_Employee_Position" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Employee_Region" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Employee_Warehouse" ManuallyRouted="false" />
-        <AssociationConnector Association="CompanyModel.FK_HistoryOfParcel_Employee" ManuallyRouted="false" />
-        <AssociationConnector Association="CompanyModel.FK_ParcelMoving_Employee" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_HistoryOfParcel_Parcel" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_HistoryOfParcel_Status" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Region_Localization" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Region_Localization1" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Parcel_MethodOfSend" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Parcel_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyModel.FK_Parcel_Region1" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Parcel_Status" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Parcel_Tariff" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Parcel_TypeOfParcel" ManuallyRouted="false" />
-        <AssociationConnector Association="CompanyModel.FK_Parcel_Warehouse" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_ParcelMoving_Parcel" ManuallyRouted="false" />
         <AssociationConnector Association="CompanyModel.FK_Region_Warehouse" ManuallyRouted="false" />
       </Diagram>

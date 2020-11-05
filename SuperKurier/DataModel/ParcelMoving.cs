@@ -16,12 +16,10 @@ namespace DataModel
     {
         public int id { get; set; }
         public bool reading { get; set; }
-        public int idEmployee { get; set; }
         public int idParcel { get; set; }
         public int idDoc { get; set; }
     
         public virtual Document Document { get; set; }
-        public virtual Employee Employee { get; set; }
         public virtual Parcel Parcel { get; set; }
     }
 }

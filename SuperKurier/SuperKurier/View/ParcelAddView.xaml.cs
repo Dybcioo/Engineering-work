@@ -357,6 +357,24 @@ namespace SuperKurier.View
             if (!CalculateCost())
                 return;
 
+            DataModel.Region senderRegion = null;
+            if(parcelAddViewModel.ParcelSendMethodSelected.id == 2)
+            {
+                senderRegion = ParcelMap.GetCurrentRegion(From, companyEntities);
+                if(senderRegion == null)
+                {
+                    info.ShowInfo("Lokalizacja nadania przesyłki znajduje się w nieobsługiwanym regionie!", "Nadanie przesyłki", "Ok");
+                    return;
+                }
+            }
+            DataModel.Region receiverRegion = null;
+            receiverRegion = ParcelMap.GetCurrentRegion(To, companyEntities);
+            if(receiverRegion == null)
+            {
+                info.ShowInfo("Lokalizacja odbioru przesyłki znajduje się w nieobsługiwanym regionie!", "Nadanie przesyłki", "Ok");
+                return;
+            }
+
             if (parcelAddViewModel.ParcelTypeSelected.id == (int)EnumTypeOfParcel.CashOnDelivery)
                 info.ShowInfo($"Przesyłka została wyceniona na kwotę {parcelAddViewModel.MyTariff.cost + 10} zł. Chcesz nadać przesyłkę?", "Nadanie przeyłki", "Nie", "Tak");
             else
@@ -365,7 +383,7 @@ namespace SuperKurier.View
             if (!info.Answer)
                 return;
 
-            if (parcelAddViewModel.SendParcel())
+            if (parcelAddViewModel.SendParcel(senderRegion, receiverRegion))
                 info.ShowInfo("Przesyłka została nadana!", "Nadanie przesyłki", "Ok");
             else
                 info.ShowInfo("Nie udało się nadać przesyłki!", "Nadanie przesyłki", "Ok");

@@ -19,6 +19,7 @@ namespace DataModel
         {
             this.Employee = new HashSet<Employee>();
             this.Parcel = new HashSet<Parcel>();
+            this.Parcel1 = new HashSet<Parcel>();
         }
     
         public int id { get; set; }
@@ -33,6 +34,8 @@ namespace DataModel
         public virtual Localization Localization1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Parcel> Parcel { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Parcel> Parcel1 { get; set; }
         public virtual Warehouse Warehouse { get; set; }
     }
 }
