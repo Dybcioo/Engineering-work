@@ -99,7 +99,7 @@
           <Property Name="weight" Type="numeric" Precision="4" Scale="2" Nullable="false" />
           <Property Name="amount" Type="numeric" Precision="10" Scale="2" Nullable="false" />
           <Property Name="dateOfShipment" Type="datetime" Nullable="false" />
-          <Property Name="dateOfDelivery" Type="datetime" Nullable="false" />
+          <Property Name="dateOfDelivery" Type="datetime" />
           <Property Name="signaturePath" Type="nvarchar" MaxLength="50" />
           <Property Name="idSender" Type="int" Nullable="false" />
           <Property Name="idReceiver" Type="int" Nullable="false" />
@@ -728,7 +728,7 @@
           <Property Name="weight" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
           <Property Name="amount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="dateOfShipment" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="dateOfDelivery" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dateOfDelivery" Type="DateTime" Precision="3" />
           <Property Name="signaturePath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="idSender" Type="Int32" Nullable="false" />
           <Property Name="idReceiver" Type="Int32" Nullable="false" />

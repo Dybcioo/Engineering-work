@@ -25,7 +25,7 @@ namespace DataModel
         public decimal weight { get; set; }
         public decimal amount { get; set; }
         public System.DateTime dateOfShipment { get; set; }
-        public System.DateTime dateOfDelivery { get; set; }
+        public Nullable<System.DateTime> dateOfDelivery { get; set; }
         public string signaturePath { get; set; }
         public int idSender { get; set; }
         public int idReceiver { get; set; }

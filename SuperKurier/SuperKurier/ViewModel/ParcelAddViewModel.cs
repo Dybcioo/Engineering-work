@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using DataModel;
 using Microsoft.Maps.MapControl.WPF;
+using SuperKurier.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -467,6 +468,8 @@ namespace SuperKurier.ViewModel
                             result = "Długość kodu pocztowego nie może przekraczać 10 znaków";
                         break;
                     case "SenderStreet":
+                        if (string.IsNullOrWhiteSpace(SenderStreet))
+                            break;
                         if (SenderStreet.Length > 30)
                             result = "Długość nazwy ulicy nie może przekraczać 30 znaków";
                         break;
@@ -539,6 +542,8 @@ namespace SuperKurier.ViewModel
                             result = "Długość kodu pocztowego nie może przekraczać 10 znaków";
                         break;
                     case "ReceiverStreet":
+                        if (string.IsNullOrWhiteSpace(ReceiverStreet))
+                            break;
                         if (ReceiverStreet.Length > 30)
                             result = "Długość nazwy ulicy nie może przekraczać 30 znaków";
                         break;
@@ -618,12 +623,119 @@ namespace SuperKurier.ViewModel
             ParcelSendMethodSelected = ParcelSendMethod.FirstOrDefault();
         }
 
-        public bool SendParcel(DataModel.Region sender, DataModel.Region receiver)
+        public bool SendParcel(DataModel.Region senderRegion, DataModel.Region receiverRegion, Location senderLocation, Location receiverLocation)
         {
+
+            Customer sender = new Customer()
+            {
+                firstName = SenderFirstName ?? "",
+                lastName = SenderLastName ?? "",
+                tel = int.Parse(SenderTel)
+            };
+            Customer receiver = new Customer()
+            {
+                firstName = ReceiverFirstName ?? "",
+                lastName = ReceiverLastName ?? "",
+                tel = int.Parse(ReceiverTel)
+            };
+            if (!string.IsNullOrWhiteSpace(SenderCompanyNIP))
+            {
+                Company senderCompany = new Company()
+                {
+                    name = SenderCompanyName,
+                    NIP = int.Parse(SenderCompanyNIP)
+                };
+                CompanyEntities.Company.Add(senderCompany);
+                CompanyEntities.SaveChanges();
+                sender.Company = senderCompany;
+                sender.idCompany = senderCompany.id;
+            }
+            if (!string.IsNullOrWhiteSpace(ReceiverCompanyNIP))
+            {
+                Company receiverCompany = new Company()
+                {
+                    name = ReceiverCompanyName,
+                    NIP = int.Parse(ReceiverCompanyNIP)
+                };
+                CompanyEntities.Company.Add(receiverCompany);
+                CompanyEntities.SaveChanges();
+                receiver.Company = receiverCompany;
+                receiver.idCompany = receiverCompany.id;
+            }
+            Address senderAddress = new Address()
+            {
+                country = SenderCountry ?? "",
+                city = SenderCity ?? "",
+                postalCode = SenderPostalCode ?? "",
+                street = SenderStreet ?? "",
+                numberOfHouse = SenderNumberOfHouse ?? ""
+            };
+            Address receiverAddress = new Address()
+            {
+                country = ReceiverCountry ?? "",
+                city = ReceiverCity ?? "",
+                postalCode = ReceiverPostalCode ?? "",
+                street = ReceiverStreet ?? "",
+                numberOfHouse = ReceiverNumberOfHouse ?? ""
+            };
+            var senderLocalization = new DataModel.Localization()
+            {
+                latitude = senderLocation.Latitude.ToString(),
+                longitude = senderLocation.Longitude.ToString()
+            };
+            var receiverLocalization = new DataModel.Localization()
+            {
+                latitude = receiverLocation.Latitude.ToString(),
+                longitude = receiverLocation.Longitude.ToString()
+            };
+            CompanyEntities.Localization.Add(senderLocalization);
+            CompanyEntities.Localization.Add(receiverLocalization);
+            CompanyEntities.SaveChanges();
+            senderAddress.Localization = senderLocalization;
+            senderAddress.idLocalization = senderLocalization.id;
+            receiverAddress.Localization = receiverLocalization;
+            receiverAddress.idLocalization = receiverLocalization.id;
+            CompanyEntities.Address.Add(senderAddress);
+            CompanyEntities.Address.Add(receiverAddress);
+            CompanyEntities.SaveChanges();
+            sender.Address = senderAddress;
+            sender.idAddress = senderAddress.id;
+            receiver.Address = receiverAddress;
+            receiver.idAddress = receiverAddress.id;
+
+            CompanyEntities.Customer.Add(sender);
+            CompanyEntities.Customer.Add(receiver);
+            CompanyEntities.SaveChanges();
+
             Parcel parcel = new Parcel()
             {
-                
+                idSender = sender.id,
+                idReceiver = receiver.id,
+                idReceiverRegion = receiverRegion.id,
+                height = (decimal)double.Parse(ParcelHeight),
+                width = (decimal)double.Parse(ParcelWidth),
+                length = (decimal)double.Parse(ParcelLength),
+                amount = (decimal)double.Parse(ParcelWorth),
+                weight = (decimal)double.Parse(ParcelWeight),
+                idTariff = MyTariff.id,
+                idTypeOfParcel = ParcelTypeSelected.id,
+                idMethodOfSend = ParcelSendMethodSelected.id,
+                dateOfShipment = DateTime.Now,
+                idStatus = (int)enumParcelStatus.registered
             };
+            if (senderRegion != null)
+            {
+                parcel.idSenderRegion = senderRegion.id;
+                parcel.code = $"{senderRegion.Warehouse.code}/{receiverRegion.Warehouse.code}/{DateTime.Now.Year - 2000}";
+            }else
+                parcel.code = $"{receiverRegion.Warehouse.code}/{DateTime.Now.Year - 2000}";
+
+
+            CompanyEntities.Parcel.Add(parcel);
+            CompanyEntities.SaveChanges();
+            parcel.code = $"{parcel.id}/{parcel.code}";
+            CompanyEntities.SaveChanges();
+
             return true;
         }
     }
