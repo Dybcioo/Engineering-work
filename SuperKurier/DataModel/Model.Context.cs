@@ -32,6 +32,7 @@ namespace DataModel
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<HistoryOfParcel> HistoryOfParcel { get; set; }
         public virtual DbSet<Localization> Localization { get; set; }
+        public virtual DbSet<MethodOfSend> MethodOfSend { get; set; }
         public virtual DbSet<Parcel> Parcel { get; set; }
         public virtual DbSet<ParcelMoving> ParcelMoving { get; set; }
         public virtual DbSet<Position> Position { get; set; }

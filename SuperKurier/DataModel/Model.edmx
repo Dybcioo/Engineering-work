@@ -83,6 +83,13 @@
           <Property Name="latitude" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="longitude" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <EntityType Name="MethodOfSend">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="method" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
         <EntityType Name="Parcel">
           <Key>
             <PropertyRef Name="id" />
@@ -104,6 +111,7 @@
           <Property Name="width" Type="numeric" Precision="5" Scale="2" />
           <Property Name="length" Type="numeric" Precision="5" Scale="2" />
           <Property Name="idTariff" Type="int" />
+          <Property Name="idMethodOfSend" Type="int" />
         </EntityType>
         <EntityType Name="ParcelMoving">
           <Key>
@@ -153,7 +161,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="valueFrom" Type="int" Nullable="false" />
           <Property Name="valueTo" Type="int" Nullable="false" />
           <Property Name="cost" Type="decimal" Precision="5" Scale="2" Nullable="false" />
@@ -359,6 +367,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Parcel_MethodOfSend">
+          <End Role="MethodOfSend" Type="Self.MethodOfSend" Multiplicity="0..1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MethodOfSend">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idMethodOfSend" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Parcel_Region">
           <End Role="Region" Type="Self.Region" Multiplicity="1" />
           <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
@@ -499,6 +519,7 @@
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HistoryOfParcel" EntityType="Self.HistoryOfParcel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Localization" EntityType="Self.Localization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MethodOfSend" EntityType="Self.MethodOfSend" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parcel" EntityType="Self.Parcel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ParcelMoving" EntityType="Self.ParcelMoving" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
@@ -567,6 +588,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Parcel_Customer1" Association="Self.FK_Parcel_Customer1">
             <End Role="Customer" EntitySet="Customer" />
+            <End Role="Parcel" EntitySet="Parcel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_MethodOfSend" Association="Self.FK_Parcel_MethodOfSend">
+            <End Role="MethodOfSend" EntitySet="MethodOfSend" />
             <End Role="Parcel" EntitySet="Parcel" />
           </AssociationSet>
           <AssociationSet Name="FK_Parcel_Region" Association="Self.FK_Parcel_Region">
@@ -722,6 +747,14 @@
           <NavigationProperty Name="Region" Relationship="Self.FK_Region_Localization" FromRole="Localization" ToRole="Region" />
           <NavigationProperty Name="Region1" Relationship="Self.FK_Region_Localization1" FromRole="Localization" ToRole="Region" />
         </EntityType>
+        <EntityType Name="MethodOfSend">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="method" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Parcel" Relationship="Self.FK_Parcel_MethodOfSend" FromRole="MethodOfSend" ToRole="Parcel" />
+        </EntityType>
         <EntityType Name="Parcel">
           <Key>
             <PropertyRef Name="id" />
@@ -743,9 +776,11 @@
           <Property Name="width" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="length" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="idTariff" Type="Int32" />
+          <Property Name="idMethodOfSend" Type="Int32" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_Parcel_Customer" FromRole="Parcel" ToRole="Customer" />
           <NavigationProperty Name="Customer1" Relationship="Self.FK_Parcel_Customer1" FromRole="Parcel" ToRole="Customer" />
           <NavigationProperty Name="HistoryOfParcel" Relationship="Self.FK_HistoryOfParcel_Parcel" FromRole="Parcel" ToRole="HistoryOfParcel" />
+          <NavigationProperty Name="MethodOfSend" Relationship="Self.FK_Parcel_MethodOfSend" FromRole="Parcel" ToRole="MethodOfSend" />
           <NavigationProperty Name="Region" Relationship="Self.FK_Parcel_Region" FromRole="Parcel" ToRole="Region" />
           <NavigationProperty Name="Status" Relationship="Self.FK_Parcel_Status" FromRole="Parcel" ToRole="Status" />
           <NavigationProperty Name="Tariff" Relationship="Self.FK_Parcel_Tariff" FromRole="Parcel" ToRole="Tariff" />
@@ -812,7 +847,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="valueFrom" Type="Int32" Nullable="false" />
           <Property Name="valueTo" Type="Int32" Nullable="false" />
           <Property Name="cost" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
@@ -1073,6 +1108,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Parcel_MethodOfSend">
+          <End Role="MethodOfSend" Type="Self.MethodOfSend" Multiplicity="0..1" />
+          <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MethodOfSend">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Parcel">
+              <PropertyRef Name="idMethodOfSend" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Parcel_Region">
           <End Role="Region" Type="Self.Region" Multiplicity="1" />
           <End Role="Parcel" Type="Self.Parcel" Multiplicity="*" />
@@ -1165,6 +1212,7 @@
           <EntitySet Name="Employee" EntityType="Self.Employee" />
           <EntitySet Name="HistoryOfParcel" EntityType="Self.HistoryOfParcel" />
           <EntitySet Name="Localization" EntityType="Self.Localization" />
+          <EntitySet Name="MethodOfSend" EntityType="Self.MethodOfSend" />
           <EntitySet Name="Parcel" EntityType="Self.Parcel" />
           <EntitySet Name="ParcelMoving" EntityType="Self.ParcelMoving" />
           <EntitySet Name="Position" EntityType="Self.Position" />
@@ -1250,6 +1298,10 @@
           <AssociationSet Name="FK_Region_Localization1" Association="Self.FK_Region_Localization1">
             <End Role="Localization" EntitySet="Localization" />
             <End Role="Region" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcel_MethodOfSend" Association="Self.FK_Parcel_MethodOfSend">
+            <End Role="MethodOfSend" EntitySet="MethodOfSend" />
+            <End Role="Parcel" EntitySet="Parcel" />
           </AssociationSet>
           <AssociationSet Name="FK_Parcel_Region" Association="Self.FK_Parcel_Region">
             <End Role="Region" EntitySet="Region" />
@@ -1371,6 +1423,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MethodOfSend">
+            <EntityTypeMapping TypeName="CompanyModel.MethodOfSend">
+              <MappingFragment StoreEntitySet="MethodOfSend">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="method" ColumnName="method" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Parcel">
             <EntityTypeMapping TypeName="CompanyModel.Parcel">
               <MappingFragment StoreEntitySet="Parcel">
@@ -1391,6 +1451,7 @@
                 <ScalarProperty Name="width" ColumnName="width" />
                 <ScalarProperty Name="length" ColumnName="length" />
                 <ScalarProperty Name="idTariff" ColumnName="idTariff" />
+                <ScalarProperty Name="idMethodOfSend" ColumnName="idMethodOfSend" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -38,11 +38,13 @@ namespace DataModel
         public Nullable<decimal> width { get; set; }
         public Nullable<decimal> length { get; set; }
         public Nullable<int> idTariff { get; set; }
+        public Nullable<int> idMethodOfSend { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Customer Customer1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HistoryOfParcel> HistoryOfParcel { get; set; }
+        public virtual MethodOfSend MethodOfSend { get; set; }
         public virtual Region Region { get; set; }
         public virtual Status Status { get; set; }
         public virtual Tariff Tariff { get; set; }

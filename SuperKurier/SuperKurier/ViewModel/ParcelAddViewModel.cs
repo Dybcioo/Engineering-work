@@ -359,7 +359,36 @@ namespace SuperKurier.ViewModel
         public Tariff MyTariff { get; set; }
 
         public BindableCollection<TypeOfParcel> ParcelType { get; set; }
-        public TypeOfParcel ParcelTypeSelected { get; set; }
+
+        private TypeOfParcel _parcelTypeSelected;
+        public TypeOfParcel ParcelTypeSelected 
+        {
+            get { return _parcelTypeSelected; }
+            set
+            {
+                if(value != _parcelTypeSelected)
+                {
+                    _parcelTypeSelected = value;
+                    OnPropertChanged("ParcelTypeSelected");
+                }
+            }
+        }
+
+        public BindableCollection<MethodOfSend> ParcelSendMethod { get; set; }
+
+        private MethodOfSend _parcelSendMethodSelected;
+        public MethodOfSend ParcelSendMethodSelected
+        {
+            get { return _parcelSendMethodSelected; }
+            set
+            {
+                if (value != _parcelSendMethodSelected)
+                {
+                    _parcelSendMethodSelected = value;
+                    OnPropertChanged("ParcelSendMethodSelected");
+                }
+            }
+        }
 
 
         public string Error => throw new NotImplementedException();
@@ -583,6 +612,9 @@ namespace SuperKurier.ViewModel
         {
             ParcelType = new BindableCollection<TypeOfParcel>(CompanyEntities.TypeOfParcel.ToList());
             ParcelTypeSelected = ParcelType.FirstOrDefault();
+
+            ParcelSendMethod = new BindableCollection<MethodOfSend>(CompanyEntities.MethodOfSend.ToList());
+            ParcelSendMethodSelected = ParcelSendMethod.FirstOrDefault();
         }
 
         public bool SendParcel()

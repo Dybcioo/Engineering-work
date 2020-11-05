@@ -396,6 +396,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="1" Content="Waga:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}" Height="24"/>
                     <TextBox Grid.Row="1" x:Name="ParcelWeight" HorizontalAlignment="Stretch"  Height="23" Margin="15,35,30,0" Text="{Binding ParcelWeight, UpdateSourceTrigger=PropertyChanged,
@@ -424,6 +425,17 @@
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding type, UpdateSourceTrigger=PropertyChanged,
+                                ValidatesOnDataErrors=true, NotifyOnValidationError=true}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Label Grid.Row="7" Content="Metoda nadania:" HorizontalAlignment="Stretch" VerticalAlignment="Top"   Margin="10,0,0,0" Foreground="{Binding ForegroundOption}" Height="24"/>
+                    <ComboBox Grid.Row="7" x:Name="ParcelSendMethod" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch" VerticalAlignment="Top"  Margin="15,25,25,0"  ItemsSource="{Binding ParcelSendMethod}" Background="{Binding InputOption}"
+                            SelectedItem="{Binding ParcelSendMethodSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                            ValidatesOnDataErrors=true, NotifyOnValidationError=true}" IsSynchronizedWithCurrentItem="True" Validation.Error="Validation_Error" Height="22">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding method, UpdateSourceTrigger=PropertyChanged,
                                 ValidatesOnDataErrors=true, NotifyOnValidationError=true}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
