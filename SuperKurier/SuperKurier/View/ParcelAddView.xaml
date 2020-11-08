@@ -460,11 +460,11 @@
                     <Button Grid.Row="2" Name="calculateCost" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40"  MaxWidth="250" Click="calculateCost_Click">Oblicz koszt</Button>
                     <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" Margin="0,0,70,0" Foreground="{Binding ForegroundOption}">Koszt nadania przesyłki: </TextBlock>
                     <TextBlock Grid.Row="3" x:Name="Worth" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Margin="120,0,0,0" Foreground="{Binding ForegroundOption}">0,00 zł</TextBlock>
-                    <Grid Grid.Row="4" Margin="30,0,30,0" MaxHeight="40" Width="250" HorizontalAlignment="Left" Background="{Binding InputOption}">
-                        <CheckBox  Foreground="{Binding ForegroundOption}"  >Generuj etykiete</CheckBox>
+                    <Grid Grid.Row="4"  Margin="30,0,30,0" MaxHeight="40" Width="250" HorizontalAlignment="Left" Background="{Binding InputOption}">
+                        <CheckBox Name="generateLabel" Foreground="{Binding ForegroundOption}"  >Generuj etykiete</CheckBox>
                     </Grid>
-                    <Grid Grid.Row="6" Margin="30,0,30,0" MaxHeight="40" Width="250" HorizontalAlignment="Left" Background="{Binding InputOption}">
-                        <CheckBox Foreground="{Binding ForegroundOption}" >Generuj potwierdzenie nadania</CheckBox>
+                    <Grid Grid.Row="6"  Margin="30,0,30,0" MaxHeight="40" Width="250" HorizontalAlignment="Left" Background="{Binding InputOption}">
+                        <CheckBox x:Name="generateConfirmate" Foreground="{Binding ForegroundOption}" >Generuj potwierdzenie nadania</CheckBox>
                     </Grid>
 
                     <Button Grid.Row="7" Name="SendParcel" Click="SendParcel_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40" MaxWidth="250" Margin="60,24" Command="New">Nadaj przesyłkę</Button>

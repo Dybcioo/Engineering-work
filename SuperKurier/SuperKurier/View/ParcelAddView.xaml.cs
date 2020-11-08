@@ -383,7 +383,7 @@ namespace SuperKurier.View
             if (!info.Answer)
                 return;
 
-            if (parcelAddViewModel.SendParcel(senderRegion, receiverRegion, From, To))
+            if (parcelAddViewModel.SendParcel(senderRegion, receiverRegion, From, To, (bool)generateLabel.IsChecked))
             {
                 info.ShowInfo("Przesyłka została nadana!", "Nadanie przesyłki", "Ok");
                 parcelAddViewModel.VisibilityOption = Visibility.Hidden;

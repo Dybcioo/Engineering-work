@@ -1,14 +1,21 @@
 ﻿using Caliburn.Micro;
 using DataModel;
 using Microsoft.Maps.MapControl.WPF;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 using SuperKurier.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using ZXing;
 
 namespace SuperKurier.ViewModel
 {
@@ -623,7 +630,7 @@ namespace SuperKurier.ViewModel
             ParcelSendMethodSelected = ParcelSendMethod.FirstOrDefault();
         }
 
-        public bool SendParcel(DataModel.Region senderRegion, DataModel.Region receiverRegion, Location senderLocation, Location receiverLocation)
+        public bool SendParcel(DataModel.Region senderRegion, DataModel.Region receiverRegion, Location senderLocation, Location receiverLocation, bool generateLabel)
         {
             try
             {
@@ -737,11 +744,119 @@ namespace SuperKurier.ViewModel
                 CompanyEntities.SaveChanges();
                 parcel.code = $"{parcel.id}/{parcel.code}";
                 CompanyEntities.SaveChanges();
+
+                if (generateLabel)
+                    GenerateLabel(receiverRegion, parcel);
+
                 return true;
             }catch(Exception e)
             {
                 return false;
             }
+        }
+
+        public void GenerateLabel(DataModel.Region receiverRegion, Parcel parcel)
+        {
+            PdfDocument document = new PdfDocument();
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XFont font = new XFont("Verdana", 16, XFontStyle.Bold);
+            XFont fontDimension = new XFont("Verdana", 12, XFontStyle.Bold);
+            XFont fontData = new XFont("Verdana", 12, XFontStyle.Regular);
+            XFont fontLight = new XFont("Verdana", 8, XFontStyle.Regular);
+
+
+            gfx.DrawRectangle(XPens.Black, 10, 10, page.Width - 20, 300);
+            gfx.DrawRectangle(XPens.Black, 10, 10, 250, 200);
+            gfx.DrawRectangle(XPens.Black, 10, 10, 250, 60);
+            gfx.DrawString("NADAWCA", font, XBrushes.Black, new XRect(10, 70, 125, 30), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, 10, 70, 125, 30);
+            gfx.DrawString("ODBIORCA", font, XBrushes.Black, new XRect(135, 70, 125, 30), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, 135, 70, 125, 30);
+            gfx.DrawRectangle(XPens.Black, 10, 100, 125, 110);
+            gfx.DrawRectangle(XPens.Black, 135, 100, 125, 110);
+            gfx.DrawRectangle(XPens.Black, 10, 210, 260, 25);
+            gfx.DrawString("Wys:", fontDimension, XBrushes.Black, new XRect(10, 210, 100, 25), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, 10, 210, 100, 25);
+            gfx.DrawString($"{parcel.height} cm", fontData, XBrushes.Black, new XRect(110, 210, 160, 25), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, 10, 235, 260, 25);
+            gfx.DrawString("Szer:", fontDimension, XBrushes.Black, new XRect(10, 235, 100, 25), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, 10, 235, 100, 25);
+            gfx.DrawString($"{parcel.width} cm", fontData, XBrushes.Black, new XRect(110, 235, 160, 25), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, 10, 260, 260, 25);
+            gfx.DrawString("Dług:", fontDimension, XBrushes.Black, new XRect(10, 260, 100, 25), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, 10, 260, 100, 25);
+            gfx.DrawString($"{parcel.length} cm", fontData, XBrushes.Black, new XRect(110, 260, 160, 25), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, 10, 285, 260, 25);
+            gfx.DrawString("Waga:", fontDimension, XBrushes.Black, new XRect(10, 285, 100, 25), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, 10, 285, 100, 25);
+            gfx.DrawString($"{parcel.weight} kg", fontData, XBrushes.Black, new XRect(110, 285, 160, 25), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, 10, 285, 260, 25);
+            gfx.DrawString("Magazyn", fontLight, XBrushes.Black, new XRect(page.Width - 150, 10, 140, 30), XStringFormat.TopLeft);
+            gfx.DrawString($"{receiverRegion.Warehouse.code}", fontDimension, XBrushes.Black, new XRect(page.Width - 150, 10, 140, 30), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, page.Width - 150, 10, 140, 30);
+            gfx.DrawString("Region", fontLight, XBrushes.Black, new XRect(page.Width - 150, 40, 140, 30), XStringFormat.TopLeft);
+            gfx.DrawString($"{receiverRegion.code}", fontDimension, XBrushes.Black, new XRect(page.Width - 150, 40, 140, 30), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, page.Width - 150, 40, 140, 30);
+            gfx.DrawString("Kod paczki", fontLight, XBrushes.Black, new XRect(page.Width - 150, 70, 140, 30), XStringFormat.TopLeft);
+            gfx.DrawString($"{parcel.code}", fontDimension, XBrushes.Black, new XRect(page.Width - 150, 70, 140, 30), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, page.Width - 150, 70, 140, 30);
+            gfx.DrawString("Data nadania", fontLight, XBrushes.Black, new XRect(270, 210, 140, 25), XStringFormat.TopLeft);
+            gfx.DrawString($"{parcel.dateOfShipment.ToString("yyyy-MM-dd")}", fontDimension, XBrushes.Black, new XRect(270, 210, 140, 25), XStringFormat.BottomCenter);
+            gfx.DrawRectangle(XPens.Black, 270, 210, 140, 25);
+            gfx.DrawString("Pobranie", fontData, XBrushes.Black, new XRect(300, 235, 110, 25), XStringFormat.Center);
+            gfx.DrawRectangle(XPens.Black, 270, 235, 140, 25);
+            gfx.DrawRectangle(XPens.Black, 270, 235, 30, 25);
+            gfx.DrawRectangle(XPens.Black, 275, 240, 15, 15);
+            if (ParcelTypeSelected.id == (int)EnumTypeOfParcel.CashOnDelivery)
+            {
+                gfx.DrawString("X", fontDimension, XBrushes.Black, new XRect(275, 240, 15, 15), XStringFormat.Center);
+                gfx.DrawString($"{parcel.amount} zł", fontDimension, XBrushes.Black, new XRect(270, 260, 140, 50), XStringFormat.Center);
+            }
+            gfx.DrawRectangle(XPens.Black, 270, 260, 140, 50);
+            gfx.DrawRectangle(XPens.Black, 410, 180, 175, 110);
+            gfx.DrawString($"{parcel.id}", fontDimension, XBrushes.Black, new XRect(410, 290, 175, 20), XStringFormat.Center);
+
+            if (!String.IsNullOrWhiteSpace(SenderFirstName))
+                gfx.DrawString($"{SenderFirstName}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 120 });
+            if (!String.IsNullOrWhiteSpace(SenderLastName))
+                gfx.DrawString($"{SenderLastName}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 145 });
+            if(!String.IsNullOrWhiteSpace(SenderCompanyName))
+                gfx.DrawString($"{SenderCompanyName}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 170});
+            if(!String.IsNullOrWhiteSpace(SenderCompanyNIP))
+                gfx.DrawString($"{SenderCompanyNIP}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 195});
+
+            if(!String.IsNullOrWhiteSpace(ReceiverFirstName))
+                gfx.DrawString($"{ReceiverFirstName}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 120});
+            if (!String.IsNullOrWhiteSpace(ReceiverLastName))
+                gfx.DrawString($"{ReceiverLastName}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 145});
+            if (!String.IsNullOrWhiteSpace(ReceiverCompanyName))
+                gfx.DrawString($"{ReceiverCompanyName}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 170});
+            if (!String.IsNullOrWhiteSpace(ReceiverCompanyNIP))
+                gfx.DrawString($"{ReceiverCompanyNIP}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 195});
+
+            gfx.DrawString($"{ReceiverCountry}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 40});
+            gfx.DrawString($"{ReceiverPostalCode}  {ReceiverCity}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 90});
+            if(!String.IsNullOrWhiteSpace(ReceiverStreet))
+                gfx.DrawString($"ul.{ReceiverStreet} {ReceiverNumberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 140});
+            else
+                gfx.DrawString($"{ReceiverNumberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 140});
+
+            var QCwriter = new BarcodeWriter();
+            QCwriter.Format = BarcodeFormat.QR_CODE;
+            QCwriter.Options.Width = 210;
+            QCwriter.Options.Height = 130;
+            QCwriter.Options.Margin = 0;
+            var result = QCwriter.Write("5");
+            var barcodeBitmap = new Bitmap(result);
+            using (MemoryStream memory = new MemoryStream())
+            {
+                barcodeBitmap.Save(memory, ImageFormat.Jpeg);
+                XImage image = XImage.FromStream(memory);
+                gfx.DrawImage(image, new XPoint() { X = 420, Y = 185 });
+            }
+            document.Save($"{parcel.id}.pdf");
+            Process.Start($"{parcel.id}.pdf");
         }
     }
 }
