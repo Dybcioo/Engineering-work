@@ -455,7 +455,7 @@
                     <Label Grid.Row="1" Name="ParcelDistance" Foreground="Red" Panel.ZIndex="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0"></Label>
                     <Label Grid.Row="1" Name="ParcelDuration" Foreground="Red" Panel.ZIndex="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,10,0"></Label>
                     <m:Map Grid.Row="1"  MinHeight="300" Width="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ParcelMap" Margin="10" MouseMove="ParcelMap_MouseMove" CredentialsProvider="4zVzomIhx3FPdd6MwCo5~vFNFUzU_KFebfFMVQu-DXw~AmbZ9wc13wUEvQOdKvmxl-2lFEPUKMFDdttvVqxsnSVH2tnrEyWxsTo2IngDUbXA"
-                   Mode="Road" MouseRightButtonDown="ParcelMap_MouseRightButtonDown">
+                   Mode="Road" MouseRightButtonDown="ParcelMap_MouseRightButtonDown" ToolTip="Kliknij prawym przyciskiem myszy aby zobaczyć opcje wyznaczania trasy">
                     </m:Map>
                     <Button Grid.Row="2" Name="calculateCost" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" MaxHeight="40"  MaxWidth="250" Click="calculateCost_Click">Oblicz koszt</Button>
                     <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" Margin="0,0,70,0" Foreground="{Binding ForegroundOption}">Koszt nadania przesyłki: </TextBlock>

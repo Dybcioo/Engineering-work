@@ -7,6 +7,7 @@ using SuperKurier.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -32,6 +33,7 @@ namespace SuperKurier.ViewModel
                 {
                     _senderFirstName = value;
                     OnPropertChanged("SenderFirstName");
+                    OnPropertChanged("SenderLastName");
                     OnPropertChanged("SenderCompanyNIP");
                     OnPropertChanged("SenderCompanyName");
                 }
@@ -46,6 +48,7 @@ namespace SuperKurier.ViewModel
                 if (value != _senderLastName)
                 {
                     _senderLastName = value;
+                    OnPropertChanged("SenderFirstName");
                     OnPropertChanged("SenderLastName");
                     OnPropertChanged("SenderCompanyNIP");
                     OnPropertChanged("SenderCompanyName");
@@ -61,9 +64,10 @@ namespace SuperKurier.ViewModel
                 if (value != _senderCompanyName)
                 {
                     _senderCompanyName = value;
-                    OnPropertChanged("SenderCompanyName");
-                    OnPropertChanged("SenderLastName");
                     OnPropertChanged("SenderFirstName");
+                    OnPropertChanged("SenderLastName");
+                    OnPropertChanged("SenderCompanyNIP");
+                    OnPropertChanged("SenderCompanyName");
                 }
             }
         }
@@ -76,9 +80,10 @@ namespace SuperKurier.ViewModel
                 if (value != _senderCompanyNIP)
                 {
                     _senderCompanyNIP = value;
-                    OnPropertChanged("SenderCompanyNIP");
-                    OnPropertChanged("SenderLastName");
                     OnPropertChanged("SenderFirstName");
+                    OnPropertChanged("SenderLastName");
+                    OnPropertChanged("SenderCompanyNIP");
+                    OnPropertChanged("SenderCompanyName");
                 }
             }
         }
@@ -170,6 +175,7 @@ namespace SuperKurier.ViewModel
                 {
                     _receiverFirstName = value;
                     OnPropertChanged("ReceiverFirstName");
+                    OnPropertChanged("ReceiverLastName");
                     OnPropertChanged("ReceiverCompanyNIP");
                     OnPropertChanged("ReceiverCompanyName");
                 }
@@ -184,6 +190,7 @@ namespace SuperKurier.ViewModel
                 if (value != _receiverLastName)
                 {
                     _receiverLastName = value;
+                    OnPropertChanged("ReceiverFirstName");
                     OnPropertChanged("ReceiverLastName");
                     OnPropertChanged("ReceiverCompanyNIP");
                     OnPropertChanged("ReceiverCompanyName");
@@ -199,9 +206,10 @@ namespace SuperKurier.ViewModel
                 if (value != _receiverCompanyName)
                 {
                     _receiverCompanyName = value;
-                    OnPropertChanged("ReceiverCompanyName");
                     OnPropertChanged("ReceiverFirstName");
                     OnPropertChanged("ReceiverLastName");
+                    OnPropertChanged("ReceiverCompanyNIP");
+                    OnPropertChanged("ReceiverCompanyName");
                 }
             }
         }
@@ -214,9 +222,10 @@ namespace SuperKurier.ViewModel
                 if (value != _receiverCompanyNIP)
                 {
                     _receiverCompanyNIP = value;
-                    OnPropertChanged("ReceiverCompanyNIP");
                     OnPropertChanged("ReceiverFirstName");
                     OnPropertChanged("ReceiverLastName");
+                    OnPropertChanged("ReceiverCompanyNIP");
+                    OnPropertChanged("ReceiverCompanyName");
                 }
             }
         }
@@ -413,7 +422,7 @@ namespace SuperKurier.ViewModel
                 switch (columnName)
                 {
                     case "SenderFirstName":
-                        if (!string.IsNullOrEmpty(SenderCompanyName) || !string.IsNullOrEmpty(SenderCompanyNIP))
+                        if ((!string.IsNullOrEmpty(SenderCompanyName) && !string.IsNullOrEmpty(SenderCompanyNIP)) && string.IsNullOrWhiteSpace(SenderLastName))
                             break;
                         if (string.IsNullOrWhiteSpace(SenderFirstName))
                             result = "Pole nie może być puste";
@@ -421,7 +430,7 @@ namespace SuperKurier.ViewModel
                             result = "Długość imienia nie może przekraczać 25 znaków";
                         break;
                     case "SenderLastName":
-                        if (!string.IsNullOrEmpty(SenderCompanyName) || !string.IsNullOrEmpty(SenderCompanyNIP))
+                        if ((!string.IsNullOrEmpty(SenderCompanyName) && !string.IsNullOrEmpty(SenderCompanyNIP)) && string.IsNullOrWhiteSpace(SenderFirstName))
                             break;
                         if (string.IsNullOrWhiteSpace(SenderLastName))
                             result = "Pole nie może być puste";
@@ -429,7 +438,7 @@ namespace SuperKurier.ViewModel
                             result = "Długość nazwiska nie może przekraczać 30 znaków";
                         break;
                     case "SenderCompanyName":
-                        if (!string.IsNullOrEmpty(SenderFirstName) || !string.IsNullOrEmpty(SenderLastName))
+                        if ((!string.IsNullOrEmpty(SenderFirstName) && !string.IsNullOrEmpty(SenderLastName)) && string.IsNullOrWhiteSpace(SenderCompanyNIP))
                             break;
                         if (string.IsNullOrWhiteSpace(SenderCompanyName))
                             result = "Pole nie może być puste";
@@ -437,15 +446,20 @@ namespace SuperKurier.ViewModel
                             result = "Nazwa firmy nie może przekraczać 25 znaków";
                         break;
                     case "SenderCompanyNIP":
-                        condition = int.TryParse(SenderCompanyNIP, out NIP);
-                        if (!string.IsNullOrEmpty(SenderFirstName) || !string.IsNullOrEmpty(SenderLastName))
+                        if ((!string.IsNullOrEmpty(SenderFirstName) && !string.IsNullOrEmpty(SenderLastName)) && string.IsNullOrWhiteSpace(SenderCompanyName))
                             break;
-                        if (string.IsNullOrEmpty(SenderCompanyNIP))
+                        if (string.IsNullOrWhiteSpace(SenderCompanyNIP))
                             result = "Pole nie może być puste";
-                        else if (!condition)
-                            result = "NIP musi zawierać wyłącznie cyfry";
-                        else if (SenderCompanyNIP.Length != 10)
-                            result = "NIP musi zawierać 10 cyfr";
+                        else
+                        if (decimal.TryParse(SenderCompanyNIP, out value))
+                        {
+                        if (value <= 0)
+                            result = "Numer NIP jest wymagany";
+                        }
+                        else
+                        {
+                            result = "Podana wartość nie jest liczbą";
+                        }
                         break;
                     case "SenderTel":
                         condition = int.TryParse(SenderTel, out NIP);
@@ -487,7 +501,7 @@ namespace SuperKurier.ViewModel
                             result = "Długość numeru domu nie może przekraczać 10 znaków";
                         break;
                     case "ReceiverFirstName":
-                        if (!string.IsNullOrEmpty(ReceiverCompanyName) || !string.IsNullOrEmpty(ReceiverCompanyNIP))
+                        if ((!string.IsNullOrEmpty(ReceiverCompanyName) && !string.IsNullOrEmpty(ReceiverCompanyNIP)) && string.IsNullOrWhiteSpace(ReceiverFirstName))
                             break;
                         if (string.IsNullOrWhiteSpace(ReceiverFirstName))
                             result = "Pole nie może być puste";
@@ -495,7 +509,7 @@ namespace SuperKurier.ViewModel
                             result = "Długość imienia nie może przekraczać 25 znaków";
                         break;
                     case "ReceiverLastName":
-                        if (!string.IsNullOrEmpty(ReceiverCompanyName) || !string.IsNullOrEmpty(ReceiverCompanyNIP))
+                        if ((!string.IsNullOrEmpty(ReceiverCompanyName) && !string.IsNullOrEmpty(ReceiverCompanyNIP)) && string.IsNullOrWhiteSpace(ReceiverLastName))
                             break;
                         if (string.IsNullOrWhiteSpace(ReceiverLastName))
                             result = "Pole nie może być puste";
@@ -503,7 +517,7 @@ namespace SuperKurier.ViewModel
                             result = "Długość nazwiska nie może przekraczać 30 znaków";
                         break;
                     case "ReceiverCompanyName":
-                        if (!string.IsNullOrEmpty(ReceiverFirstName) || !string.IsNullOrEmpty(ReceiverLastName))
+                        if ((!string.IsNullOrEmpty(ReceiverFirstName) && !string.IsNullOrEmpty(ReceiverLastName)) && string.IsNullOrWhiteSpace(ReceiverCompanyNIP))
                             break;
                         if (string.IsNullOrWhiteSpace(ReceiverCompanyName))
                             result = "Pole nie może być puste";
@@ -511,15 +525,20 @@ namespace SuperKurier.ViewModel
                             result = "Nazwa firmy nie może przekraczać 25 znaków";
                         break;
                     case "ReceiverCompanyNIP":
-                         condition = int.TryParse(ReceiverCompanyNIP, out NIP);
-                        if (!string.IsNullOrEmpty(ReceiverFirstName) || !string.IsNullOrEmpty(ReceiverLastName))
+                        if ((!string.IsNullOrEmpty(ReceiverFirstName) && !string.IsNullOrEmpty(ReceiverLastName)) && string.IsNullOrWhiteSpace(ReceiverCompanyName))
                             break;
-                        if (string.IsNullOrEmpty(ReceiverCompanyNIP))
+                        if(string.IsNullOrWhiteSpace(ReceiverCompanyName))
                             result = "Pole nie może być puste";
-                        else if (!condition)
-                            result = "NIP musi zawierać wyłącznie cyfry";
-                        else if (ReceiverCompanyNIP.Length != 10)
-                            result = "NIP musi zawierać 10 cyfr";
+                        else
+                        if (decimal.TryParse(ReceiverCompanyNIP, out value))
+                        {
+                            if (value <= 0)
+                                result = "Numer NIP jest wymagany";
+                        }
+                        else
+                        {
+                            result = "Podana wartość nie jest liczbą";
+                        }
                         break;
                     case "ReceiverTel":
                         condition = int.TryParse(ReceiverTel, out NIP);
@@ -630,7 +649,7 @@ namespace SuperKurier.ViewModel
             ParcelSendMethodSelected = ParcelSendMethod.FirstOrDefault();
         }
 
-        public bool SendParcel(DataModel.Region senderRegion, DataModel.Region receiverRegion, Location senderLocation, Location receiverLocation, bool generateLabel)
+        public bool SendParcel(DataModel.Region senderRegion, DataModel.Region receiverRegion, Location senderLocation, Location receiverLocation, bool generateLabel, bool generateConfirmation)
         {
             try
             {
@@ -738,16 +757,15 @@ namespace SuperKurier.ViewModel
                 }
                 else
                     parcel.code = $"{receiverRegion.Warehouse.code}/{DateTime.Now.Year - 2000}";
-
-
                 CompanyEntities.Parcel.Add(parcel);
                 CompanyEntities.SaveChanges();
                 parcel.code = $"{parcel.id}/{parcel.code}";
                 CompanyEntities.SaveChanges();
 
                 if (generateLabel)
-                    GenerateLabel(receiverRegion, parcel);
-
+                    GenerateLabel(parcel.id);
+                if (generateConfirmation)
+                    GenerateConfirmation(parcel.id);
                 return true;
             }catch(Exception e)
             {
@@ -755,8 +773,18 @@ namespace SuperKurier.ViewModel
             }
         }
 
-        public void GenerateLabel(DataModel.Region receiverRegion, Parcel parcel)
+        public void GenerateLabel(int parcelId)
         {
+            Parcel parcel = CompanyEntities.Parcel.Include(p => p.Region)
+                .Include(p => p.Region1)
+                .Include(p => p.Tariff)
+                .Include(p => p.Customer)
+                .Include(p => p.Customer.Address)
+                .Include(p => p.Customer.Company)
+                .Include(p => p.Customer1)
+                .Include(p => p.Customer1.Address)
+                .Include(p => p.Customer1.Company)
+                .FirstOrDefault(p => p.id == parcelId);
             PdfDocument document = new PdfDocument();
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
@@ -793,10 +821,10 @@ namespace SuperKurier.ViewModel
             gfx.DrawString($"{parcel.weight} kg", fontData, XBrushes.Black, new XRect(110, 285, 160, 25), XStringFormat.Center);
             gfx.DrawRectangle(XPens.Black, 10, 285, 260, 25);
             gfx.DrawString("Magazyn", fontLight, XBrushes.Black, new XRect(page.Width - 150, 10, 140, 30), XStringFormat.TopLeft);
-            gfx.DrawString($"{receiverRegion.Warehouse.code}", fontDimension, XBrushes.Black, new XRect(page.Width - 150, 10, 140, 30), XStringFormat.Center);
+            gfx.DrawString($"{parcel.Region.Warehouse.code}", fontDimension, XBrushes.Black, new XRect(page.Width - 150, 10, 140, 30), XStringFormat.Center);
             gfx.DrawRectangle(XPens.Black, page.Width - 150, 10, 140, 30);
             gfx.DrawString("Region", fontLight, XBrushes.Black, new XRect(page.Width - 150, 40, 140, 30), XStringFormat.TopLeft);
-            gfx.DrawString($"{receiverRegion.code}", fontDimension, XBrushes.Black, new XRect(page.Width - 150, 40, 140, 30), XStringFormat.Center);
+            gfx.DrawString($"{parcel.Region.code}", fontDimension, XBrushes.Black, new XRect(page.Width - 150, 40, 140, 30), XStringFormat.Center);
             gfx.DrawRectangle(XPens.Black, page.Width - 150, 40, 140, 30);
             gfx.DrawString("Kod paczki", fontLight, XBrushes.Black, new XRect(page.Width - 150, 70, 140, 30), XStringFormat.TopLeft);
             gfx.DrawString($"{parcel.code}", fontDimension, XBrushes.Black, new XRect(page.Width - 150, 70, 140, 30), XStringFormat.Center);
@@ -808,7 +836,7 @@ namespace SuperKurier.ViewModel
             gfx.DrawRectangle(XPens.Black, 270, 235, 140, 25);
             gfx.DrawRectangle(XPens.Black, 270, 235, 30, 25);
             gfx.DrawRectangle(XPens.Black, 275, 240, 15, 15);
-            if (ParcelTypeSelected.id == (int)EnumTypeOfParcel.CashOnDelivery)
+            if (parcel.idTypeOfParcel == (int)EnumTypeOfParcel.CashOnDelivery)
             {
                 gfx.DrawString("X", fontDimension, XBrushes.Black, new XRect(275, 240, 15, 15), XStringFormat.Center);
                 gfx.DrawString($"{parcel.amount} zł", fontDimension, XBrushes.Black, new XRect(270, 260, 140, 50), XStringFormat.Center);
@@ -817,37 +845,37 @@ namespace SuperKurier.ViewModel
             gfx.DrawRectangle(XPens.Black, 410, 180, 175, 110);
             gfx.DrawString($"{parcel.id}", fontDimension, XBrushes.Black, new XRect(410, 290, 175, 20), XStringFormat.Center);
 
-            if (!String.IsNullOrWhiteSpace(SenderFirstName))
-                gfx.DrawString($"{SenderFirstName}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 120 });
-            if (!String.IsNullOrWhiteSpace(SenderLastName))
-                gfx.DrawString($"{SenderLastName}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 145 });
-            if(!String.IsNullOrWhiteSpace(SenderCompanyName))
-                gfx.DrawString($"{SenderCompanyName}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 170});
-            if(!String.IsNullOrWhiteSpace(SenderCompanyNIP))
-                gfx.DrawString($"{SenderCompanyNIP}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 195});
+            if (!String.IsNullOrWhiteSpace(parcel.Customer.firstName))
+                gfx.DrawString($"{parcel.Customer.firstName}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 120 });
+            if (!String.IsNullOrWhiteSpace(parcel.Customer.lastName))
+                gfx.DrawString($"{parcel.Customer.lastName}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 145 });
+            if(parcel.Customer.Company != null && !String.IsNullOrWhiteSpace(parcel.Customer.Company.name))
+                gfx.DrawString($"{parcel.Customer.Company.name}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 170});
+            if (parcel.Customer.Company != null &&  parcel.Customer.Company.NIP != 0)
+                gfx.DrawString($"{parcel.Customer.Company.NIP}", fontData, XBrushes.Black, new XPoint() { X = 20, Y = 195});
 
-            if(!String.IsNullOrWhiteSpace(ReceiverFirstName))
-                gfx.DrawString($"{ReceiverFirstName}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 120});
-            if (!String.IsNullOrWhiteSpace(ReceiverLastName))
-                gfx.DrawString($"{ReceiverLastName}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 145});
-            if (!String.IsNullOrWhiteSpace(ReceiverCompanyName))
-                gfx.DrawString($"{ReceiverCompanyName}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 170});
-            if (!String.IsNullOrWhiteSpace(ReceiverCompanyNIP))
-                gfx.DrawString($"{ReceiverCompanyNIP}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 195});
+            if(!String.IsNullOrWhiteSpace(parcel.Customer1.firstName))
+                gfx.DrawString($"{parcel.Customer1.firstName}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 120});
+            if (!String.IsNullOrWhiteSpace(parcel.Customer1.lastName))
+                gfx.DrawString($"{parcel.Customer1.lastName}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 145});
+            if (parcel.Customer1.Company != null && !String.IsNullOrWhiteSpace(parcel.Customer1.Company.name))
+                gfx.DrawString($"{parcel.Customer1.Company.name}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 170});
+            if (parcel.Customer1.Company != null && parcel.Customer1.Company.NIP != 0)
+                gfx.DrawString($"{parcel.Customer1.Company.NIP}", fontData, XBrushes.Black, new XPoint() { X = 145, Y = 195});
 
-            gfx.DrawString($"{ReceiverCountry}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 40});
-            gfx.DrawString($"{ReceiverPostalCode}  {ReceiverCity}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 90});
-            if(!String.IsNullOrWhiteSpace(ReceiverStreet))
-                gfx.DrawString($"ul.{ReceiverStreet} {ReceiverNumberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 140});
+            gfx.DrawString($"{parcel.Customer1.Address.country}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 40});
+            gfx.DrawString($"{parcel.Customer1.Address.postalCode}  {parcel.Customer1.Address.city}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 90});
+            if(!String.IsNullOrWhiteSpace(parcel.Customer1.Address.street))
+                gfx.DrawString($"ul.{parcel.Customer1.Address.street} {parcel.Customer1.Address.numberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 140});
             else
-                gfx.DrawString($"{ReceiverNumberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 140});
+                gfx.DrawString($"{parcel.Customer1.Address.numberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 270, Y = 140});
 
             var QCwriter = new BarcodeWriter();
             QCwriter.Format = BarcodeFormat.QR_CODE;
             QCwriter.Options.Width = 210;
             QCwriter.Options.Height = 130;
             QCwriter.Options.Margin = 0;
-            var result = QCwriter.Write("5");
+            var result = QCwriter.Write(parcel.id.ToString());
             var barcodeBitmap = new Bitmap(result);
             using (MemoryStream memory = new MemoryStream())
             {
@@ -855,8 +883,62 @@ namespace SuperKurier.ViewModel
                 XImage image = XImage.FromStream(memory);
                 gfx.DrawImage(image, new XPoint() { X = 420, Y = 185 });
             }
-            document.Save($"{parcel.id}.pdf");
-            Process.Start($"{parcel.id}.pdf");
+            document.Save($"{parcel.id}Label.pdf");
+            Process.Start($"{parcel.id}Label.pdf");
+        }
+
+        private void GenerateConfirmation(int parcelId)
+        {
+            Parcel parcel = CompanyEntities.Parcel.Include(p => p.Region)
+                .Include(p => p.Region1)
+                .Include(p => p.Tariff)
+                .Include(p => p.Customer1)
+                .Include(p => p.Customer1.Address)
+                .Include(p => p.Customer1.Company)
+                .FirstOrDefault(p => p.id == parcelId);
+            PdfDocument document = new PdfDocument();
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XFont font = new XFont("Verdana", 16, XFontStyle.Bold);
+            XFont fontDimension = new XFont("Verdana", 12, XFontStyle.Bold);
+            XFont fontData = new XFont("Verdana", 12, XFontStyle.Regular);
+            XFont fontLight = new XFont("Verdana", 8, XFontStyle.Regular);
+
+            gfx.DrawString("Potwierdzenie nadania przesyłki", font, XBrushes.Black, new XPoint() { X = 150, Y = 80 });
+            gfx.DrawString($"Data wystawienia: {DateTime.Now.ToString("yyyy-MM-dd")}", fontLight, XBrushes.Black, new XPoint() { X = page.Width - 150, Y = 30 });
+            gfx.DrawString("Sprzedawca", fontDimension, XBrushes.Black, new XPoint() { X = 30, Y = 150 });
+            gfx.DrawString("SuperKurier", fontData, XBrushes.Black, new XPoint() { X = 30, Y = 180 });
+            gfx.DrawString("ul.Sienkiewicza 177", fontData, XBrushes.Black, new XPoint() { X = 30, Y = 230 });
+            gfx.DrawString("08-110 Siedlce", fontData, XBrushes.Black, new XPoint() { X = 30, Y = 210 });
+            gfx.DrawString("NIP: 821-222-11-99", fontData, XBrushes.Black, new XPoint() { X = 30, Y = 250 });
+            gfx.DrawString("Nabywca", fontDimension, XBrushes.Black, new XPoint() { X = 320, Y = 150 });
+            if(parcel.Customer1.Company != null && !string.IsNullOrWhiteSpace(parcel.Customer1.Company.name))
+                gfx.DrawString(parcel.Customer1.Company.name, fontData, XBrushes.Black, new XPoint() { X = 320, Y = 170 });
+            if(parcel.Customer1.firstName != null && !string.IsNullOrWhiteSpace(parcel.Customer1.firstName))
+                gfx.DrawString($"{parcel.Customer1.firstName}  {parcel.Customer1.lastName}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 190 });
+            if (!string.IsNullOrWhiteSpace(parcel.Customer1.Address.street))
+            gfx.DrawString($"ul.{parcel.Customer1.Address.street} {parcel.Customer1.Address.numberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 230 });
+            else
+                gfx.DrawString($"{parcel.Customer1.Address.numberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 230 });
+            gfx.DrawString($"{parcel.Customer1.Address.postalCode} {parcel.Customer1.Address.city}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 210 });
+            if (parcel.Customer1.Company != null)
+                gfx.DrawString($"NIP: {parcel.Customer1.Company.NIP}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 250 });
+            gfx.DrawString("ID przesyłki", fontDimension, XBrushes.Black, new XPoint() { X = 50, Y = 300 });
+            gfx.DrawString("Data nadania", fontDimension, XBrushes.Black, new XPoint() { X = 250, Y = 300 });
+            gfx.DrawString("Koszt", fontDimension, XBrushes.Black, new XPoint() { X = 450, Y = 300 });
+            gfx.DrawString(parcel.id.ToString(), fontData, XBrushes.Black, new XPoint() { X = 50, Y = 330 });
+            gfx.DrawString(parcel.dateOfShipment.ToString("yyyy-MM-dd"), fontData, XBrushes.Black, new XPoint() { X = 250, Y = 330 });
+            if(parcel.idTypeOfParcel == (int)EnumTypeOfParcel.CashOnDelivery)
+             gfx.DrawString($"{parcel.Tariff.cost + 10} zł", fontData, XBrushes.Black, new XPoint() { X = 450, Y = 330 });
+            else
+            {
+             gfx.DrawString($"{parcel.Tariff.cost} zł", fontData, XBrushes.Black, new XPoint() { X = 450, Y = 330 });
+            }
+            gfx.DrawString("--------------------------------------------------------------------", fontLight, XBrushes.Black, new XPoint() { X = 300, Y = 480 });
+            gfx.DrawString("Podpis osoby uprawionej do wystawienia potwierdzenia", fontLight, XBrushes.Black, new XPoint() { X = 310, Y = 485 });
+
+            document.Save($"{parcel.id}Confirmation.pdf");
+            Process.Start($"{parcel.id}Confirmation.pdf");
         }
     }
 }

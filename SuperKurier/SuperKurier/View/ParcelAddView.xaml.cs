@@ -313,9 +313,26 @@ namespace SuperKurier.View
             InfoWindow info = new InfoWindow();
             if (Lock || parcelAddViewModel.ParcelDistance == 0)
             {
-                info.ShowInfo("Nie można obliczyć kosztu dopóki nie zostanie wyznaczona trasa!", "Błąd wyliczenia kosztów", "Ok");
-                info.Close();
-                return false;
+                
+                if (_noOfErrorsOnScreen == 0)
+                {
+                    info.ShowInfo("Nie można obliczyć kosztu dopóki nie zostanie wyznaczona trasa.\nCzy wyznaczyć trasę automatycznie" +
+                        " na podstawie adresów?", "Błąd wyliczenia kosztów", "Nie", "Tak");
+                }
+                else
+                {
+                    info.ShowInfo("Nie można obliczyć kosztu dopóki nie zostanie wyznaczona trasa." +
+                        "\nNie można wyznaczyć trasy dopóki nie zostaną wprowadzone wymagane dane", "Błąd wyliczenia kosztów", "Ok");
+                    info.Close();
+                    return false;
+                }
+                if (info.Answer)
+                    SetPushpins();
+                else
+                {
+                    info.Close();
+                    return false;
+                }
             }
             double dimensions = double.Parse(parcelAddViewModel.ParcelHeight) + double.Parse(parcelAddViewModel.ParcelLength) + double.Parse(parcelAddViewModel.ParcelWidth);
             dimensions *= 0.1;
@@ -383,9 +400,13 @@ namespace SuperKurier.View
             if (!info.Answer)
                 return;
 
-            if (parcelAddViewModel.SendParcel(senderRegion, receiverRegion, From, To, (bool)generateLabel.IsChecked))
+            if (parcelAddViewModel.SendParcel(senderRegion, receiverRegion, From, To, (bool)generateLabel.IsChecked, (bool)generateConfirmate.IsChecked))
             {
                 info.ShowInfo("Przesyłka została nadana!", "Nadanie przesyłki", "Ok");
+                ParcelMap.ClearAllMap();
+                Worth.Text = "0,00 zł";
+                generateLabel.IsChecked = false;
+                generateConfirmate.IsChecked = false;
                 parcelAddViewModel.VisibilityOption = Visibility.Hidden;
             }
             else
