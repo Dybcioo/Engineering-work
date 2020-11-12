@@ -28,7 +28,7 @@ namespace SuperKurier.View
     {
 
         CompanyEntities companyEntities;
-        
+
 
         public ParcelView()
         {
@@ -44,7 +44,7 @@ namespace SuperKurier.View
             {
                 DataGridParcel.DataContext = new BindableCollection<Parcel>(companyEntities.Parcel.ToList());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
             }
         }
@@ -56,7 +56,10 @@ namespace SuperKurier.View
 
         private void btnSearchParcel_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            string search = SearchParcel.Text;
+            search.ToUpper();
+            var parcels = companyEntities.Parcel.Where(p => p.code.ToUpper().Contains(search)).ToList();
+            DataGridParcel.DataContext = new BindableCollection<Parcel>(parcels);
         }
 
         private void BtnParcelAdd_Click(object sender, RoutedEventArgs e)
