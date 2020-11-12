@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace SuperKurier.ViewModel
 {
-    class ParcelViewModel : BaseViewModel
+    public class ParcelViewModel : BaseViewModel
     {
         private BaseViewModel _addViewModel;
 

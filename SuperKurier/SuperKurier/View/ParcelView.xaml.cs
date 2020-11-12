@@ -51,7 +51,9 @@ namespace SuperKurier.View
 
         private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            DataGridRow row = (DataGridRow)sender;
+            ((ParcelViewModel)DataContext).AddViewModel = new ParcelDetailsViewModel((Parcel)row.Item) { VisibilityOption = Visibility.Visible };
+            frame.Visibility = Visibility;
         }
 
         private void btnSearchParcel_TextChanged(object sender, TextChangedEventArgs e)

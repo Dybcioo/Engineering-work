@@ -132,6 +132,7 @@
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ParcelAddViewModel.cs" />
+    <Compile Include="ViewModel\ParcelDetailsViewModel.cs" />
     <Compile Include="ViewModel\ParcelViewModel.cs" />
     <Compile Include="ViewModel\RegionViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
@@ -140,6 +141,9 @@
     </Compile>
     <Compile Include="View\ParcelAddView.xaml.cs">
       <DependentUpon>ParcelAddView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ParcelDetailsView.xaml.cs">
+      <DependentUpon>ParcelDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ParcelView.xaml.cs">
       <DependentUpon>ParcelView.xaml</DependentUpon>
@@ -171,6 +175,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ParcelAddView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ParcelDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
