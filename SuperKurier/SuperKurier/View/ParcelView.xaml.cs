@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using DataModel;
+using SuperKurier.Control;
 using SuperKurier.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Linq.Expressions;
+using System.Data.Entity;
 
 namespace SuperKurier.View
 {
@@ -25,6 +28,7 @@ namespace SuperKurier.View
     {
 
         CompanyEntities companyEntities;
+        
 
         public ParcelView()
         {
@@ -42,7 +46,6 @@ namespace SuperKurier.View
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
             }
         }
 
@@ -60,6 +63,24 @@ namespace SuperKurier.View
         {
             ((ParcelViewModel)DataContext).AddViewModel = new ParcelAddViewModel() { VisibilityOption = Visibility.Visible };
             frame.Visibility = Visibility;
+        }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            var parcels = companyEntities.Parcel.Include(p => p.Region).ToList();
+            var parcelModel = (ParcelViewModel)DataContext;
+            if (parcelModel.TypeOfParcelSelected.id != 0)
+                parcels = parcels.Where(p => p.idTypeOfParcel == parcelModel.TypeOfParcelSelected.id).ToList();
+            if (parcelModel.StatusSelected.id != 0)
+                parcels = parcels.Where(p => p.idStatus == parcelModel.StatusSelected.id).ToList();
+            if (parcelModel.WarehouseSelected.id != 0)
+                parcels = parcels.Where(p => p.Region.idWarehouse == parcelModel.WarehouseSelected.id).ToList();
+            if (dateFrom.SelectedDate != null)
+                parcels = parcels.Where(p => p.dateOfShipment.Date >= dateFrom.SelectedDate).ToList();
+            if (dateTo.SelectedDate != null)
+                parcels = parcels.Where(p => p.dateOfShipment.Date <= dateTo.SelectedDate).ToList();
+
+            DataGridParcel.DataContext = new BindableCollection<Parcel>(parcels);
         }
     }
 }

@@ -295,7 +295,7 @@
                                 SelectedItem="{Binding StatusSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25" MaxWidth="250" VerticalAlignment="Center">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding status, UpdateSourceTrigger=PropertyChange}" />
+                            <TextBlock Text="{Binding status1, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -328,10 +328,10 @@
                     <RowDefinition Height="0.8*"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Foreground="{Binding ForegroundOption}">Nadana po:</Label>
-                <DatePicker Grid.Row="0" Margin="10,18,50,0" Foreground="{Binding ForegroundOption}"></DatePicker>
+                <DatePicker Name="dateFrom" Grid.Row="0" Margin="10,18,50,0" Foreground="{Binding ForegroundOption}"></DatePicker>
                 <Label Grid.Row="1" Foreground="{Binding ForegroundOption}">Nadana przed:</Label>
-                <DatePicker Grid.Row="1" Margin="10,18,50,0" Foreground="{Binding ForegroundOption}"></DatePicker>
-                <Button Grid.Row="2" Height="25" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}">Szukaj</Button>
+                <DatePicker Name="dateTo" Grid.Row="1" Margin="10,18,50,0" Foreground="{Binding ForegroundOption}"></DatePicker>
+                <Button Grid.Row="2" Height="25" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="Search_Click">Szukaj</Button>
             </Grid>
         </Grid>
         <DataGrid Grid.Row="1" x:Name="DataGridParcel" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" ColumnWidth="*">
