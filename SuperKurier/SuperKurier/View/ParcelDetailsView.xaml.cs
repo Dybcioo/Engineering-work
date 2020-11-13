@@ -1,7 +1,9 @@
-﻿using SuperKurier.ViewModel;
+﻿using DataModel;
+using SuperKurier.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Caliburn.Micro;
 
 namespace SuperKurier.View
 {
@@ -21,10 +24,14 @@ namespace SuperKurier.View
     /// </summary>
     public partial class ParcelDetailsView : Page
     {
+        public Parcel Parcel { get; set; }
+        public CompanyEntities CompanyEntities { get; set; }
+
+
         public ParcelDetailsView()
         {
             InitializeComponent();
-            
+            CompanyEntities = new CompanyEntities();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -36,6 +43,48 @@ namespace SuperKurier.View
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ((ParcelDetailsViewModel)DataContext).VisibilityOption = Visibility.Hidden;
+            
+        }
+
+        private void Page_LayoutUpdated(object sender, EventArgs e)
+        {
+            var parcelDetailsViewModel = (ParcelDetailsViewModel)DataContext;
+            Parcel = CompanyEntities.Parcel.Include(p => p.Region)
+                .Include(p => p.Region1)
+                .Include(p => p.Tariff)
+                .Include(p => p.Customer)
+                .Include(p => p.Customer.Address)
+                .Include(p => p.Customer.Company)
+                .Include(p => p.Customer1)
+                .Include(p => p.Customer1.Address)
+                .Include(p => p.Customer1.Company)
+                .Include(p => p.Status)
+                .FirstOrDefault(p => p.id == parcelDetailsViewModel.Parcel.id);
+
+            SenderName.Text = $"{Parcel?.Customer?.firstName ?? ""} {Parcel?.Customer?.lastName ?? ""}";
+            SenderCompany.Text = $"{Parcel?.Customer?.Company?.name ?? ""} NIP:{Parcel?.Customer?.Company?.NIP ?? 0}";
+            SenderTel.Text = $"{Parcel?.Customer?.tel ?? 0}";
+            SenderCountry.Text = $"{Parcel?.Customer?.Address?.country ?? ""}";
+            SenderCity.Text = $"{Parcel?.Customer?.Address?.postalCode ?? ""} {Parcel?.Customer?.Address?.city ?? ""}";
+            SenderStreet.Text = $"{Parcel?.Customer?.Address?.street ?? ""} {Parcel?.Customer?.Address?.numberOfHouse ?? ""}";
+
+            ReceiverName.Text = $"{Parcel?.Customer1?.firstName ?? ""} {Parcel?.Customer1?.lastName ?? ""}";
+            ReceiverCompany.Text = $"{Parcel?.Customer1?.Company?.name ?? ""} NIP:{Parcel?.Customer1?.Company?.NIP ?? 0}";
+            ReceiverTel.Text = $"{Parcel?.Customer1?.tel ?? 0}";
+            ReceiverCountry.Text = $"{Parcel?.Customer1?.Address?.country ?? ""}";
+            ReceiverCity.Text = $"{Parcel?.Customer1?.Address?.postalCode ?? ""} {Parcel?.Customer1?.Address?.city ?? ""}";
+            ReceiverStreet.Text = $"{Parcel?.Customer1?.Address?.street ?? ""} {Parcel?.Customer1?.Address?.numberOfHouse ?? ""}";
+
+            ParcelCode.Text = $"{Parcel?.code ?? ""}";
+            ParcelDimensions.Text = $"{Parcel?.width ?? 0} x {Parcel?.height?? 0} x {Parcel?.length?? 0}";
+            ParcelWeight.Text = $"{Parcel?.weight ?? 0} kg";
+            ParcelWorth.Text = $"{Parcel?.amount ?? 0} zł";
+            ParcelType.Text = $"{Parcel?.TypeOfParcel.type ?? ""}";
+            ParcelMethod.Text = $"{Parcel?.MethodOfSend.method ?? ""}";
+
+            parcelDetailsViewModel.StatusSelected = CompanyEntities.Status.FirstOrDefault(s => s.id == Parcel.idStatus);
+
+            //DataGridParcelHistory.DataContext = new BindableCollection<HistoryOfParcel>(CompanyEntities.HistoryOfParcel.Where(h => h.idParcel == Parcel.id));
         }
     }
 }

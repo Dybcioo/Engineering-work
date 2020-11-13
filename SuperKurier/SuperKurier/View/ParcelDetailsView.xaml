@@ -14,7 +14,8 @@
         mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ParcelDetailsView"
-      Visibility="{Binding VisibilityOption}">
+      Visibility="{Binding VisibilityOption}"
+      LayoutUpdated="Page_LayoutUpdated">
     <Page.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
             <Grid>
@@ -265,17 +266,154 @@
         </Style>
     </Page.Resources>
     
-    <Grid Background="Black">
-        <Grid Panel.ZIndex="1" VerticalAlignment="Top" Height="35" Background="{Binding BackgroundOption}" Opacity="0.8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="3" Margin="0,0,20,0" Cursor="Hand" MouseDown="Grid_MouseDown" Width="30" Height="30" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Right" >
+    <Grid Background="Green">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Panel.ZIndex="1" VerticalAlignment="Top" Height="35" Background="{Binding BackgroundOption}" Opacity="0.8">
+            <Grid Margin="0,0,20,0" Cursor="Hand" MouseDown="Grid_MouseDown" Width="30" Height="30" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Right" >
                 <materialDesign:PackIcon Kind="Close" Foreground="#FF8B0D0D"   Width="30" Height="30" />
             </Grid>
         </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock  Grid.Column="1" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Nadawca</TextBlock>
+            <TextBlock  Grid.Column="2" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Firma</TextBlock>
+            <TextBlock  Grid.Column="3" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Telefon</TextBlock>
+            <TextBlock  Grid.Column="4" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Kraj</TextBlock>
+            <TextBlock  Grid.Column="5" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Miasto</TextBlock>
+            <TextBlock  Grid.Column="6" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Adres</TextBlock>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="SenderName" Grid.Column="1" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="SenderCompany" Grid.Column="2" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="SenderTel" Grid.Column="3" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="SenderCountry" Grid.Column="4" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="SenderCity" Grid.Column="5" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="SenderStreet" Grid.Column="6" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock  Grid.Column="1" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Odbiorca</TextBlock>
+            <TextBlock  Grid.Column="2" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Firma</TextBlock>
+            <TextBlock  Grid.Column="3" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Telefon</TextBlock>
+            <TextBlock  Grid.Column="4" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Kraj</TextBlock>
+            <TextBlock  Grid.Column="5" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Miasto</TextBlock>
+            <TextBlock  Grid.Column="6" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Adres</TextBlock>
+        </Grid>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="ReceiverName" Grid.Column="1" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="ReceiverCompany" Grid.Column="2" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="ReceiverTel" Grid.Column="3" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="ReceiverCountry" Grid.Column="4" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="ReceiverCity" Grid.Column="5" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="ReceiverStreet" Grid.Column="6" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock  Grid.Column="1" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Kod przesyłki</TextBlock>
+            <TextBlock  Grid.Column="2" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Wymiary (szer x wys x dlug cm)</TextBlock>
+            <TextBlock  Grid.Column="3" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Waga</TextBlock>
+            <TextBlock  Grid.Column="4" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Szacowana wartość</TextBlock>
+            <TextBlock  Grid.Column="5" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Typ</TextBlock>
+            <TextBlock  Grid.Column="6" FontWeight="Bold" Foreground="{Binding ForegroundOption}">Metoda nadania</TextBlock>
+        </Grid>
+        <Grid Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="ParcelCode" Grid.Column="1" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="ParcelDimensions" Grid.Column="2" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="ParcelWeight" Grid.Column="3" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="ParcelWorth" Grid.Column="4" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="ParcelType" Grid.Column="5" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+            <TextBlock x:Name="ParcelMethod" Grid.Column="6" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{Binding ForegroundOption}">Status:</TextBlock>
+            <ComboBox Grid.Column="1" VerticalAlignment="Center" x:Name="ParcelSendMethod" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch"  Margin="10,0,10,0"  ItemsSource="{Binding Status}" Background="{Binding InputOption}"
+                            SelectedItem="{Binding StatusSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsSynchronizedWithCurrentItem="True" Height="22">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding status1, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button x:Name="BtnChangeStatus" Grid.Column="2" VerticalAlignment="Center" Margin="30,0" Foreground="{Binding ForegroundOption}" Background="{Binding BackgroundOption}">Zmień status</Button>
+            <Button x:Name="BtnGenerateLabel" Grid.Column="3" VerticalAlignment="Center" Margin="30,0" Foreground="{Binding ForegroundOption}" Background="{Binding BackgroundOption}">Generuj etykiete</Button>
+        </Grid>
+        <Grid Grid.Row="8">
+            <TextBlock Margin="10,0,0,0" FontWeight="Bold">Historia przesyłki</TextBlock>
+        </Grid>
+        <DataGrid Grid.Row="9" x:Name="DataGridParcelHistory" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" ColumnWidth="*">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Status"  Binding="{Binding Status.status1}"/>
+                <DataGridTextColumn Header="Kod magazynu" Binding="{Binding TypeOfParcel.type}" />
+                <DataGridTextColumn Header="Data" Binding="{Binding date, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>
