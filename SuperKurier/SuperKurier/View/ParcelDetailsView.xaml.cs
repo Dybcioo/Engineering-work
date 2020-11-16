@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Caliburn.Micro;
+using System.ComponentModel;
 
 namespace SuperKurier.View
 {
@@ -26,7 +27,7 @@ namespace SuperKurier.View
     {
         public Parcel Parcel { get; set; }
         public CompanyEntities CompanyEntities { get; set; }
-
+        private int Counter { get; set; } = 0;
 
         public ParcelDetailsView()
         {
@@ -48,6 +49,14 @@ namespace SuperKurier.View
 
         private void Page_LayoutUpdated(object sender, EventArgs e)
         {
+            if (((ParcelDetailsViewModel)DataContext).VisibilityOption == Visibility.Hidden)
+            {
+                Counter = 0;
+                return;
+            }
+            if (Counter > 1)
+                return;
+            Counter++;
             var parcelDetailsViewModel = (ParcelDetailsViewModel)DataContext;
             Parcel = CompanyEntities.Parcel.Include(p => p.Region)
                 .Include(p => p.Region1)
@@ -82,9 +91,20 @@ namespace SuperKurier.View
             ParcelType.Text = $"{Parcel?.TypeOfParcel.type ?? ""}";
             ParcelMethod.Text = $"{Parcel?.MethodOfSend.method ?? ""}";
 
-            parcelDetailsViewModel.StatusSelected = CompanyEntities.Status.FirstOrDefault(s => s.id == Parcel.idStatus);
+            CurrentStatus.Text = $"{CompanyEntities.Status.FirstOrDefault(s => s.id == Parcel.idStatus).status1}";
 
-            //DataGridParcelHistory.DataContext = new BindableCollection<HistoryOfParcel>(CompanyEntities.HistoryOfParcel.Where(h => h.idParcel == Parcel.id));
+            DataGridParcelHistory.DataContext = new BindableCollection<HistoryOfParcel>(CompanyEntities.HistoryOfParcel.Where(h => h.idParcel == Parcel.id));
+        }
+
+        private void BtnChangeStatus_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnGenerateLabel_Click(object sender, RoutedEventArgs e)
+        {
+            var parcelDetailsViewModel = (ParcelDetailsViewModel)DataContext;
+            parcelDetailsViewModel.GenerateLabel(parcelDetailsViewModel.Parcel.id);
         }
     }
 }

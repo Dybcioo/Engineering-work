@@ -20,7 +20,7 @@ using ZXing;
 
 namespace SuperKurier.ViewModel
 {
-    class ParcelAddViewModel : ParcelViewModel, IDataErrorInfo
+    public class ParcelAddViewModel : ParcelViewModel, IDataErrorInfo
     {
         private CompanyEntities CompanyEntities = new CompanyEntities();
         private string _senderFirstName;

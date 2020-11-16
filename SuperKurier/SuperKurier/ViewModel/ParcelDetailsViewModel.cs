@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SuperKurier.ViewModel
 {
-    public class ParcelDetailsViewModel : ParcelViewModel
+    public class ParcelDetailsViewModel : ParcelAddViewModel
     {
         public Parcel Parcel { get; set; }
 
