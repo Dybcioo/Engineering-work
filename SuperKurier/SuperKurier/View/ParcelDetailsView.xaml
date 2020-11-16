@@ -412,7 +412,7 @@
         <DataGrid Grid.Row="9" x:Name="DataGridParcelHistory" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" ColumnWidth="*">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Status"  Binding="{Binding Status.status1}"/>
-                <DataGridTextColumn Header="Kod magazynu" Binding="{Binding TypeOfParcel.type}" />
+                <DataGridTextColumn Header="Kod magazynu" Binding="{Binding Warehouse.code}" />
                 <DataGridTextColumn Header="Data" Binding="{Binding date, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" />
             </DataGrid.Columns>
         </DataGrid>

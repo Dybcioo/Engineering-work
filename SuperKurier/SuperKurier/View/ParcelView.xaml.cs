@@ -42,6 +42,7 @@ namespace SuperKurier.View
         {
             try
             {
+                DataGridParcel.DataContext = null;
                 DataGridParcel.DataContext = new BindableCollection<Parcel>(companyEntities.Parcel.ToList());
             }
             catch (Exception ex)

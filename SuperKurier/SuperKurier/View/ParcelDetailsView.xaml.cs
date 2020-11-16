@@ -17,6 +17,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Caliburn.Micro;
 using System.ComponentModel;
+using SuperKurier.Control;
+using SuperKurier.Enums;
 
 namespace SuperKurier.View
 {
@@ -49,7 +51,7 @@ namespace SuperKurier.View
 
         private void Page_LayoutUpdated(object sender, EventArgs e)
         {
-            if (((ParcelDetailsViewModel)DataContext).VisibilityOption == Visibility.Hidden)
+            if (DataContext == null || ((ParcelDetailsViewModel)DataContext).VisibilityOption == Visibility.Hidden)
             {
                 Counter = 0;
                 return;
@@ -92,13 +94,40 @@ namespace SuperKurier.View
             ParcelMethod.Text = $"{Parcel?.MethodOfSend.method ?? ""}";
 
             CurrentStatus.Text = $"{CompanyEntities.Status.FirstOrDefault(s => s.id == Parcel.idStatus).status1}";
-
+            DataGridParcelHistory.DataContext = null;
             DataGridParcelHistory.DataContext = new BindableCollection<HistoryOfParcel>(CompanyEntities.HistoryOfParcel.Where(h => h.idParcel == Parcel.id));
+            DataGridParcelHistory.Items.Refresh();
         }
 
         private void BtnChangeStatus_Click(object sender, RoutedEventArgs e)
         {
-
+            var parcelDetailsViewModel = (ParcelDetailsViewModel)DataContext;
+            Parcel = CompanyEntities.Parcel
+                .Include(p => p.Status)
+                .Include(p => p.Region)
+                .Include(p => p.Region1)
+                .FirstOrDefault(p => p.id == parcelDetailsViewModel.Parcel.id);
+            if(Parcel.idStatus >= parcelDetailsViewModel.StatusSelected.id)
+            {
+                InfoWindow info = new InfoWindow();
+                info.ShowInfo("Wybrany status nie może być niższy niż aktualny", "", "Ok");
+                info.Close();
+                return;
+            }
+            HistoryOfParcel history = new HistoryOfParcel()
+            {
+                idParcel = Parcel.id,
+                idStatus = Parcel.idStatus,
+                date = DateTime.Now
+            };
+            if (parcelDetailsViewModel.StatusSelected.id > (int)enumParcelStatus.accepted)
+                history.idWarehouse = Parcel.Region.idWarehouse;
+            else if(Parcel.Region1 != null)
+                history.idWarehouse = Parcel.Region1.idWarehouse;
+            CompanyEntities.HistoryOfParcel.Add(history);
+            Parcel.idStatus = parcelDetailsViewModel.StatusSelected.id;
+            CompanyEntities.SaveChanges();
+            Counter = 0;
         }
 
         private void BtnGenerateLabel_Click(object sender, RoutedEventArgs e)
