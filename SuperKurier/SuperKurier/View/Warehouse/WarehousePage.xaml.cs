@@ -24,5 +24,15 @@ namespace SuperKurier.View.Warehouse
         {
             InitializeComponent();
         }
+
+        private void BtnDocumentAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchDocument_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

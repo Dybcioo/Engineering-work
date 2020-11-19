@@ -1,4 +1,5 @@
 ﻿using SuperKurier.ViewModel;
+using SuperKurier.ViewModel.Warehouse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,9 @@ namespace SuperKurier.Command
                     break;
                 case "BtnParcel":
                     viewModel.SelectedViewModel = new ParcelViewModel();
+                    break;
+                case "BtnWarehouse":
+                    viewModel.SelectedViewModel = new WarehouseViewModel();
                     break;
             }
             viewModel.BlackAndWhiteLayout(viewModel.IsBlack);

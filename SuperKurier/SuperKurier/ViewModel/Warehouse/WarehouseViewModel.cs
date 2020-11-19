@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SuperKurier.ViewModel.Warehouse
 {
-    class WarehouseViewModel
+    class WarehouseViewModel : BaseViewModel
     {
     }
 }
