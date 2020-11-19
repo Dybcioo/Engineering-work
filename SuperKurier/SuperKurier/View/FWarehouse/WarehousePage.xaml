@@ -272,17 +272,29 @@
         <Grid Grid.Row="0" Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Background="Transparent" x:Name="BtnDocumentAdd"  Width="70" Height="50"  Click="BtnDocumentAdd_Click" BorderBrush="Transparent">
-                <materialDesign:PackIcon Kind="Plus" Foreground="Green"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="45" Height="45"   />
+            <Button Grid.Column="0" Background="Transparent" x:Name="BtnPZAdd"  Width="70" Height="50"  Click="BtnPZAdd_Click" BorderBrush="Transparent">
+                <Grid>
+                    <materialDesign:PackIcon Kind="Plus" Foreground="Green"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="45" Height="45"   />
+                    <materialDesign:PackIcon Kind="ArrowBottom" Foreground="Green"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,25,0,0" Width="15" Height="15"   />
+                </Grid>
             </Button>
-            <Label VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,60,0,0" Foreground="{Binding ForegroundOption}">Dodaj dokument</Label>
+            <Label VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,60,0,0" Foreground="{Binding ForegroundOption}">Dodaj PZ</Label>
+            
+            <Button Grid.Column="1" Background="Transparent" x:Name="BtnWZAdd"  Width="70" Height="50"  Click="BtnWZAdd_Click" BorderBrush="Transparent">
+                <Grid>
+                    <materialDesign:PackIcon Kind="Plus" Foreground="Green"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="45" Height="45"   />
+                    <materialDesign:PackIcon Kind="ArrowUp" Foreground="Green"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,25,0,0" Width="15" Height="15"   />
+                </Grid>
+            </Button>
+            <Label Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,60,0,0" Foreground="{Binding ForegroundOption}">Dodaj WZ</Label>
 
-            <Label Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="{Binding ForegroundOption}">Szukaj:</Label>
-            <TextBox Grid.Column="1" x:Name="SearchDocument" Margin="55,0,0,0" MaxWidth="250"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}" TextChanged="SearchDocument_TextChanged" />
+            <Label Grid.Column="2" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="{Binding ForegroundOption}">Szukaj:</Label>
+            <TextBox Grid.Column="2" x:Name="SearchDocument" Margin="55,0,0,0" MaxWidth="250"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}" TextChanged="SearchDocument_TextChanged" />
 
         </Grid>
         <DataGrid Grid.Row="1" x:Name="DataGridDocument" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" ColumnWidth="*">

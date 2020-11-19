@@ -39,5 +39,15 @@ namespace SuperKurier.View.FWarehouse
         {
 
         }
+
+        private void BtnPZAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnWZAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
