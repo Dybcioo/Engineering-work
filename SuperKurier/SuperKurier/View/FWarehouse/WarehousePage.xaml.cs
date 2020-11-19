@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SuperKurier.ViewModel;
+using SuperKurier.ViewModel.FWarehouse;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,11 +27,6 @@ namespace SuperKurier.View.FWarehouse
             InitializeComponent();
         }
 
-        private void BtnDocumentAdd_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void SearchDocument_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -42,12 +39,14 @@ namespace SuperKurier.View.FWarehouse
 
         private void BtnPZAdd_Click(object sender, RoutedEventArgs e)
         {
-
+            ((WarehouseViewModel)DataContext).AddViewModel = new WarehouseAddViewModel() { VisibilityOption = Visibility.Visible };
+            frame.Visibility = Visibility;
         }
 
         private void BtnWZAdd_Click(object sender, RoutedEventArgs e)
         {
-
+            ((WarehouseViewModel)DataContext).AddViewModel = new WarehouseAddViewModel() { VisibilityOption = Visibility.Visible };
+            frame.Visibility = Visibility;
         }
     }
 }
