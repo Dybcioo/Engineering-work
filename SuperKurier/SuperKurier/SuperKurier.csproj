@@ -136,7 +136,7 @@
     <Compile Include="ViewModel\ParcelViewModel.cs" />
     <Compile Include="ViewModel\RegionViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
-    <Compile Include="ViewModel\Warehouse\WarehouseViewModel.cs" />
+    <Compile Include="ViewModel\FWarehouse\WarehouseViewModel.cs" />
     <Compile Include="View\EmployeeView.xaml.cs">
       <DependentUpon>EmployeeView.xaml</DependentUpon>
     </Compile>
@@ -155,7 +155,7 @@
     <Compile Include="View\SettingView.xaml.cs">
       <DependentUpon>SettingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Warehouse\WarehousePage.xaml.cs">
+    <Compile Include="View\FWarehouse\WarehousePage.xaml.cs">
       <DependentUpon>WarehousePage.xaml</DependentUpon>
     </Compile>
     <Page Include="Control\InfoWindow.xaml">
@@ -198,7 +198,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Warehouse\WarehousePage.xaml">
+    <Page Include="View\FWarehouse\WarehousePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

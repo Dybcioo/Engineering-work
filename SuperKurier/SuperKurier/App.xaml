@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SuperKurier"
              xmlns:view="clr-namespace:SuperKurier.View"
-             xmlns:viewWarehouse="clr-namespace:SuperKurier.View.Warehouse"
+             xmlns:viewWarehouse="clr-namespace:SuperKurier.View.FWarehouse"
              xmlns:viewModel="clr-namespace:SuperKurier.ViewModel"
-             xmlns:warehouse="clr-namespace:SuperKurier.ViewModel.Warehouse"
+             xmlns:warehouse="clr-namespace:SuperKurier.ViewModel.FWarehouse"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

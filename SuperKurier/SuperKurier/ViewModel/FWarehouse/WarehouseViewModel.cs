@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SuperKurier.ViewModel.Warehouse
+namespace SuperKurier.ViewModel.FWarehouse
 {
     class WarehouseViewModel : BaseViewModel
     {

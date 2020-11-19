@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SuperKurier.View.Warehouse
+namespace SuperKurier.View.FWarehouse
 {
     /// <summary>
     /// Logika interakcji dla klasy WarehousePage.xaml
@@ -31,6 +31,11 @@ namespace SuperKurier.View.Warehouse
         }
 
         private void SearchDocument_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
         }
