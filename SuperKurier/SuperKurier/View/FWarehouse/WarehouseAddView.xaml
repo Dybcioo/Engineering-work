@@ -14,7 +14,8 @@
         mc:Ignorable="d"
        d:DesignHeight="450" d:DesignWidth="800" 
       Visibility="{Binding VisibilityOption}"
-      Title="WarehouseAddView"  >
+      Title="WarehouseAddView" 
+      Loaded="Page_Loaded">
 
     <Page.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
@@ -303,7 +304,13 @@
                 </DataGrid>
             </Grid>
             <Grid Grid.Row="2">
-
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" Grid.Row="2" Height="25" MaxWidth="200" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15,0" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="Btn_Buffer_Click">Pozostaw w buforze</Button>
+                <Button Grid.Column="2" Grid.Row="2" Height="25" MaxWidth="200" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15,0" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="Btn_PutOut_Click">Wystaw WZ</Button>
             </Grid>
         </Grid>
     </Grid>

@@ -1,4 +1,5 @@
-﻿using SuperKurier.ViewModel;
+﻿using DataModel;
+using SuperKurier.ViewModel;
 using SuperKurier.ViewModel.FWarehouse;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,12 @@ namespace SuperKurier.View.FWarehouse
     /// </summary>
     public partial class WarehousePage : Page
     {
+        private CompanyEntities companyEntities;
         public WarehousePage()
         {
             InitializeComponent();
+            companyEntities = new CompanyEntities();
+            DataGridDocument.DataContext = companyEntities.Document.ToList();
         }
 
         private void SearchDocument_TextChanged(object sender, TextChangedEventArgs e)
@@ -34,7 +38,9 @@ namespace SuperKurier.View.FWarehouse
 
         private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            DataGridRow row = (DataGridRow)sender;
+            ((WarehouseViewModel)DataContext).AddViewModel = new WarehouseAddViewModel((Document)row.Item) { VisibilityOption = Visibility.Visible };
+            frame.Visibility = Visibility;
         }
 
         private void BtnPZAdd_Click(object sender, RoutedEventArgs e)

@@ -37,10 +37,20 @@ namespace SuperKurier.ViewModel.FWarehouse
         }
 
         private Warehouse _warehouse;
+        public Document Document;
+        public List<Parcel> actuallyParcelList;
 
-        public WarehouseAddViewModel()
+        public WarehouseAddViewModel(Document document = null)
         {
             companyEntities = new CompanyEntities();
+            Document = document;
+            if (document != null)
+                actuallyParcelList = companyEntities.ParcelMoving
+                    .Include(p => p.Parcel)
+                    .Where(p => p.idDoc == document.id)
+                    .Select(p => p.Parcel)
+                    .ToList();
+            
             _warehouse = companyEntities.Warehouse.FirstOrDefault(w => w.id == Properties.Settings.Default.Warehouse);
             Parcels = new BindableCollection<Parcel>(companyEntities.Parcel
                 .Include(p => p.Region)
