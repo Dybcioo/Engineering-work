@@ -78,7 +78,30 @@ namespace SuperKurier.View.FWarehouse
             }
             else
             {
-                
+                var actuallyList = addViewModel.actuallyParcelList;
+                foreach (var rem in actuallyList)
+                {
+                    if (Parcel.Any(p => p.id == rem.id))
+                        continue;
+                    var temp = companyEntities.ParcelMoving.FirstOrDefault(p => p.id == rem.id);
+                    temp.idDoc = 0;
+                    temp.idParcel = 0;
+                    companyEntities.SaveChanges();
+                    companyEntities.ParcelMoving.Remove(temp);
+                }
+                foreach (var p in Parcel)
+                {
+                    if (actuallyList.Any(parcel => parcel.id == p.id))
+                        continue;
+                    var temp = new ParcelMoving()
+                    {
+                        idDoc = document.id,
+                        idParcel = p.id,
+                        reading = false
+                    };
+                    companyEntities.ParcelMoving.Add(temp);
+                }
+                companyEntities.SaveChanges();
             }
         }
 
@@ -91,9 +114,14 @@ namespace SuperKurier.View.FWarehouse
         {
             var addViewModel = (WarehouseAddViewModel)DataContext;
             if (addViewModel.actuallyParcelList != null)
-                Parcel = addViewModel.actuallyParcelList;
+            {
+                Parcel = new List<Parcel>();
+                foreach (var act in addViewModel.actuallyParcelList)
+                    Parcel.Add(act);
+            }
             WarehouseGrid.DataContext = null;
             WarehouseGrid.DataContext = Parcel;
+            addViewModel.UpdateParcelList(Parcel);
         }
     }
 }
