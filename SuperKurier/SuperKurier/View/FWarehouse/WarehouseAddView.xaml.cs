@@ -1,4 +1,5 @@
 ﻿using DataModel;
+using SuperKurier.Control;
 using SuperKurier.ViewModel.FWarehouse;
 using System;
 using System.Collections.Generic;
@@ -83,10 +84,7 @@ namespace SuperKurier.View.FWarehouse
                 {
                     if (Parcel.Any(p => p.id == rem.id))
                         continue;
-                    var temp = companyEntities.ParcelMoving.FirstOrDefault(p => p.id == rem.id);
-                    temp.idDoc = 0;
-                    temp.idParcel = 0;
-                    companyEntities.SaveChanges();
+                    var temp = companyEntities.ParcelMoving.FirstOrDefault(p => p.idParcel == rem.id);
                     companyEntities.ParcelMoving.Remove(temp);
                 }
                 foreach (var p in Parcel)
@@ -102,12 +100,15 @@ namespace SuperKurier.View.FWarehouse
                     companyEntities.ParcelMoving.Add(temp);
                 }
                 companyEntities.SaveChanges();
+                var info = new InfoWindow();
+                info.ShowInfo($"Dokument {document.code} pozostawiony w buforze!", "PZ", "Ok");
+                addViewModel.VisibilityOption = Visibility.Hidden;
             }
         }
 
         private void Btn_PutOut_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -119,6 +120,22 @@ namespace SuperKurier.View.FWarehouse
                 foreach (var act in addViewModel.actuallyParcelList)
                     Parcel.Add(act);
             }
+            WarehouseGrid.DataContext = null;
+            WarehouseGrid.DataContext = Parcel;
+            addViewModel.UpdateParcelList(Parcel);
+        }
+
+        private void BtnTrashBin_Click(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    var temp = (Parcel)row.Item;
+                    Parcel.Remove(temp);
+                    break;
+                }
+            var addViewModel = (WarehouseAddViewModel)DataContext;
             WarehouseGrid.DataContext = null;
             WarehouseGrid.DataContext = Parcel;
             addViewModel.UpdateParcelList(Parcel);
