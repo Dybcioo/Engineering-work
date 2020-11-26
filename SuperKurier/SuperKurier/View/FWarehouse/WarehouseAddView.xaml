@@ -15,7 +15,7 @@
        d:DesignHeight="450" d:DesignWidth="800" 
       Visibility="{Binding VisibilityOption}"
       Title="WarehouseAddView" 
-      Loaded="Page_Loaded">
+      LayoutUpdated="Page_LayoutUpdated">
 
     <Page.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
@@ -267,7 +267,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="Green">
+    <Grid Background="{Binding BackgroundOption}">
         <Grid Margin="0,0,20,0" Cursor="Hand" MouseDown="Exit_MouseDown" Width="30" Height="30" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Right" >
             <materialDesign:PackIcon Kind="Close" Foreground="#FF8B0D0D"   Width="30" Height="30" />
         </Grid>
@@ -293,14 +293,14 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
 
-                <Button Grid.Column="2" Grid.Row="2" Height="25" MaxWidth="200" VerticalAlignment="Center" HorizontalAlignment="Stretch"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="AddParcelToGrid_Click">Dodaj przesyłkę</Button>
+                <Button Grid.Column="2" Grid.Row="2" Height="25" Name="BtnAddParcel" MaxWidth="200" VerticalAlignment="Center" HorizontalAlignment="Stretch"  Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="AddParcelToGrid_Click">Dodaj przesyłkę</Button>
             </Grid>
             <Grid Grid.Row="1">
                 <DataGrid x:Name="WarehouseGrid" ItemsSource="{Binding}" AutoGenerateColumns="False"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ColumnWidth="*" IsReadOnly="True"> 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Kod"  Binding="{Binding code}"/>
                         <DataGridTextColumn Header="Data nadania" Binding="{Binding dateOfShipment, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" />
-                        <DataGridTemplateColumn Header="Opcje" Width="100">
+                        <DataGridTemplateColumn Header="Opcje" Width="100" Visibility="{Binding TrashEnable}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="BtnTrashBin" Click="BtnTrashBin_Click" Background="Transparent" BorderBrush="Transparent" Foreground="Black">
@@ -314,12 +314,14 @@
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" Grid.Row="2" Height="25" MaxWidth="200" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15,0" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="Btn_Buffer_Click">Pozostaw w buforze</Button>
-                <Button Grid.Column="2" Grid.Row="2" Height="25" MaxWidth="200" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15,0" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="Btn_PutOut_Click">Wystaw WZ</Button>
+                <Button Grid.Column="2" Grid.Row="2" Name="BtnBuffer" Height="25" MaxWidth="200" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15,0" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="Btn_Buffer_Click">Pozostaw w buforze</Button>
+                <Button Grid.Column="3" Grid.Row="2" Name="BtnPutOut" Height="25" MaxWidth="200" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15,0" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="Btn_PutOut_Click">Wystaw PZ</Button>
+                <Button Grid.Column="0" Grid.Row="2" Name="BtnDelete" Height="25" MaxWidth="200" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15,0" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="BtnDelete_Click">Usuń PZ</Button>
             </Grid>
         </Grid>
     </Grid>

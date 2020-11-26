@@ -55,8 +55,10 @@ namespace SuperKurier.ViewModel.FWarehouse
             Parcels = new BindableCollection<Parcel>(companyEntities.Parcel
                 .Include(p => p.Region)
                 .Include(p => p.Region1)
+                .Include(p => p.ParcelMoving)
                 .Where(p => p.idStatus <= (int)enumParcelStatus.received
-                 && (_warehouse.id == p.Region.idWarehouse || _warehouse.id == p.Region1.idWarehouse))
+                 && (_warehouse.id == p.Region.idWarehouse || _warehouse.id == p.Region1.idWarehouse)
+                 && p.ParcelMoving.Count <= 0)
                 .ToList());
             Parcels.Insert(0, new Parcel() { code = "Wybierz przesyłkę" });
             ParcelSelected = Parcels.FirstOrDefault();
@@ -69,8 +71,10 @@ namespace SuperKurier.ViewModel.FWarehouse
             Parcels = new BindableCollection<Parcel>(companyEntities.Parcel
                 .Include(p => p.Region)
                 .Include(p => p.Region1)
+                .Include(p => p.ParcelMoving)
                 .Where(p => p.idStatus <= (int)enumParcelStatus.received
                  && (_warehouse.id == p.Region.idWarehouse || _warehouse.id == p.Region1.idWarehouse)
+                 && p.ParcelMoving.Count <= 0
                  && !parcelsId.Contains(p.id))
                 .ToList());
             Parcels.Insert(0, new Parcel() { code = "Wybierz przesyłkę" });

@@ -1,10 +1,12 @@
-﻿using DataModel;
+﻿using Caliburn.Micro;
+using DataModel;
 using SuperKurier.ViewModel;
 using SuperKurier.ViewModel.FWarehouse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,11 +26,24 @@ namespace SuperKurier.View.FWarehouse
     public partial class WarehousePage : Page
     {
         private CompanyEntities companyEntities;
+        private int reload = 0;
         public WarehousePage()
         {
             InitializeComponent();
             companyEntities = new CompanyEntities();
-            DataGridDocument.DataContext = companyEntities.Document.ToList();
+            gridDataInitialize();
+        }
+
+        private void gridDataInitialize()
+        {
+            try
+            {
+                DataGridDocument.DataContext = null;
+                DataGridDocument.DataContext = new BindableCollection<Document>(companyEntities.Document.ToList());
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         private void SearchDocument_TextChanged(object sender, TextChangedEventArgs e)
@@ -53,6 +68,27 @@ namespace SuperKurier.View.FWarehouse
         {
             ((WarehouseViewModel)DataContext).AddViewModel = new WarehouseAddViewModel() { VisibilityOption = Visibility.Visible };
             frame.Visibility = Visibility;
+        }
+
+        private void Page_LayoutUpdated(object sender, EventArgs e)
+        {
+            if(DataContext is WarehouseViewModel)
+            {
+                var wavm = (WarehouseAddViewModel)((WarehouseViewModel)DataContext).AddViewModel;
+                if (wavm == null)
+                    return;
+                if(wavm.VisibilityOption == Visibility.Visible)
+                {
+                    reload = 0;
+                    return;
+                }else if(reload == 0)
+                {
+                    DataGridDocument.DataContext = null;
+                    DataGridDocument.DataContext = new BindableCollection<Document>(companyEntities.Document.AsNoTracking().ToList());
+                    DataGridDocument.Items.Refresh();
+                    reload++;
+                }
+            }
         }
     }
 }

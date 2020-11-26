@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.Entity;
+using SuperKurier.ViewModel;
 
 namespace SuperKurier.View.FWarehouse
 {
@@ -25,6 +27,7 @@ namespace SuperKurier.View.FWarehouse
     {
         public CompanyEntities companyEntities { get; set; }
         public List<Parcel> Parcel { get; set; }
+        private int reload = 0;
         public WarehouseAddView()
         {
             InitializeComponent();
@@ -35,7 +38,7 @@ namespace SuperKurier.View.FWarehouse
 
         private void Exit_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ((WarehouseAddViewModel)DataContext).VisibilityOption = Visibility.Hidden;
+            Close();
         }
 
         private void AddParcelToGrid_Click(object sender, RoutedEventArgs e)
@@ -50,6 +53,52 @@ namespace SuperKurier.View.FWarehouse
         }
 
         private void Btn_Buffer_Click(object sender, RoutedEventArgs e)
+        {
+            var addViewModel = (WarehouseAddViewModel)DataContext;
+            var doc = UpdateBuffer();
+            var info = new InfoWindow();
+            info.ShowInfo($"Dokument {doc.code} pozostawiony w buforze!", "PZ", "Ok");
+            info.Close();
+            Close();
+        }
+
+        private void Btn_PutOut_Click(object sender, RoutedEventArgs e)
+        {
+            var addViewModel = (WarehouseAddViewModel)DataContext;
+            var doc = UpdateBuffer();
+            doc = companyEntities.Document.FirstOrDefault(d => d.id == doc.id);
+           double summary = 0.0;
+           foreach(var d in companyEntities.ParcelMoving.Include(p => p.Parcel).Where(p => p.idDoc == doc.id))
+            {
+                d.reading = true;
+                summary += (double)d.Parcel.amount;
+            }
+            doc.summary = (decimal)summary;
+            doc.exposure = true;
+            companyEntities.SaveChanges();
+            var info = new InfoWindow();
+            info.ShowInfo($"Dokument {doc.code} został wystawiony pomyślnie!", "PZ", "Ok");
+            info.Close();
+            Close();
+        }
+
+        private void BtnTrashBin_Click(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    var temp = (Parcel)row.Item;
+                    Parcel.Remove(temp);
+                    break;
+                }
+            var addViewModel = (WarehouseAddViewModel)DataContext;
+            WarehouseGrid.DataContext = null;
+            WarehouseGrid.DataContext = Parcel;
+            addViewModel.UpdateParcelList(Parcel);
+        }
+
+        private Document UpdateBuffer()
         {
             var addViewModel = (WarehouseAddViewModel)DataContext;
             var document = addViewModel.Document;
@@ -99,21 +148,41 @@ namespace SuperKurier.View.FWarehouse
                     };
                     companyEntities.ParcelMoving.Add(temp);
                 }
+                document = companyEntities.Document.FirstOrDefault(d => d.id == document.id);
+                document.quantity = companyEntities.ParcelMoving.Where(p => p.idDoc == document.id).ToList().Count;
                 companyEntities.SaveChanges();
-                var info = new InfoWindow();
-                info.ShowInfo($"Dokument {document.code} pozostawiony w buforze!", "PZ", "Ok");
-                addViewModel.VisibilityOption = Visibility.Hidden;
             }
+            return document;
         }
 
-        private void Btn_PutOut_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private void freezePage(bool freeze)
         {
             var addViewModel = (WarehouseAddViewModel)DataContext;
+            BtnAddParcel.IsEnabled = freeze;
+            BtnBuffer.IsEnabled = freeze;
+            BtnPutOut.IsEnabled = freeze;
+            ParcelCombo.IsEnabled = freeze;
+            WarehouseGrid.Columns.FirstOrDefault(c => c.Header.Equals("Opcje")).Visibility = freeze ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        private void Close()
+        {
+            var addViewModel = (WarehouseAddViewModel)DataContext;
+            Parcel = new List<Parcel>();
+            WarehouseGrid.DataContext = null;
+            addViewModel.VisibilityOption = Visibility.Hidden;
+        }
+
+        private void Page_LayoutUpdated(object sender, EventArgs e)
+        {
+            var addViewModel = (WarehouseAddViewModel)DataContext;
+            if (addViewModel.VisibilityOption == Visibility.Hidden)
+            {
+                reload = 0;
+                return;
+            }
+            if (reload > 0)
+                return;
             if (addViewModel.actuallyParcelList != null)
             {
                 Parcel = new List<Parcel>();
@@ -123,22 +192,28 @@ namespace SuperKurier.View.FWarehouse
             WarehouseGrid.DataContext = null;
             WarehouseGrid.DataContext = Parcel;
             addViewModel.UpdateParcelList(Parcel);
+            var doc = addViewModel.Document;
+            if (doc != null && doc.exposure)
+                freezePage(false);
+            else
+                freezePage(true);
+            reload++;
         }
 
-        private void BtnTrashBin_Click(object sender, RoutedEventArgs e)
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
-                if (vis is DataGridRow)
-                {
-                    var row = (DataGridRow)vis;
-                    var temp = (Parcel)row.Item;
-                    Parcel.Remove(temp);
-                    break;
-                }
             var addViewModel = (WarehouseAddViewModel)DataContext;
-            WarehouseGrid.DataContext = null;
-            WarehouseGrid.DataContext = Parcel;
-            addViewModel.UpdateParcelList(Parcel);
+            var document = addViewModel.Document;
+            if (document == null)
+                return;
+            foreach (var parcel in companyEntities.ParcelMoving.Where(p => p.idDoc == document.id))
+                companyEntities.ParcelMoving.Remove(parcel);
+            companyEntities.Document.Remove(companyEntities.Document.FirstOrDefault(d => d.id == document.id));
+            companyEntities.SaveChanges();
+            var info = new InfoWindow();
+            info.ShowInfo($"Dokument {document.code} został usunięty pomyślnie!", "PZ", "Ok");
+            info.Close();
+            Close();
         }
     }
 }
