@@ -118,7 +118,8 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="reading" Type="bit" Nullable="false" />
+          <Property Name="readingPZ" Type="bit" Nullable="false" />
+          <Property Name="readingWZ" Type="bit" Nullable="false" />
           <Property Name="idParcel" Type="int" Nullable="false" />
           <Property Name="idDoc" Type="int" Nullable="false" />
         </EntityType>
@@ -756,7 +757,8 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="reading" Type="Boolean" Nullable="false" />
+          <Property Name="readingPZ" Type="Boolean" Nullable="false" />
+          <Property Name="readingWZ" Type="Boolean" Nullable="false" />
           <Property Name="idParcel" Type="Int32" Nullable="false" />
           <Property Name="idDoc" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Document" Relationship="Self.FK_ParcelMoving_Document" FromRole="ParcelMoving" ToRole="Document" />
@@ -1389,7 +1391,8 @@
             <EntityTypeMapping TypeName="CompanyModel.ParcelMoving">
               <MappingFragment StoreEntitySet="ParcelMoving">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="reading" ColumnName="reading" />
+                <ScalarProperty Name="readingPZ" ColumnName="readingPZ" />
+                <ScalarProperty Name="readingWZ" ColumnName="readingWZ" />
                 <ScalarProperty Name="idParcel" ColumnName="idParcel" />
                 <ScalarProperty Name="idDoc" ColumnName="idDoc" />
               </MappingFragment>

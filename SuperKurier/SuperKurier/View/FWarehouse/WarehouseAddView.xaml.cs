@@ -70,7 +70,7 @@ namespace SuperKurier.View.FWarehouse
            double summary = 0.0;
            foreach(var d in companyEntities.ParcelMoving.Include(p => p.Parcel).Where(p => p.idDoc == doc.id))
             {
-                d.reading = true;
+                d.readingPZ = true;
                 summary += (double)d.Parcel.amount;
             }
             doc.summary = (decimal)summary;
@@ -120,7 +120,8 @@ namespace SuperKurier.View.FWarehouse
                     {
                         idDoc = document.id,
                         idParcel = p.id,
-                        reading = false
+                        readingPZ = false,
+                        readingWZ = false
                     };
                     companyEntities.ParcelMoving.Add(temp);
                 }
@@ -144,7 +145,8 @@ namespace SuperKurier.View.FWarehouse
                     {
                         idDoc = document.id,
                         idParcel = p.id,
-                        reading = false
+                        readingPZ = false,
+                        readingWZ = false
                     };
                     companyEntities.ParcelMoving.Add(temp);
                 }

@@ -15,7 +15,8 @@ namespace DataModel
     public partial class ParcelMoving
     {
         public int id { get; set; }
-        public bool reading { get; set; }
+        public bool readingPZ { get; set; }
+        public bool readingWZ { get; set; }
         public int idParcel { get; set; }
         public int idDoc { get; set; }
     
