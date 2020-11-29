@@ -150,6 +150,7 @@ namespace SuperKurier.View.FWarehouse
                     };
                     companyEntities.ParcelMoving.Add(temp);
                 }
+                companyEntities.SaveChanges();
                 document = companyEntities.Document.FirstOrDefault(d => d.id == document.id);
                 document.quantity = companyEntities.ParcelMoving.Where(p => p.idDoc == document.id).ToList().Count;
                 companyEntities.SaveChanges();
@@ -164,6 +165,7 @@ namespace SuperKurier.View.FWarehouse
             BtnBuffer.IsEnabled = freeze;
             BtnPutOut.IsEnabled = freeze;
             ParcelCombo.IsEnabled = freeze;
+            BtnDelete.IsEnabled = freeze;
             WarehouseGrid.Columns.FirstOrDefault(c => c.Header.Equals("Opcje")).Visibility = freeze ? Visibility.Visible : Visibility.Hidden;
         }
 

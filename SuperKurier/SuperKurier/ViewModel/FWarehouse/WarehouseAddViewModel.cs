@@ -44,7 +44,7 @@ namespace SuperKurier.ViewModel.FWarehouse
         {
             companyEntities = new CompanyEntities();
             Document = document;
-            if (document != null)
+            if (document != null) 
                 actuallyParcelList = companyEntities.ParcelMoving
                     .Include(p => p.Parcel)
                     .Where(p => p.idDoc == document.id)
@@ -57,8 +57,8 @@ namespace SuperKurier.ViewModel.FWarehouse
                 .Include(p => p.Region1)
                 .Include(p => p.ParcelMoving)
                 .Where(p => p.idStatus <= (int)enumParcelStatus.received
-                 && (_warehouse.id == p.Region.idWarehouse || _warehouse.id == p.Region1.idWarehouse)
-                 && p.ParcelMoving.Count <= 0)
+                 && ((p.ParcelMoving.Count > 0 && p.ParcelMoving.FirstOrDefault().readingPZ == false && p.ParcelMoving.FirstOrDefault().readingWZ == true && _warehouse.id == p.Region.idWarehouse)
+                    || (_warehouse.id == p.Region1.idWarehouse && p.ParcelMoving.Count <= 0)))
                 .ToList());
             Parcels.Insert(0, new Parcel() { code = "Wybierz przesyłkę" });
             ParcelSelected = Parcels.FirstOrDefault();
@@ -73,12 +73,12 @@ namespace SuperKurier.ViewModel.FWarehouse
                 .Include(p => p.Region1)
                 .Include(p => p.ParcelMoving)
                 .Where(p => p.idStatus <= (int)enumParcelStatus.received
-                 && (_warehouse.id == p.Region.idWarehouse || _warehouse.id == p.Region1.idWarehouse)
-                 && p.ParcelMoving.Count <= 0
+                 && ((p.ParcelMoving.Count > 0 && p.ParcelMoving.FirstOrDefault().readingPZ == false && p.ParcelMoving.FirstOrDefault().readingWZ == true && _warehouse.id == p.Region.idWarehouse)
+                    || (_warehouse.id == p.Region1.idWarehouse && p.ParcelMoving.Count <= 0))
                  && !parcelsId.Contains(p.id))
                 .ToList());
             Parcels.Insert(0, new Parcel() { code = "Wybierz przesyłkę" });
-            ParcelSelected = Parcels.FirstOrDefault( p => p.id != 0);
+            ParcelSelected = Parcels.FirstOrDefault(p => p.id != 0);
         }
     }
 }
