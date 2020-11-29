@@ -14,6 +14,7 @@
         mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       LayoutUpdated="Page_LayoutUpdated"
+      Loaded="Page_Loaded"
       Title="WarehousePage">
 
     <Page.Resources>
@@ -275,7 +276,6 @@
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="*"/>
-
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Background="Transparent" x:Name="BtnPZAdd"  Width="70" Height="50"  Click="BtnPZAdd_Click" BorderBrush="Transparent">
@@ -297,6 +297,16 @@
             <Label Grid.Column="2" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="{Binding ForegroundOption}">Szukaj:</Label>
             <TextBox Grid.Column="2" x:Name="SearchDocument" Margin="55,0,0,0" MaxWidth="250"  Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}" TextChanged="SearchDocument_TextChanged" />
 
+            <Label Grid.Column="3" Margin="5,0,0,0" Foreground="{Binding ForegroundOption}" VerticalAlignment="Center">Magazyn:</Label>
+            <ComboBox Grid.Column="3" x:Name="DocumentWarehouse" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Stretch"  Margin="65,0,0,0"  ItemsSource="{Binding Warehouse}" Background="{Binding InputOption}"
+                                SelectedItem="{Binding WarehouseSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25" MaxWidth="250" VerticalAlignment="Center">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding code, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Column="3" Height="25" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}" Click="Search_Click">Szukaj</Button>
         </Grid>
         <DataGrid Grid.Row="1" x:Name="DataGridDocument" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" ColumnWidth="*">
             <DataGrid.Columns>
@@ -319,6 +329,7 @@
                 </Style>
             </DataGrid.Resources>
         </DataGrid>
+        
         <Frame Grid.RowSpan="2" Content="{Binding AddViewModel}" Name="frame"  NavigationUIVisibility="Hidden" Visibility="Hidden"/>
     </Grid>
 </Page>

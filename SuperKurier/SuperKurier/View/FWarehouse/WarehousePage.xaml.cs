@@ -49,7 +49,11 @@ namespace SuperKurier.View.FWarehouse
 
         private void SearchDocument_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            string search = SearchDocument.Text;
+            search.ToUpper();
+            var docs = companyEntities.Document.Where(p => p.code.ToUpper().Contains(search)).ToList();
+            DataGridDocument.DataContext = null;
+            DataGridDocument.DataContext = new BindableCollection<Document>(docs);
         }
 
         private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -95,6 +99,23 @@ namespace SuperKurier.View.FWarehouse
                     reload++;
                 }
             }
+        }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            List<Document> docs = new List<Document>();
+            var warehouseModel = (WarehouseViewModel)DataContext;
+            if (warehouseModel.WarehouseSelected.id != 0)
+                docs = companyEntities.Document.Where(d => d.idWarehouse == warehouseModel.WarehouseSelected.id).ToList();
+            else
+                docs = companyEntities.Document.ToList();
+            DataGridDocument.DataContext = null;
+            DataGridDocument.DataContext = new BindableCollection<Document>(docs);
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Search_Click(sender, e);
         }
     }
 }
