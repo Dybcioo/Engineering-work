@@ -116,13 +116,14 @@ namespace SuperKurier.View.FWarehouse
 
                 foreach (var p in Parcel)
                 {
-                    var temp = new ParcelMoving()
-                    {
-                        idDoc = document.id,
-                        idParcel = p.id,
-                        readingPZ = false,
-                        readingWZ = false
-                    };
+                    var temp = companyEntities.ParcelMoving.FirstOrDefault(pm => pm.idParcel == p.id);
+                    if (temp == null)
+                        temp = new ParcelMoving();
+                    temp.idDoc = document.id;
+                    temp.idParcel = p.id;
+                    temp.readingPZ = true;
+                    temp.readingWZ = false;
+                    
                     companyEntities.ParcelMoving.Add(temp);
                 }
                 companyEntities.SaveChanges();
@@ -141,13 +142,13 @@ namespace SuperKurier.View.FWarehouse
                 {
                     if (actuallyList.Any(parcel => parcel.id == p.id))
                         continue;
-                    var temp = new ParcelMoving()
-                    {
-                        idDoc = document.id,
-                        idParcel = p.id,
-                        readingPZ = false,
-                        readingWZ = false
-                    };
+                    var temp = companyEntities.ParcelMoving.FirstOrDefault(pm => pm.idParcel == p.id);
+                    if (temp == null)
+                        temp = new ParcelMoving();
+                    temp.idDoc = document.id;
+                    temp.idParcel = p.id;
+                    temp.readingPZ = true;
+                    temp.readingWZ = false;
                     companyEntities.ParcelMoving.Add(temp);
                 }
                 companyEntities.SaveChanges();
