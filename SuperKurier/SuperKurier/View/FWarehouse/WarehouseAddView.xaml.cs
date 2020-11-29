@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Entity;
 using SuperKurier.ViewModel;
+using SuperKurier.Enums;
 
 namespace SuperKurier.View.FWarehouse
 {
@@ -28,6 +29,8 @@ namespace SuperKurier.View.FWarehouse
         public CompanyEntities companyEntities { get; set; }
         public List<Parcel> Parcel { get; set; }
         private int reload = 0;
+        private EnumTypeOfDocument documentType;
+
         public WarehouseAddView()
         {
             InitializeComponent();
@@ -47,17 +50,16 @@ namespace SuperKurier.View.FWarehouse
             var parcel = addViewModel.ParcelSelected;
             if (parcel != null && parcel.id != 0)
                 Parcel.Add(parcel);
-            addViewModel.UpdateParcelList(Parcel);
+            addViewModel.UpdateParcelList(Parcel, documentType);
             WarehouseGrid.DataContext = null;
             WarehouseGrid.DataContext = Parcel;
         }
 
         private void Btn_Buffer_Click(object sender, RoutedEventArgs e)
         {
-            var addViewModel = (WarehouseAddViewModel)DataContext;
             var doc = UpdateBuffer();
             var info = new InfoWindow();
-            info.ShowInfo($"Dokument {doc.code} pozostawiony w buforze!", "PZ", "Ok");
+            info.ShowInfo($"Dokument {doc.code} pozostawiony w buforze!", $"{documentType}", "Ok");
             info.Close();
             Close();
         }
@@ -70,14 +72,23 @@ namespace SuperKurier.View.FWarehouse
            double summary = 0.0;
            foreach(var d in companyEntities.ParcelMoving.Include(p => p.Parcel).Where(p => p.idDoc == doc.id))
             {
-                d.readingPZ = true;
+                if (documentType == EnumTypeOfDocument.PZ)
+                {
+                    d.readingPZ = true;
+                    d.readingWZ = false;
+                }
+                else if (documentType == EnumTypeOfDocument.WZ)
+                {
+                    d.readingPZ = false;
+                    d.readingWZ = true;
+                }
                 summary += (double)d.Parcel.amount;
             }
             doc.summary = (decimal)summary;
             doc.exposure = true;
             companyEntities.SaveChanges();
             var info = new InfoWindow();
-            info.ShowInfo($"Dokument {doc.code} został wystawiony pomyślnie!", "PZ", "Ok");
+            info.ShowInfo($"Dokument {doc.code} został wystawiony pomyślnie!", $"{documentType}", "Ok");
             info.Close();
             Close();
         }
@@ -89,13 +100,25 @@ namespace SuperKurier.View.FWarehouse
                 {
                     var row = (DataGridRow)vis;
                     var temp = (Parcel)row.Item;
+                    var pm = companyEntities.ParcelMoving.FirstOrDefault(pm => pm.idParcel == temp.id);
+                    if (documentType == EnumTypeOfDocument.WZ)
+                    {
+                        pm.readingPZ = true;
+                        pm.readingWZ = false;
+                    }
+                    else if (documentType == EnumTypeOfDocument.PZ)
+                    {
+                        pm.readingPZ = false;
+                        pm.readingWZ = true;
+                    }
+                    companyEntities.SaveChanges();
                     Parcel.Remove(temp);
                     break;
                 }
             var addViewModel = (WarehouseAddViewModel)DataContext;
             WarehouseGrid.DataContext = null;
             WarehouseGrid.DataContext = Parcel;
-            addViewModel.UpdateParcelList(Parcel);
+            addViewModel.UpdateParcelList(Parcel, documentType);
         }
 
         private Document UpdateBuffer()
@@ -105,7 +128,7 @@ namespace SuperKurier.View.FWarehouse
             if (document == null)
             {
                 document = new Document();
-                document.idTypeOfDocument = companyEntities.TypeOfDocument.FirstOrDefault(p => p.type.Equals("PZ")).id;
+                document.idTypeOfDocument = companyEntities.TypeOfDocument.FirstOrDefault(p => p.type.Equals(documentType.ToString())).id;
                 document.idWarehouse = Properties.Settings.Default.Warehouse;
                 document.code = $"/{DateTime.Now.Month}/{DateTime.Now.Year}";
                 document.quantity = Parcel.Count;
@@ -117,14 +140,27 @@ namespace SuperKurier.View.FWarehouse
                 foreach (var p in Parcel)
                 {
                     var temp = companyEntities.ParcelMoving.FirstOrDefault(pm => pm.idParcel == p.id);
+                    bool isAdd = false;
                     if (temp == null)
+                    {
+                        isAdd = true;
                         temp = new ParcelMoving();
+                    }
+                        
                     temp.idDoc = document.id;
                     temp.idParcel = p.id;
-                    temp.readingPZ = true;
-                    temp.readingWZ = false;
-                    
-                    companyEntities.ParcelMoving.Add(temp);
+                    if(documentType == EnumTypeOfDocument.PZ)
+                    {
+                        temp.readingPZ = true;
+                        temp.readingWZ = false;
+                    }else if(documentType == EnumTypeOfDocument.WZ)
+                    {
+                        temp.readingPZ = false;
+                        temp.readingWZ = true;
+                    }
+
+                    if(isAdd)
+                        companyEntities.ParcelMoving.Add(temp);
                 }
                 companyEntities.SaveChanges();
             }
@@ -143,13 +179,26 @@ namespace SuperKurier.View.FWarehouse
                     if (actuallyList.Any(parcel => parcel.id == p.id))
                         continue;
                     var temp = companyEntities.ParcelMoving.FirstOrDefault(pm => pm.idParcel == p.id);
+                    bool isAdd = false;
                     if (temp == null)
+                    {
+                        isAdd = true;
                         temp = new ParcelMoving();
+                    }
                     temp.idDoc = document.id;
                     temp.idParcel = p.id;
-                    temp.readingPZ = true;
-                    temp.readingWZ = false;
-                    companyEntities.ParcelMoving.Add(temp);
+                    if (documentType == EnumTypeOfDocument.PZ)
+                    {
+                        temp.readingPZ = true;
+                        temp.readingWZ = false;
+                    }
+                    else if (documentType == EnumTypeOfDocument.WZ)
+                    {
+                        temp.readingPZ = false;
+                        temp.readingWZ = true;
+                    }
+                    if(isAdd)
+                        companyEntities.ParcelMoving.Add(temp);
                 }
                 companyEntities.SaveChanges();
                 document = companyEntities.Document.FirstOrDefault(d => d.id == document.id);
@@ -196,7 +245,10 @@ namespace SuperKurier.View.FWarehouse
             }
             WarehouseGrid.DataContext = null;
             WarehouseGrid.DataContext = Parcel;
-            addViewModel.UpdateParcelList(Parcel);
+            documentType = addViewModel.DocumentType;
+            BtnPutOut.Content = $"Wystaw {documentType}";
+            BtnDelete.Content = $"Usuń {documentType}";
+            addViewModel.UpdateParcelList(Parcel, documentType);
             var doc = addViewModel.Document;
             if (doc != null && doc.exposure)
                 freezePage(false);
@@ -216,7 +268,7 @@ namespace SuperKurier.View.FWarehouse
             companyEntities.Document.Remove(companyEntities.Document.FirstOrDefault(d => d.id == document.id));
             companyEntities.SaveChanges();
             var info = new InfoWindow();
-            info.ShowInfo($"Dokument {document.code} został usunięty pomyślnie!", "PZ", "Ok");
+            info.ShowInfo($"Dokument {document.code} został usunięty pomyślnie!", $"{documentType}", "Ok");
             info.Close();
             Close();
         }

@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using DataModel;
+using SuperKurier.Enums;
 using SuperKurier.ViewModel;
 using SuperKurier.ViewModel.FWarehouse;
 using System;
@@ -54,7 +55,12 @@ namespace SuperKurier.View.FWarehouse
         private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGridRow row = (DataGridRow)sender;
-            ((WarehouseViewModel)DataContext).AddViewModel = new WarehouseAddViewModel((Document)row.Item) { VisibilityOption = Visibility.Visible };
+            EnumTypeOfDocument type = EnumTypeOfDocument.PZ;
+            if (((Document)row.Item).TypeOfDocument.type.Equals("PZ"))
+                type = EnumTypeOfDocument.PZ;
+            else if (((Document)row.Item).TypeOfDocument.type.Equals("WZ"))
+                type = EnumTypeOfDocument.WZ;
+            ((WarehouseViewModel)DataContext).AddViewModel = new WarehouseAddViewModel((Document)row.Item, type) { VisibilityOption = Visibility.Visible };
             frame.Visibility = Visibility;
         }
 
@@ -66,7 +72,7 @@ namespace SuperKurier.View.FWarehouse
 
         private void BtnWZAdd_Click(object sender, RoutedEventArgs e)
         {
-            ((WarehouseViewModel)DataContext).AddViewModel = new WarehouseAddViewModel() { VisibilityOption = Visibility.Visible };
+            ((WarehouseViewModel)DataContext).AddViewModel = new WarehouseAddViewModel(null, EnumTypeOfDocument.WZ) { VisibilityOption = Visibility.Visible };
             frame.Visibility = Visibility;
         }
 
