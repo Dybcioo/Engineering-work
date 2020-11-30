@@ -1,6 +1,9 @@
-﻿using SuperKurier.Control;
+﻿using DataModel;
+using SuperKurier.Control;
 using SuperKurier.ViewModel;
 using System.Windows;
+using System.Linq;
+using System.Data.Entity;
 
 
 namespace SuperKurier
@@ -10,10 +13,12 @@ namespace SuperKurier
     /// </summary>
     public partial class MainWindow : Window
     {
+        private CompanyEntities companyEntities;
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+            companyEntities = new CompanyEntities();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -22,6 +27,20 @@ namespace SuperKurier
             loginWindow.ShowDialog();
             if (!loginWindow.Answer)
                 Application.Current.Shutdown();
+            var emp = companyEntities.Employee.Include(e => e.Warehouse).FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
+            FooterEmployee.Text = emp.code;
+            FooterWarehouse.Text = emp.Warehouse.code;
+        }
+
+        private void BtnUser_Click(object sender, RoutedEventArgs e)
+        {
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.ShowDialog();
+            if (!loginWindow.Answer)
+                Application.Current.Shutdown();
+            var emp = companyEntities.Employee.Include(e => e.Warehouse).FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
+            FooterEmployee.Text = emp.code;
+            FooterWarehouse.Text = emp.Warehouse.code;
         }
     }
 }

@@ -92,16 +92,5 @@ namespace SuperKurier.View
             change.ShowDialog();
             change.Close();
         }
-
-        private void BtnLogoutSettings_Click(object sender, RoutedEventArgs e)
-        {
-            IsEnabled = false;
-            LoginWindow loginWindow = new LoginWindow();
-            loginWindow.ShowDialog();
-            if (!loginWindow.Answer)
-                Application.Current.Shutdown();
-            else
-                IsEnabled = true;
-        }
     }
 }
