@@ -114,8 +114,8 @@ namespace SuperKurier.Control
 
         private void btnChangePassword_Click(object sender, RoutedEventArgs e)
         {
-            string currentPass = Password.Text;
-            string newPass = NewPassword.Text;
+            string currentPass = Password.Password;
+            string newPass = NewPassword.Password;
             byte[] hashBytes;
             byte[] salt;
             Rfc2898DeriveBytes pbkdf2;
@@ -126,7 +126,7 @@ namespace SuperKurier.Control
                 Answer = false;
                 return;
             }
-            if (!newPass.Equals(RepeatPassword.Text))
+            if (!newPass.Equals(RepeatPassword.Password))
             {
                 errorLabel.Content = "Wprowadzone hasła różnią się!";
                 Answer = false;

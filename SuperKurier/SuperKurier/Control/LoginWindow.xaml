@@ -285,7 +285,7 @@
         </Grid>
         <Grid Grid.Row="2" Grid.Column="1">
             <Label VerticalAlignment="Center" FontSize="15" FontFamily="Century Schoolbook" Foreground="{Binding ForegroundOption}">Hasło:</Label>
-            <TextBox x:Name="Password" HorizontalAlignment="Center" Margin="10,0,0,0" MinWidth="250" Height="22" Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"></TextBox>
+            <PasswordBox x:Name="Password" HorizontalAlignment="Center" Margin="10,0,0,0" MinWidth="250" Height="22" Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"></PasswordBox>
         </Grid>
         <Grid Grid.Row="3" Grid.Column="1">
             <Button Grid.Row="1" Name="btnSingIn" Width="200" HorizontalAlignment="Center"  Click="btnSingIn_Click" FontFamily="Century Schoolbook" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}">Zaloguj się</Button>

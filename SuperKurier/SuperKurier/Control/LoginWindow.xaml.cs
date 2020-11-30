@@ -115,7 +115,7 @@ namespace SuperKurier.Control
         private void btnSingIn_Click(object sender, RoutedEventArgs e)
         {
             string code = Code.Text;
-            string pass = Password.Text;
+            string pass = Password.Password;
             Employee empl = companyEntities.Employee.FirstOrDefault(e => e.code.Equals(code));
             if(empl == null)
             {
