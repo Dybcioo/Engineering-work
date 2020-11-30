@@ -1,7 +1,9 @@
-﻿using System;
+﻿using DataModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -73,9 +75,11 @@ namespace SuperKurier.Control
             set { }
         }
         #endregion
+        private CompanyEntities companyEntities;
         public LoginWindow()
         {
             InitializeComponent();
+            companyEntities = new CompanyEntities();
         }
 
         private void BlackAndWhiteLayout(bool black)
@@ -110,6 +114,38 @@ namespace SuperKurier.Control
 
         private void btnSingIn_Click(object sender, RoutedEventArgs e)
         {
+            string code = Code.Text;
+            string pass = Password.Text;
+            Employee empl = companyEntities.Employee.FirstOrDefault(e => e.code.Equals(code));
+            if(empl == null)
+            {
+                errorLabel.Content = "Użytkownik o pdanym kodzie nie istnieje!";
+                Answer = false;
+                return;
+            }
+            string userPass = empl.password;
+            if(string.IsNullOrWhiteSpace(userPass))
+            {
+                Properties.Settings.Default.IdUser = empl.id;
+                Properties.Settings.Default.Save();
+                Answer = true;
+                Close();
+                return;
+            }    
+            byte[] hashBytes = Convert.FromBase64String(userPass);
+            byte[] salt = new byte[16];
+            Array.Copy(hashBytes, 0, salt, 0, 16);
+            var pbkdf2 = new Rfc2898DeriveBytes(pass, salt, 100000);
+            byte[] hash = pbkdf2.GetBytes(20);
+            for (int i = 0; i < 20; i++)
+                if (hashBytes[i + 16] != hash[i])
+                {
+                    errorLabel.Content = "Wprowadzone hasło jest nieprawidłowe!";
+                    Answer = false;
+                    return;
+                }
+            Properties.Settings.Default.IdUser = empl.id;
+            Properties.Settings.Default.Save();
             Answer = true;
             Close();
         }

@@ -281,7 +281,7 @@
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
             <Label VerticalAlignment="Center" FontSize="15" Margin="11,0,0,0" FontFamily="Century Schoolbook" Foreground="{Binding ForegroundOption}">Kod:</Label>
-            <TextBox x:Name="Login" HorizontalAlignment="Center" Margin="10,0,0,0" MinWidth="250" Height="22" Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"></TextBox>
+            <TextBox x:Name="Code" HorizontalAlignment="Center" Margin="10,0,0,0" MinWidth="250" Height="22" Background="{Binding InputOption}" Foreground="{Binding ForegroundOption}"></TextBox>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="1">
             <Label VerticalAlignment="Center" FontSize="15" FontFamily="Century Schoolbook" Foreground="{Binding ForegroundOption}">Hasło:</Label>

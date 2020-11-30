@@ -95,12 +95,15 @@ namespace SuperKurier.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int IdUser {
             get {
                 return ((int)(this["IdUser"]));
+            }
+            set {
+                this["IdUser"] = value;
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using ConnectionSQL;
 using DataModel;
+using SuperKurier.Control;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -81,7 +82,9 @@ namespace SuperKurier.View
 
         private void BtnChangePassSettings_Click(object sender, RoutedEventArgs e)
         {
-
+            ChangePasswordWindow change = new ChangePasswordWindow();
+            change.ShowDialog();
+            change.Close();
         }
 
         private void BtnLogoutSettings_Click(object sender, RoutedEventArgs e)
