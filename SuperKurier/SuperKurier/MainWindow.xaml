@@ -280,44 +280,52 @@
                 <RowDefinition Height="100"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="1" >
-                <Button x:Name="BtnParcel" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
+            <Grid Grid.Row="1" Grid.Column="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" x:Name="BtnParcel" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="SwapHorizontal" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Przesyłki</TextBlock>
                     </Grid>
                 </Button>
-                <Button x:Name="BtnEmployee" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
+                <Button Grid.Row="1" x:Name="BtnEmployee" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="People" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Kurierzy</TextBlock>
                     </Grid>
                 </Button>
-                <Button x:Name="BtnRegion" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
+                <Button Grid.Row="2" x:Name="BtnRegion" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="Location" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Regiony</TextBlock>
                     </Grid>
                 </Button>
-                <Button x:Name="BtnWarehouse" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
+                <Button Grid.Row="3" x:Name="BtnWarehouse" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="Warehouse" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Magazyny</TextBlock>
                     </Grid>
                 </Button>
-                <Button x:Name="BtnTransport" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
+                <Button Grid.Row="4" x:Name="BtnTransport" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="LocalShipping"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Transport</TextBlock>
                     </Grid>
                 </Button>
-                <Button x:Name="BtnSettings" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
+                <Button Grid.Row="5" x:Name="BtnSettings" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="Settings" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Ustawienia</TextBlock>
                     </Grid>
                 </Button>
-            </StackPanel>
+            </Grid>
         </Grid>
         <Frame Content="{Binding SelectedViewModel}" Grid.Row="1" Grid.Column="1" NavigationUIVisibility="Hidden"/>
     </Grid>
