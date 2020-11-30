@@ -123,6 +123,9 @@
     <Compile Include="Control\InfoWindow.xaml.cs">
       <DependentUpon>InfoWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Enums\enumParcelStatus.cs" />
     <Compile Include="Enums\EnumTypeOfDocument.cs" />
     <Compile Include="Enums\EnumTypeOfParcel.cs" />
@@ -164,6 +167,10 @@
       <DependentUpon>WarehousePage.xaml</DependentUpon>
     </Compile>
     <Page Include="Control\InfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
