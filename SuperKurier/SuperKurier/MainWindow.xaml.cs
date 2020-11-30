@@ -1,4 +1,5 @@
-﻿using SuperKurier.ViewModel;
+﻿using SuperKurier.Control;
+using SuperKurier.ViewModel;
 using System.Windows;
 
 
@@ -13,6 +14,14 @@ namespace SuperKurier
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            IsEnabled = false;
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.ShowDialog();
+            IsEnabled = loginWindow.Answer;
         }
     }
 }

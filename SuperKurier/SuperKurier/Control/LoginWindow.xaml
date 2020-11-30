@@ -12,7 +12,7 @@
         fw:AcrylicWindow.TintColor="{Binding BackgroundOption}"
         fw:AcrylicWindow.TintOpacity="0.8"
         Title="LoginWindow" Height="350" Width="600"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
 
     <Window.Resources>
         <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
@@ -288,7 +288,7 @@
             <TextBox x:Name="Password" HorizontalAlignment="Center" Margin="10,0,0,0" MinWidth="250" Height="22"></TextBox>
         </Grid>
         <Grid Grid.Row="3" Grid.Column="1">
-            <Button Grid.Row="1" Name="btnSingIn" Width="200" HorizontalAlignment="Center"  Click="btnRight_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}">Zaloguj się</Button>
+            <Button Grid.Row="1" Name="btnSingIn" Width="200" HorizontalAlignment="Center"  Click="btnSingIn_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}">Zaloguj się</Button>
         </Grid>
     </Grid>
 </Window>

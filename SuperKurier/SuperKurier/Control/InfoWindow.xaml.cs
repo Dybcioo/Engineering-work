@@ -22,6 +22,8 @@ namespace SuperKurier.Control
     public partial class InfoWindow : Window, INotifyPropertyChanged
     {
         public bool Answer { get; set; } = false;
+
+        #region SetColor
         private string _backgroundOption;
         public string BackgroundOption
         {
@@ -72,6 +74,8 @@ namespace SuperKurier.Control
             get { return Properties.Settings.Default.IsBlack; }
             set {}
         }
+        #endregion
+
 
         public InfoWindow()
         {

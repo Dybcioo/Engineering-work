@@ -12,6 +12,7 @@
         fw:AcrylicWindow.TintColor="{Binding BackgroundOption}"
         fw:AcrylicWindow.TintOpacity="0.8"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         
          Height="600" Width="1080"  Foreground="{Binding ForegroundOption}" WindowStyle="SingleBorderWindow"  WindowStartupLocation="CenterScreen" IsTabStop="True">
     <Window.Resources>
