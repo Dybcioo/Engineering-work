@@ -120,6 +120,9 @@
     </ApplicationDefinition>
     <Compile Include="Command\BlackAndWhiteCommand.cs" />
     <Compile Include="Command\MenuViewCommand.cs" />
+    <Compile Include="Control\ChangePasswordWindow.xaml.cs">
+      <DependentUpon>ChangePasswordWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Control\InfoWindow.xaml.cs">
       <DependentUpon>InfoWindow.xaml</DependentUpon>
     </Compile>
@@ -166,6 +169,10 @@
     <Compile Include="View\FWarehouse\WarehousePage.xaml.cs">
       <DependentUpon>WarehousePage.xaml</DependentUpon>
     </Compile>
+    <Page Include="Control\ChangePasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Control\InfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
