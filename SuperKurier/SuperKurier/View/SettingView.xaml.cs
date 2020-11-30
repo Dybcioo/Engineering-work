@@ -78,5 +78,15 @@ namespace SuperKurier.View
             }
             BtnTestConn.IsEnabled = true;
         }
+
+        private void BtnChangePassSettings_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnLogoutSettings_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
