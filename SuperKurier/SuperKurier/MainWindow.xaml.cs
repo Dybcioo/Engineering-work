@@ -18,10 +18,10 @@ namespace SuperKurier
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            IsEnabled = false;
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
-            IsEnabled = loginWindow.Answer;
+            if (!loginWindow.Answer)
+                Application.Current.Shutdown();
         }
     }
 }

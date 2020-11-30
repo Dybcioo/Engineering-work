@@ -83,13 +83,25 @@ namespace SuperKurier.View
         private void BtnChangePassSettings_Click(object sender, RoutedEventArgs e)
         {
             ChangePasswordWindow change = new ChangePasswordWindow();
+            if (change.Answer)
+            {
+                InfoWindow info = new InfoWindow();
+                info.ShowInfo("Hasło zmienione pomyślnie!","Zmiana hasła", "Ok");
+                info.Close();
+            }
             change.ShowDialog();
             change.Close();
         }
 
         private void BtnLogoutSettings_Click(object sender, RoutedEventArgs e)
         {
-
+            IsEnabled = false;
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.ShowDialog();
+            if (!loginWindow.Answer)
+                Application.Current.Shutdown();
+            else
+                IsEnabled = true;
         }
     }
 }
