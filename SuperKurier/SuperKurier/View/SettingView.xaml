@@ -305,5 +305,6 @@
         <Line Grid.Row="1" Grid.Column="1"  X1="0" Y1="418" X2="10000"  Y2="418"
                 Stroke="{Binding ForegroundOption}" StrokeThickness="0.7"></Line>
         <Button x:Name="BtnChangePassSettings" Content="Zmień hasło" HorizontalAlignment="Left" Margin="50,434,0,0" VerticalAlignment="Top" Width="200" Click="BtnChangePassSettings_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}"/>
+        <Button x:Name="BtnLogoutSettings" Content="Wyloguj się" HorizontalAlignment="Right" Margin="0,434,50,0" VerticalAlignment="Top" Width="200" Click="BtnLogoutSettings_Click" Background="{Binding BackgroundOption}" Foreground="{Binding ForegroundOption}"/>
     </Grid>
 </Page>

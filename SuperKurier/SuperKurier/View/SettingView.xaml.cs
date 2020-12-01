@@ -80,6 +80,17 @@ namespace SuperKurier.View
             BtnTestConn.IsEnabled = true;
         }
 
+        private void BtnLogoutSettings_Click(object sender, RoutedEventArgs e)
+        {
+            IsEnabled = false;
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.ShowDialog();
+            if (!loginWindow.Answer)
+                Application.Current.Shutdown();
+            else
+                IsEnabled = true;
+        }
+
         private void BtnChangePassSettings_Click(object sender, RoutedEventArgs e)
         {
             ChangePasswordWindow change = new ChangePasswordWindow();
