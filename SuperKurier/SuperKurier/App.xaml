@@ -22,6 +22,9 @@
                     </Grid>
                 </Border>
             </ControlTemplate>
+            <DataTemplate DataType="{x:Type viewModel:BaseViewModel}">
+                <local:MainWindow/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:RegionViewModel}">
                 <view:RegionView/>
             </DataTemplate>

@@ -28,8 +28,9 @@ namespace SuperKurier
             if (!loginWindow.Answer)
                 Application.Current.Shutdown();
             var emp = companyEntities.Employee.Include(e => e.Warehouse).FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
-            FooterEmployee.Text = emp.code;
-            FooterWarehouse.Text = emp.Warehouse.code;
+            var bvm = (BaseViewModel)DataContext;
+            bvm.FooterEmployeeCode = emp.code;
+            bvm.FooterWarehouse = emp.Warehouse.code;
         }
 
         private void BtnUser_Click(object sender, RoutedEventArgs e)
@@ -39,8 +40,9 @@ namespace SuperKurier
             if (!loginWindow.Answer)
                 Application.Current.Shutdown();
             var emp = companyEntities.Employee.Include(e => e.Warehouse).FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
-            FooterEmployee.Text = emp.code;
-            FooterWarehouse.Text = emp.Warehouse.code;
+            var bvm = (BaseViewModel)DataContext;
+            bvm.FooterEmployeeCode = emp.code;
+            bvm.FooterWarehouse = emp.Warehouse.code;
         }
     }
 }

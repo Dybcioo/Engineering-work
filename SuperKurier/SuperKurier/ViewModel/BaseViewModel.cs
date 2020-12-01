@@ -14,14 +14,11 @@ namespace SuperKurier.ViewModel
     public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-    
         protected void OnPropertChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
         private ICommand _menuViewCommand;
-
         public ICommand MenuViewCommand
         {
             get { return _menuViewCommand; }
@@ -31,9 +28,7 @@ namespace SuperKurier.ViewModel
                 OnPropertChanged(nameof(MenuViewCommand));
             }
         }
-
         private BaseViewModel _selectedViewModel;
-
         public BaseViewModel SelectedViewModel
         {
             get { return _selectedViewModel; }
@@ -43,9 +38,7 @@ namespace SuperKurier.ViewModel
                 OnPropertChanged(nameof(SelectedViewModel));
             }
         }
-
         private string _backgroundOption;
-
         public string BackgroundOption
         {
             get { return _backgroundOption; }
@@ -55,9 +48,7 @@ namespace SuperKurier.ViewModel
                 OnPropertChanged(nameof(BackgroundOption));
             }
         }
-
         private string _foregroundOption;
-
         public string ForegroundOption
         {
             get { return _foregroundOption; }
@@ -67,9 +58,7 @@ namespace SuperKurier.ViewModel
                 OnPropertChanged(nameof(ForegroundOption));
             }
         }
-
         private string _inputOption;
-
         public string InputOption
         {
             get { return _inputOption; }
@@ -79,9 +68,7 @@ namespace SuperKurier.ViewModel
                 OnPropertChanged(nameof(InputOption));
             }
         }
-
         private Color _colorBtn;
-
         public Color ColorBtn
         {
             get { return _colorBtn; }
@@ -91,8 +78,6 @@ namespace SuperKurier.ViewModel
                 OnPropertChanged(nameof(ColorBtn));
             }
         }
-
-
         public  bool IsBlack 
         {
             get { return Properties.Settings.Default.IsBlack; } 
@@ -101,6 +86,26 @@ namespace SuperKurier.ViewModel
                 Properties.Settings.Default.IsBlack = value;
                 BlackAndWhiteLayout(IsBlack);
                 OnPropertChanged(nameof(IsBlack));
+            }
+        }
+        private string _footerEmployeeCode;
+        public string FooterEmployeeCode
+        {
+            get { return _footerEmployeeCode; }
+            set
+            {
+                _footerEmployeeCode = value;
+                OnPropertChanged(nameof(FooterEmployeeCode));
+            }
+        }
+        private string _footerWarehouse;
+        public string FooterWarehouse
+        {
+            get { return _footerWarehouse; }
+            set
+            {
+                _footerWarehouse = value;
+                OnPropertChanged(nameof(FooterWarehouse));
             }
         }
 

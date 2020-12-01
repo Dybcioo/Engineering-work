@@ -336,12 +336,12 @@
             <Button Grid.Column="1" x:Name="BtnUser" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" Click="BtnUser_Click" Foreground="{Binding ForegroundOption}">
                 <Grid Width="170" >
                     <materialDesign:PackIcon Kind="Person" VerticalAlignment="Center" Height="20" Width="20" HorizontalAlignment="Left" Margin="0,0,100,0"></materialDesign:PackIcon>
-                    <TextBlock x:Name="FooterEmployee" HorizontalAlignment="Center" VerticalAlignment="Center">Kod pracownika</TextBlock>
+                    <TextBlock x:Name="FooterEmployee" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FooterEmployeeCode}"></TextBlock>
                 </Grid>
             </Button>
             <Grid Grid.Column="2" >
                 <materialDesign:PackIcon Kind="Warehouse" VerticalAlignment="Center" Height="20" Width="20" HorizontalAlignment="Left" Margin="0,0,100,0"></materialDesign:PackIcon>
-                <TextBlock x:Name="FooterWarehouse" HorizontalAlignment="Center" VerticalAlignment="Center" >Magazyn pracownika</TextBlock>
+                <TextBlock x:Name="FooterWarehouse" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding FooterWarehouse}" ></TextBlock>
             </Grid>
         </Grid>
         <Frame Content="{Binding SelectedViewModel}" Grid.Row="1" Grid.Column="1" NavigationUIVisibility="Hidden"/>
