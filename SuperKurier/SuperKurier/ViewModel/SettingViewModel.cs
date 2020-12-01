@@ -25,7 +25,7 @@ namespace SuperKurier.ViewModel
         }
 
         private CompanyEntities companyEntities = new CompanyEntities();
-        private MainViewModel mainViewModel;
+        public MainViewModel MainViewModel;
         public BindableCollection<Warehouse> Warehouses { get; set; }
         private Warehouse warehouseSelectedSetting;
         public Warehouse WarehouseSelectedSetting
@@ -39,7 +39,7 @@ namespace SuperKurier.ViewModel
                 Properties.Settings.Default.Save();
                 companyEntities.Employee.FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser).idWarehouse = warehouseSelectedSetting.id;
                 companyEntities.SaveChanges();
-                mainViewModel.FooterWarehouse = warehouseSelectedSetting.code;
+                MainViewModel.FooterWarehouse = warehouseSelectedSetting.code;
                 OnPropertChanged(nameof(WarehouseSelectedSetting));
             }
         }
@@ -48,7 +48,7 @@ namespace SuperKurier.ViewModel
         {
             try
             {
-                this.mainViewModel = mainViewModel;
+                MainViewModel = mainViewModel;
                 BlackAndWhiteCommand = new BlackAndWhiteCommand(mainViewModel);
                 var temp = companyEntities.Warehouse.FirstOrDefault(w => w.id == Properties.Settings.Default.Warehouse);
                 if (temp != null)

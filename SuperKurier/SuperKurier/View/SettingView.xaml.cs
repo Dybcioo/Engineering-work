@@ -2,6 +2,7 @@
 using ConnectionSQL;
 using DataModel;
 using SuperKurier.Control;
+using SuperKurier.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -18,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.Entity;
 
 namespace SuperKurier.View
 {
@@ -27,11 +29,12 @@ namespace SuperKurier.View
     public partial class SettingView : Page
     {
         public Connection Conn { get; set; }
-
+        private CompanyEntities companyEntities;
         public SettingView()
         {
             InitializeComponent();
             GetDBSettings();
+            companyEntities = new CompanyEntities();
         }
 
         private void SaveDBSettings()
@@ -83,12 +86,23 @@ namespace SuperKurier.View
         private void BtnLogoutSettings_Click(object sender, RoutedEventArgs e)
         {
             IsEnabled = false;
+            InfoWindow info = new InfoWindow();
+            info.ShowInfo("Czy na pewno chcesz się wylogować?", "Wylogowywanie", "Nie", "Tak");
+            if (!info.Answer)
+            {
+                IsEnabled = true;
+                return;
+            }
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
             if (!loginWindow.Answer)
                 Application.Current.Shutdown();
-            else
-                IsEnabled = true;
+
+            IsEnabled = true;
+            var mvm = ((SettingViewModel)DataContext).MainViewModel;
+            var emp = companyEntities.Employee.Include(e => e.Warehouse).FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
+            mvm.FooterEmployeeCode = emp.code;
+            mvm.FooterWarehouse = emp.Warehouse.code;
         }
 
         private void BtnChangePassSettings_Click(object sender, RoutedEventArgs e)
