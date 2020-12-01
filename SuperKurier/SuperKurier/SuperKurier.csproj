@@ -130,6 +130,7 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\enumParcelStatus.cs" />
+    <Compile Include="Enums\EnumPosition.cs" />
     <Compile Include="Enums\EnumTypeOfDocument.cs" />
     <Compile Include="Enums\EnumTypeOfParcel.cs" />
     <Compile Include="Model\Route.cs" />
