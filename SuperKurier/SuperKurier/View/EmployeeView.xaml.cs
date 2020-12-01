@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using DataModel;
 using Microsoft.Maps.MapControl.WPF;
+using SuperKurier.Enums;
 using SuperKurier.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -37,8 +38,14 @@ namespace SuperKurier.View
 
         private void DataGridEmployeesRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            
             DataGridRow dgr = (DataGridRow)sender;
             Employee empl = (Employee)dgr.Item;
+            var user = companyEntities.Employee.FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
+            if (empl.idPosition == (int)EnumPosition.Admin && user.idPosition != (int)EnumPosition.Admin)
+                return;
+            if (empl.idPosition == (int)EnumPosition.OfficeWorker && user.idPosition != (int)EnumPosition.Admin && empl.id != user.id)
+                return;
             if (empl.Address != null && empl.Address.Localization != null)
                 EmployeeMap.CheckingPushpin(e, new Location() { Latitude = double.Parse(empl.Address.Localization.latitude), Longitude = double.Parse(empl.Address.Localization.longitude) });
             DataContext = new EmployeeEditViewModel(empl, this);
