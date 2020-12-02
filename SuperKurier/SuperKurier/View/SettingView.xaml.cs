@@ -20,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Entity;
+using SuperKurier.Enums;
 
 namespace SuperKurier.View
 {
@@ -101,6 +102,7 @@ namespace SuperKurier.View
             IsEnabled = true;
             var mvm = ((SettingViewModel)DataContext).MainViewModel;
             var emp = companyEntities.Employee.Include(e => e.Warehouse).FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
+            mvm.Active = emp.idPosition == (int)EnumPosition.Warehouseman ? Visibility.Hidden : Visibility.Visible;
             mvm.FooterEmployeeCode = emp.code;
             mvm.FooterWarehouse = emp.Warehouse.code;
         }

@@ -4,7 +4,7 @@ using SuperKurier.ViewModel;
 using System.Windows;
 using System.Linq;
 using System.Data.Entity;
-
+using SuperKurier.Enums;
 
 namespace SuperKurier
 {
@@ -29,6 +29,7 @@ namespace SuperKurier
                 Application.Current.Shutdown();
             var emp = companyEntities.Employee.Include(e => e.Warehouse).FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
             var bvm = (BaseViewModel)DataContext;
+            bvm.Active = emp.idPosition == (int)EnumPosition.Warehouseman ? Visibility.Hidden : Visibility.Visible;
             bvm.FooterEmployeeCode = emp.code;
             bvm.FooterWarehouse = emp.Warehouse.code;
         }
@@ -41,6 +42,7 @@ namespace SuperKurier
                 Application.Current.Shutdown();
             var emp = companyEntities.Employee.Include(e => e.Warehouse).FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
             var bvm = (BaseViewModel)DataContext;
+            bvm.Active = emp.idPosition == (int)EnumPosition.Warehouseman ? Visibility.Hidden : Visibility.Visible;
             bvm.FooterEmployeeCode = emp.code;
             bvm.FooterWarehouse = emp.Warehouse.code;
         }

@@ -289,19 +289,19 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0" x:Name="BtnParcel" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
+                <Button Grid.Row="0" x:Name="BtnParcel" Margin="10" Background="Transparent" BorderBrush="Transparent" Visibility="{Binding Active}" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="SwapHorizontal" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Przesyłki</TextBlock>
                     </Grid>
                 </Button>
-                <Button Grid.Row="1" x:Name="BtnEmployee" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
+                <Button Grid.Row="1" x:Name="BtnEmployee" Margin="10" Background="Transparent" BorderBrush="Transparent" Visibility="{Binding Active}" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="People" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Kurierzy</TextBlock>
                     </Grid>
                 </Button>
-                <Button Grid.Row="2" x:Name="BtnRegion" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
+                <Button Grid.Row="2" x:Name="BtnRegion" Margin="10" Background="Transparent" BorderBrush="Transparent" Visibility="{Binding Active}" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="Location" VerticalAlignment="Center"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Regiony</TextBlock>
@@ -313,7 +313,7 @@
                         <TextBlock HorizontalAlignment="Center">Magazyny</TextBlock>
                     </Grid>
                 </Button>
-                <Button Grid.Row="4" x:Name="BtnTransport" Margin="10" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
+                <Button Grid.Row="4" x:Name="BtnTransport" Margin="10" Background="Transparent" BorderBrush="Transparent" Visibility="{Binding Active}" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Foreground="{Binding ForegroundOption}">
                     <Grid Width="150">
                         <materialDesign:PackIcon Kind="LocalShipping"></materialDesign:PackIcon>
                         <TextBlock HorizontalAlignment="Center">Transport</TextBlock>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -106,6 +107,16 @@ namespace SuperKurier.ViewModel
             {
                 _footerWarehouse = value;
                 OnPropertChanged(nameof(FooterWarehouse));
+            }
+        }
+        private Visibility _active;
+        public Visibility Active
+        {
+            get { return _active; }
+            set
+            {
+                _active = value;
+                OnPropertChanged(nameof(Active));
             }
         }
 
