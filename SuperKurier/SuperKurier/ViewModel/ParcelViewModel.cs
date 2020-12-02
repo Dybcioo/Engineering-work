@@ -92,7 +92,7 @@ namespace SuperKurier.ViewModel
             TypeOfParcel.Insert(0, new TypeOfParcel() { type = "Wybierz typ" });
             TypeOfParcelSelected = TypeOfParcel.FirstOrDefault();
             Warehouse.Insert(0, new Warehouse() { code = "Wybierz magazyn" });
-            WarehouseSelected = Warehouse.FirstOrDefault();
+            WarehouseSelected = Warehouse.FirstOrDefault(w => w.id == Properties.Settings.Default.Warehouse);
         }
     }
 }
