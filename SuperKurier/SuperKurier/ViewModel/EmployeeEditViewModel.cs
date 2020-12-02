@@ -2,6 +2,7 @@
 using DataModel;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Maps.MapControl.WPF;
+using SuperKurier.Enums;
 using SuperKurier.View;
 using System;
 using System.Collections.Generic;
@@ -232,7 +233,10 @@ namespace SuperKurier.ViewModel
             if (Employee.Address == null)
                 Employee.Address = new Address();
             employeeView = window;
-            Positions = new BindableCollection<Position>(CompanyEntities.Position.ToList());
+            if(Properties.Settings.Default.IdUser == (int)EnumPosition.Admin)
+            Positions = new BindableCollection<Position>(CompanyEntities.Position.Where(e => e.id != (int)EnumPosition.Admin).ToList());
+            else
+                Positions = new BindableCollection<Position>(CompanyEntities.Position.Where(e => e.id != (int)EnumPosition.Admin && e.id != (int)EnumPosition.OfficeWorker).ToList());
             Warehouses = new BindableCollection<Warehouse>(CompanyEntities.Warehouse.ToList());
 
             if (employee.Position != null)

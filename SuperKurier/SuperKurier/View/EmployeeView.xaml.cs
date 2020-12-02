@@ -34,6 +34,7 @@ namespace SuperKurier.View
             InitializeComponent();
             Employees = new BindableCollection<Employee>(companyEntities.Employee.ToList());
             DataGridEmployees.DataContext = Employees;
+            
         }
 
         private void DataGridEmployeesRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -46,8 +47,10 @@ namespace SuperKurier.View
                 return;
             if (empl.idPosition == (int)EnumPosition.OfficeWorker && user.idPosition != (int)EnumPosition.Admin && empl.id != user.id)
                 return;
+            EmployeeSalary.IsEnabled = !(Properties.Settings.Default.IdUser == empl.id && empl.idPosition != (int)EnumPosition.Admin);
+            EmployeePosition.IsEnabled = !(Properties.Settings.Default.IdUser == empl.id && empl.idPosition != (int)EnumPosition.Admin);
             if (empl.Address != null && empl.Address.Localization != null)
-                EmployeeMap.CheckingPushpin(e, new Location() { Latitude = double.Parse(empl.Address.Localization.latitude), Longitude = double.Parse(empl.Address.Localization.longitude) });
+            EmployeeMap.CheckingPushpin(e, new Location() { Latitude = double.Parse(empl.Address.Localization.latitude), Longitude = double.Parse(empl.Address.Localization.longitude) });
             DataContext = new EmployeeEditViewModel(empl, this);
             TurnOnOffEmployeePanel(false);
             BtnSaveEmployee.Content = "Edytuj";
