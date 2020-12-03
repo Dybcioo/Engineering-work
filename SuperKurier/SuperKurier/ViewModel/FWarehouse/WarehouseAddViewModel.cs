@@ -60,15 +60,16 @@ namespace SuperKurier.ViewModel.FWarehouse
         {
             var parcelsId = parcels.Select(p => p.id).ToList();
             Parcels = null;
-            if(enumDocumentType == EnumTypeOfDocument.PZ)
+            if (enumDocumentType == EnumTypeOfDocument.PZ)
             {
                 Parcels = new BindableCollection<Parcel>(companyEntities.Parcel
                 .Include(p => p.Region)
                 .Include(p => p.Region1)
                 .Include(p => p.ParcelMoving)
-                .Where(p => p.idStatus <= (int)enumParcelStatus.received
-                 && ((p.ParcelMoving.Count > 0 && p.ParcelMoving.FirstOrDefault().readingPZ == false && p.ParcelMoving.FirstOrDefault().readingWZ == true && _warehouse.id == p.Region.idWarehouse)
-                    || (_warehouse.id == p.Region1.idWarehouse && p.ParcelMoving.Count <= 0))
+                .Include(p => p.Status)
+                .Include(p => p.Status.HistoryOfParcel)
+                .Where(p => ((p.ParcelMoving.Count == 0 && p.Status.HistoryOfParcel.FirstOrDefault(h => h.idStatus == p.idStatus).idWarehouse == _warehouse.id && p.idStatus <= (int)EnumParcelStatus.received)
+                    || (p.ParcelMoving.Count > 0 && p.idStatus == (int)EnumParcelStatus.beetwen && _warehouse.id == p.Region.idWarehouse))
                  && !parcelsId.Contains(p.id))
                 .ToList());
             }

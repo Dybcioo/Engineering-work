@@ -748,7 +748,7 @@ namespace SuperKurier.ViewModel
                     idTypeOfParcel = ParcelTypeSelected.id,
                     idMethodOfSend = ParcelSendMethodSelected.id,
                     dateOfShipment = DateTime.Now,
-                    idStatus = (int)enumParcelStatus.registered
+                    idStatus = (int)EnumParcelStatus.registered
                 };
                 if (senderRegion != null)
                 {

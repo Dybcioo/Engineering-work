@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace SuperKurier.Enums
 {
-    enum enumParcelStatus
+    enum EnumParcelStatus
     {
         registered = 1,
         received = 2,
-        accepted = 3,
-        handed = 4,
-        delivered = 5,
-        returned = 6
+        acceptedSender = 3,
+        beetwen = 4,
+        acceptedReciver = 5,
+        handed = 6,
+        delivered = 7,
+        returned = 8
     }
 }

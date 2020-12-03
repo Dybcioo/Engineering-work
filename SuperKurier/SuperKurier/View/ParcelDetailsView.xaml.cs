@@ -120,7 +120,7 @@ namespace SuperKurier.View
                 idStatus = Parcel.idStatus,
                 date = DateTime.Now
             };
-            if (parcelDetailsViewModel.StatusSelected.id > (int)enumParcelStatus.accepted)
+            if (parcelDetailsViewModel.StatusSelected.id > (int)EnumParcelStatus.acceptedSender) // WARNING
                 history.idWarehouse = Parcel.Region.idWarehouse;
             else if(Parcel.Region1 != null)
                 history.idWarehouse = Parcel.Region1.idWarehouse;
