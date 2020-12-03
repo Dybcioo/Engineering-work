@@ -70,7 +70,7 @@ namespace SuperKurier.View.FWarehouse
             var doc = UpdateBuffer();
             doc = companyEntities.Document.FirstOrDefault(d => d.id == doc.id);
            double summary = 0.0;
-           foreach(var d in companyEntities.ParcelMoving.Include(p => p.Parcel).Where(p => p.idDoc == doc.id))
+           foreach(var d in companyEntities.ParcelMoving.Include(p => p.Parcel).Where(p => documentType == EnumTypeOfDocument.PZ ? p.idDocPZ == doc.id : p.idDocWZ == doc.id))
             {
                 changeStatus(d.idParcel);
                 if (documentType == EnumTypeOfDocument.PZ)
@@ -81,6 +81,7 @@ namespace SuperKurier.View.FWarehouse
             }
             doc.summary = (decimal)summary;
             doc.exposure = true;
+            doc.idEmployee = Properties.Settings.Default.IdUser;
             companyEntities.SaveChanges();
             var info = new InfoWindow();
             info.ShowInfo($"Dokument {doc.code} został wystawiony pomyślnie!", $"{documentType}", "Ok");
@@ -159,7 +160,10 @@ namespace SuperKurier.View.FWarehouse
                         isAdd = true;
                         temp = new ParcelMoving();
                     }
-                    temp.idDoc = document.id;
+                    if (documentType == EnumTypeOfDocument.PZ)
+                        temp.idDocPZ = document.id;
+                    else
+                        temp.idDocWZ = document.id;
                     temp.idParcel = p.id;
                     if(documentType == EnumTypeOfDocument.PZ)
                         temp.readingPZ = true;
@@ -178,7 +182,8 @@ namespace SuperKurier.View.FWarehouse
                     if (Parcel.Any(p => p.id == rem.id))
                         continue;
                     var temp = companyEntities.ParcelMoving.FirstOrDefault(p => p.idParcel == rem.id);
-                    companyEntities.ParcelMoving.Remove(temp);
+                    if(temp != null)
+                        companyEntities.ParcelMoving.Remove(temp);
                 }
                 foreach (var p in Parcel)
                 {
@@ -193,7 +198,10 @@ namespace SuperKurier.View.FWarehouse
                         isAdd = true;
                         temp = new ParcelMoving();
                     }
-                    temp.idDoc = document.id;
+                    if (documentType == EnumTypeOfDocument.PZ)
+                        temp.idDocPZ = document.id;
+                    else
+                        temp.idDocWZ = document.id;
                     temp.idParcel = p.id;
                     if (documentType == EnumTypeOfDocument.PZ)
                         temp.readingPZ = true;
@@ -204,7 +212,7 @@ namespace SuperKurier.View.FWarehouse
                 }
                 companyEntities.SaveChanges();
                 document = companyEntities.Document.FirstOrDefault(d => d.id == document.id);
-                document.quantity = companyEntities.ParcelMoving.Where(p => p.idDoc == document.id).ToList().Count;
+                document.quantity = companyEntities.ParcelMoving.Where(p => documentType == EnumTypeOfDocument.PZ ? p.idDocPZ == document.id : p.idDocWZ == document.id).ToList().Count;
                 companyEntities.SaveChanges();
             }
             return document;
@@ -265,7 +273,7 @@ namespace SuperKurier.View.FWarehouse
             var document = addViewModel.Document;
             if (document == null)
                 return;
-            foreach (var parcel in companyEntities.ParcelMoving.Where(p => p.idDoc == document.id))
+            foreach (var parcel in companyEntities.ParcelMoving.Where(p => documentType == EnumTypeOfDocument.PZ ? p.idDocPZ == document.id : p.idDocWZ == document.id))
                 companyEntities.ParcelMoving.Remove(parcel);
             companyEntities.Document.Remove(companyEntities.Document.FirstOrDefault(d => d.id == document.id));
             companyEntities.SaveChanges();

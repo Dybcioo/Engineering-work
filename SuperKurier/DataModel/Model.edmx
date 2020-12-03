@@ -121,7 +121,8 @@
           <Property Name="readingPZ" Type="bit" Nullable="false" />
           <Property Name="readingWZ" Type="bit" Nullable="false" />
           <Property Name="idParcel" Type="int" Nullable="false" />
-          <Property Name="idDoc" Type="int" Nullable="false" />
+          <Property Name="idDocPZ" Type="int" />
+          <Property Name="idDocWZ" Type="int" />
         </EntityType>
         <EntityType Name="Position">
           <Key>
@@ -428,14 +429,26 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ParcelMoving_Document">
-          <End Role="Document" Type="Self.Document" Multiplicity="1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="0..1" />
           <End Role="ParcelMoving" Type="Self.ParcelMoving" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Document">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="ParcelMoving">
-              <PropertyRef Name="idDoc" />
+              <PropertyRef Name="idDocPZ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelMoving_Document1">
+          <End Role="Document" Type="Self.Document" Multiplicity="0..1" />
+          <End Role="ParcelMoving" Type="Self.ParcelMoving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ParcelMoving">
+              <PropertyRef Name="idDocWZ" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -590,6 +603,10 @@
             <End Role="Document" EntitySet="Document" />
             <End Role="ParcelMoving" EntitySet="ParcelMoving" />
           </AssociationSet>
+          <AssociationSet Name="FK_ParcelMoving_Document1" Association="Self.FK_ParcelMoving_Document1">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="ParcelMoving" EntitySet="ParcelMoving" />
+          </AssociationSet>
           <AssociationSet Name="FK_ParcelMoving_Parcel" Association="Self.FK_ParcelMoving_Parcel">
             <End Role="Parcel" EntitySet="Parcel" />
             <End Role="ParcelMoving" EntitySet="ParcelMoving" />
@@ -667,6 +684,7 @@
           <NavigationProperty Name="TypeOfDocument" Relationship="Self.FK_Document_TypeOfDocument" FromRole="Document" ToRole="TypeOfDocument" />
           <NavigationProperty Name="Warehouse" Relationship="Self.FK_Document_Warehouse" FromRole="Document" ToRole="Warehouse" />
           <NavigationProperty Name="ParcelMoving" Relationship="Self.FK_ParcelMoving_Document" FromRole="Document" ToRole="ParcelMoving" />
+          <NavigationProperty Name="ParcelMoving1" Relationship="Self.FK_ParcelMoving_Document1" FromRole="Document" ToRole="ParcelMoving" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -760,8 +778,10 @@
           <Property Name="readingPZ" Type="Boolean" Nullable="false" />
           <Property Name="readingWZ" Type="Boolean" Nullable="false" />
           <Property Name="idParcel" Type="Int32" Nullable="false" />
-          <Property Name="idDoc" Type="Int32" Nullable="false" />
+          <Property Name="idDocPZ" Type="Int32" />
+          <Property Name="idDocWZ" Type="Int32" />
           <NavigationProperty Name="Document" Relationship="Self.FK_ParcelMoving_Document" FromRole="ParcelMoving" ToRole="Document" />
+          <NavigationProperty Name="Document1" Relationship="Self.FK_ParcelMoving_Document1" FromRole="ParcelMoving" ToRole="Document" />
           <NavigationProperty Name="Parcel" Relationship="Self.FK_ParcelMoving_Parcel" FromRole="ParcelMoving" ToRole="Parcel" />
         </EntityType>
         <EntityType Name="Position">
@@ -953,14 +973,26 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ParcelMoving_Document">
-          <End Role="Document" Type="Self.Document" Multiplicity="1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="0..1" />
           <End Role="ParcelMoving" Type="Self.ParcelMoving" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Document">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="ParcelMoving">
-              <PropertyRef Name="idDoc" />
+              <PropertyRef Name="idDocPZ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParcelMoving_Document1">
+          <End Role="Document" Type="Self.Document" Multiplicity="0..1" />
+          <End Role="ParcelMoving" Type="Self.ParcelMoving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ParcelMoving">
+              <PropertyRef Name="idDocWZ" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1203,6 +1235,10 @@
             <End Role="Document" EntitySet="Document" />
             <End Role="ParcelMoving" EntitySet="ParcelMoving" />
           </AssociationSet>
+          <AssociationSet Name="FK_ParcelMoving_Document1" Association="Self.FK_ParcelMoving_Document1">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="ParcelMoving" EntitySet="ParcelMoving" />
+          </AssociationSet>
           <AssociationSet Name="FK_Employee_Position" Association="Self.FK_Employee_Position">
             <End Role="Position" EntitySet="Position" />
             <End Role="Employee" EntitySet="Employee" />
@@ -1394,7 +1430,8 @@
                 <ScalarProperty Name="readingPZ" ColumnName="readingPZ" />
                 <ScalarProperty Name="readingWZ" ColumnName="readingWZ" />
                 <ScalarProperty Name="idParcel" ColumnName="idParcel" />
-                <ScalarProperty Name="idDoc" ColumnName="idDoc" />
+                <ScalarProperty Name="idDocPZ" ColumnName="idDocPZ" />
+                <ScalarProperty Name="idDocWZ" ColumnName="idDocWZ" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

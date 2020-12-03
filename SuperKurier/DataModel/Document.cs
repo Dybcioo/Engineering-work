@@ -18,6 +18,7 @@ namespace DataModel
         public Document()
         {
             this.ParcelMoving = new HashSet<ParcelMoving>();
+            this.ParcelMoving1 = new HashSet<ParcelMoving>();
         }
     
         public int id { get; set; }
@@ -34,5 +35,7 @@ namespace DataModel
         public virtual Warehouse Warehouse { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ParcelMoving> ParcelMoving { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ParcelMoving> ParcelMoving1 { get; set; }
     }
 }

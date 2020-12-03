@@ -18,9 +18,11 @@ namespace DataModel
         public bool readingPZ { get; set; }
         public bool readingWZ { get; set; }
         public int idParcel { get; set; }
-        public int idDoc { get; set; }
+        public Nullable<int> idDocPZ { get; set; }
+        public Nullable<int> idDocWZ { get; set; }
     
         public virtual Document Document { get; set; }
+        public virtual Document Document1 { get; set; }
         public virtual Parcel Parcel { get; set; }
     }
 }

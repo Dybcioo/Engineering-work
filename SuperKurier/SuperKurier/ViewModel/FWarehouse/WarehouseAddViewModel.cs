@@ -50,7 +50,7 @@ namespace SuperKurier.ViewModel.FWarehouse
                 if (document != null)
                     actuallyParcelList = companyEntities.ParcelMoving
                         .Include(p => p.Parcel)
-                        .Where(p => p.idDoc == document.id)
+                        .Where(p => DocumentType == EnumTypeOfDocument.PZ ? p.idDocPZ == document.id : p.idDocWZ == document.id)
                         .Select(p => p.Parcel)
                         .ToList();
 
