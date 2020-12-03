@@ -233,7 +233,8 @@ namespace SuperKurier.ViewModel
             if (Employee.Address == null)
                 Employee.Address = new Address();
             employeeView = window;
-            if(Properties.Settings.Default.IdUser == (int)EnumPosition.Admin)
+            var temp = CompanyEntities.Employee.FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
+            if(temp.idPosition == (int)EnumPosition.Admin)
             Positions = new BindableCollection<Position>(CompanyEntities.Position.Where(e => e.id != (int)EnumPosition.Admin).ToList());
             else
                 Positions = new BindableCollection<Position>(CompanyEntities.Position.Where(e => e.id != (int)EnumPosition.Admin && e.id != (int)EnumPosition.OfficeWorker).ToList());
