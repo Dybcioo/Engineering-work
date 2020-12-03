@@ -49,6 +49,7 @@
             <DataTemplate DataType="{x:Type warehouse:WarehouseAddViewModel}">
                 <viewWarehouse:WarehouseAddView/>
             </DataTemplate>
+            <BitmapImage x:Key="Logo" UriSource="./Resources/logo.png" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
