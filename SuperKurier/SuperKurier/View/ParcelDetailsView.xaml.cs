@@ -120,14 +120,67 @@ namespace SuperKurier.View
                 idStatus = Parcel.idStatus,
                 date = DateTime.Now
             };
-            if (parcelDetailsViewModel.StatusSelected.id > (int)EnumParcelStatus.acceptedSender) // WARNING
+            if (parcelDetailsViewModel.StatusSelected.id > (int)EnumParcelStatus.beetwen)
                 history.idWarehouse = Parcel.Region.idWarehouse;
-            else if(Parcel.Region1 != null)
+            else if (Parcel.Region1 != null)
                 history.idWarehouse = Parcel.Region1.idWarehouse;
+            else
+                history.idWarehouse = Properties.Settings.Default.Warehouse;
             CompanyEntities.HistoryOfParcel.Add(history);
             Parcel.idStatus = parcelDetailsViewModel.StatusSelected.id;
             CompanyEntities.SaveChanges();
             Counter = 0;
+            AddDoc(Parcel);
+        }
+
+        private void AddDoc(Parcel parcel)
+        {
+            var parcelDetailsViewModel = (ParcelDetailsViewModel)DataContext;
+            Document doc = new Document();
+            doc.exposure = true;
+            doc.quantity = 1;
+            doc.idWarehouse = Properties.Settings.Default.Warehouse;
+            doc.idEmployee = Properties.Settings.Default.IdUser;
+            doc.summary = parcel.amount;
+            doc.code = $"/{DateTime.Now.Month}/{DateTime.Now.Year}";
+            int idType = 0;
+            switch (parcelDetailsViewModel.StatusSelected.id)
+            {
+                case (int)EnumParcelStatus.acceptedSender:
+                    idType = CompanyEntities.TypeOfDocument.FirstOrDefault(p => p.type.Equals("PZ")).id;
+                    break;
+                case (int)EnumParcelStatus.beetwen:
+                    idType = CompanyEntities.TypeOfDocument.FirstOrDefault(p => p.type.Equals("WZ")).id;
+                    break;
+                case (int)EnumParcelStatus.acceptedReciver:
+                    idType = CompanyEntities.TypeOfDocument.FirstOrDefault(p => p.type.Equals("PZ")).id;
+                    break;
+                case (int)EnumParcelStatus.handed:
+                    idType = CompanyEntities.TypeOfDocument.FirstOrDefault(p => p.type.Equals("WZ")).id;
+                    break;
+            }
+            if (idType == 0)
+                return;
+            doc.idTypeOfDocument = idType;
+            CompanyEntities.Document.Add(doc);
+            CompanyEntities.SaveChanges();
+            ParcelMoving parcelMoving = new ParcelMoving();
+            if (idType == (int)EnumTypeOfDocument.PZ)
+            {
+                parcelMoving.idDocPZ = doc.id;
+                parcelMoving.readingPZ = true;
+                parcelMoving.readingWZ = false;
+            } 
+            else
+            {
+                parcelMoving.idDocWZ = doc.id;
+                parcelMoving.readingWZ = true;
+                parcelMoving.readingPZ = false;
+            }
+            parcelMoving.idParcel = parcel.id;
+            doc.code = doc.id + doc.code;
+            CompanyEntities.ParcelMoving.Add(parcelMoving);
+            CompanyEntities.SaveChanges();
         }
 
         private void BtnGenerateLabel_Click(object sender, RoutedEventArgs e)

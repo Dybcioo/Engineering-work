@@ -41,7 +41,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="code" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="exposure" Type="bit" Nullable="false" />
           <Property Name="summary" Type="money" />
           <Property Name="quantity" Type="int" Nullable="false" />
@@ -673,7 +673,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="exposure" Type="Boolean" Nullable="false" />
           <Property Name="summary" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
