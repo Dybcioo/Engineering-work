@@ -137,6 +137,7 @@
     <Compile Include="Enums\EnumTypeOfDocument.cs" />
     <Compile Include="Enums\EnumTypeOfParcel.cs" />
     <Compile Include="Model\Route.cs" />
+    <Compile Include="Model\Transport.cs" />
     <Compile Include="Tool\RegionTool.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\EmployeeEditViewModel.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="ViewModel\RegionViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="ViewModel\FWarehouse\WarehouseViewModel.cs" />
+    <Compile Include="ViewModel\TransportViewModel.cs" />
     <Compile Include="View\EmployeeView.xaml.cs">
       <DependentUpon>EmployeeView.xaml</DependentUpon>
     </Compile>
@@ -172,6 +174,9 @@
     </Compile>
     <Compile Include="View\FWarehouse\WarehousePage.xaml.cs">
       <DependentUpon>WarehousePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TransportView.xaml.cs">
+      <DependentUpon>TransportView.xaml</DependentUpon>
     </Compile>
     <Page Include="Control\ChangePasswordWindow.xaml">
       <SubType>Designer</SubType>
@@ -226,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\FWarehouse\WarehousePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TransportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -49,6 +49,9 @@ namespace SuperKurier.Command
                 case "BtnWarehouse":
                     viewModel.SelectedViewModel = new WarehouseViewModel();
                     break;
+                case "BtnTransport":
+                    viewModel.SelectedViewModel = new TransportViewModel();
+                    break;
             }
             viewModel.BlackAndWhiteLayout(viewModel.IsBlack);
             
