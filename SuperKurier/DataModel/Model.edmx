@@ -64,6 +64,7 @@
           <Property Name="idRegion" Type="int" />
           <Property Name="salary" Type="money" />
           <Property Name="dateOfEmployment" Type="date" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="HistoryOfParcel">
           <Key>
@@ -701,6 +702,7 @@
           <Property Name="idRegion" Type="Int32" />
           <Property Name="salary" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="dateOfEmployment" Type="DateTime" Precision="0" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Address" Relationship="Self.FK_Employee_Employee" FromRole="Employee" ToRole="Address" />
           <NavigationProperty Name="Document" Relationship="Self.FK_Document_Employee" FromRole="Employee" ToRole="Document" />
           <NavigationProperty Name="Position" Relationship="Self.FK_Employee_Position" FromRole="Employee" ToRole="Position" />
@@ -1368,6 +1370,7 @@
                 <ScalarProperty Name="idRegion" ColumnName="idRegion" />
                 <ScalarProperty Name="salary" ColumnName="salary" />
                 <ScalarProperty Name="dateOfEmployment" ColumnName="dateOfEmployment" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
