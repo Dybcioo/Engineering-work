@@ -98,7 +98,7 @@ namespace SuperKurier.View
         private void BtnSaveEmployee_Click(object sender, RoutedEventArgs e)
         {
             ((EmployeeEditViewModel)DataContext).ExecuteSaveEmployee();
-            Employees = new BindableCollection<Employee>(companyEntities.Employee.ToList());
+            Employees = new BindableCollection<Employee>(companyEntities.Employee.Where(e => e.isActive).ToList());
             DataGridEmployees.DataContext = Employees;
             TurnOnOffEmployeePanel(true);
         }

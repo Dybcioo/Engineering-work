@@ -49,7 +49,7 @@ namespace SuperKurier.ViewModel
             Warehouses = new BindableCollection<Warehouse>(new CompanyEntities().Warehouse.ToList());
             WarehouseSelectedRegion = Warehouses.FirstOrDefault();
 
-            Employees = new BindableCollection<Employee>(new CompanyEntities().Employee.Where(e => e.Position.position1.Equals("Kurier")).ToList());
+            Employees = new BindableCollection<Employee>(new CompanyEntities().Employee.Where(e => e.Position.position1.Equals("Kurier") && e.isActive).ToList());
             EmployeeSelectedRegion = Employees.FirstOrDefault();
         }
 

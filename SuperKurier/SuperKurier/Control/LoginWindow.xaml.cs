@@ -116,7 +116,7 @@ namespace SuperKurier.Control
         {
             string code = Code.Text;
             string pass = Password.Password;
-            Employee empl = companyEntities.Employee.FirstOrDefault(e => e.code.Equals(code));
+            Employee empl = companyEntities.Employee.FirstOrDefault(e => e.code.Equals(code) && e.isActive);
             if(empl == null)
             {
                 errorLabel.Content = "Użytkownik o pdanym kodzie nie istnieje!";

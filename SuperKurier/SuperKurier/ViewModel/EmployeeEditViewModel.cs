@@ -268,6 +268,7 @@ namespace SuperKurier.ViewModel
 
             if (Employee.code == null)
             {
+                Employee.isActive = true;
                 Employee.Address.Localization = new DataModel.Localization() { latitude = location.Latitude.ToString(), longitude = location.Longitude.ToString() };
                 Employee.code = $"/{Employee.firstName}/{Employee.Position.position1}";
                 CompanyEntities.Address.Add(Employee.Address);
@@ -296,9 +297,9 @@ namespace SuperKurier.ViewModel
         public void ExecuteDeleteEmployee()
         {
             var emoloyeeToDelete = CompanyEntities.Employee.Find(Employee.id);
-            CompanyEntities.Employee.Remove(emoloyeeToDelete);
+            emoloyeeToDelete.isActive = false;
             CompanyEntities.SaveChanges();
-            MessageBox.Show($"Pracownik o kodzie {emoloyeeToDelete.code} został usunięty pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show($"Pracownik o kodzie {emoloyeeToDelete.code} został dezaktywowany pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
