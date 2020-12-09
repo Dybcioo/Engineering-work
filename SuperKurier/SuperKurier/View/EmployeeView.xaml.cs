@@ -85,7 +85,10 @@ namespace SuperKurier.View
         private void TurnOnOffEmployeePanel(bool isOff)
         {
             if (isOff)
+            {
                 EmployeeScrollViewer.Visibility = Visibility.Hidden;
+                EmployeeMap.ClearAllMap();
+            }
             else
                 EmployeeScrollViewer.Visibility = Visibility.Visible;
 
