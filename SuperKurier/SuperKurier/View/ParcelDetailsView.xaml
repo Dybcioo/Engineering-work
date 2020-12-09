@@ -284,7 +284,7 @@
                 <materialDesign:PackIcon Kind="Close" Foreground="#FF8B0D0D"   Width="30" Height="30" />
             </Grid>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="{Binding InputOption}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.1*"/>
                 <ColumnDefinition Width="1.2*"/>
@@ -318,7 +318,7 @@
             <TextBlock x:Name="SenderCity" Grid.Column="5" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
             <TextBlock x:Name="SenderStreet" Grid.Column="6" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
         </Grid>
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Background="{Binding InputOption}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.1*"/>
                 <ColumnDefinition Width="1.2*"/>
@@ -352,7 +352,7 @@
             <TextBlock x:Name="ReceiverCity" Grid.Column="5" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
             <TextBlock x:Name="ReceiverStreet" Grid.Column="6" VerticalAlignment="Center" Foreground="{Binding ForegroundOption}"></TextBlock>
         </Grid>
-        <Grid Grid.Row="5">
+        <Grid Grid.Row="5" Background="{Binding InputOption}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.1*"/>
                 <ColumnDefinition Width="1.2*"/>
@@ -406,7 +406,7 @@
             <Button x:Name="BtnChangeStatus" Grid.Column="2" VerticalAlignment="Center" Margin="10,0" Foreground="{Binding ForegroundOption}" Background="{Binding BackgroundOption}" Click="BtnChangeStatus_Click">Zmień status</Button>
             <Button x:Name="BtnGenerateLabel" Grid.Column="3" VerticalAlignment="Center" Margin="10,0" Foreground="{Binding ForegroundOption}" Background="{Binding BackgroundOption}" Click="BtnGenerateLabel_Click">Generuj etykiete</Button>
         </Grid>
-        <Grid Grid.Row="8">
+        <Grid Grid.Row="8" Background="{Binding InputOption}">
             <TextBlock Margin="10,0,0,0" FontWeight="Bold">Historia przesyłki</TextBlock>
         </Grid>
         <DataGrid Grid.Row="9" x:Name="DataGridParcelHistory" ItemsSource="{Binding}" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" ColumnWidth="*">

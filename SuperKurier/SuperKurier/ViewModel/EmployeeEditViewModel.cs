@@ -193,7 +193,7 @@ namespace SuperKurier.ViewModel
                             result = "Długość kodu pocztowego nie może przekraczać 10 znaków";
                         break;
                     case "EmployeeStreet":
-                        if (EmployeeStreet.Length > 30)
+                        if (EmployeeStreet?.Length > 30)
                             result = "Długość nazwy ulicy nie może przekraczać 30 znaków";
                         break;
                     case "EmployeeNumberOfHouse":

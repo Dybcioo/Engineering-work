@@ -58,35 +58,39 @@ namespace SuperKurier.ViewModel.FWarehouse
 
         public void UpdateParcelList(List<Parcel> parcels, EnumTypeOfDocument enumDocumentType)
         {
-            var parcelsId = parcels.Select(p => p.id).ToList();
-            Parcels = null;
-            if (enumDocumentType == EnumTypeOfDocument.PZ)
+            try
             {
-                Parcels = new BindableCollection<Parcel>(companyEntities.Parcel
-                .Include(p => p.Region)
-                .Include(p => p.Region1)
-                .Include(p => p.ParcelMoving)
-                .Include(p => p.Status)
-                .Include(p => p.Status.HistoryOfParcel)
-                .Where(p => ((p.ParcelMoving.Count == 0 && p.Status.HistoryOfParcel.FirstOrDefault(h => h.idStatus == p.idStatus).idWarehouse == _warehouse.id && p.idStatus <= (int)EnumParcelStatus.received)
-                    || (p.ParcelMoving.Count > 0 && p.idStatus == (int)EnumParcelStatus.beetwen && _warehouse.id == p.Region.idWarehouse))
-                 && !parcelsId.Contains(p.id))
-                .ToList());
-            }
-            else if(enumDocumentType == EnumTypeOfDocument.WZ)
-            {
-                var _parcels = new List<Parcel>();
-                foreach(var pm in companyEntities.ParcelMoving.Include(p => p.Document))
+                var parcelsId = parcels.Select(p => p.id).ToList();
+                Parcels = null;
+                if (enumDocumentType == EnumTypeOfDocument.PZ)
                 {
-                    if (!pm.Document.exposure || pm.Document.idWarehouse != _warehouse.id || pm.readingWZ || parcelsId.Contains(pm.idParcel))
-                        continue;
-                    _parcels.Add(companyEntities.Parcel.FirstOrDefault(p => p.id == pm.idParcel));
+                    Parcels = new BindableCollection<Parcel>(companyEntities.Parcel
+                    .Include(p => p.Region)
+                    .Include(p => p.Region1)
+                    .Include(p => p.ParcelMoving)
+                    .Include(p => p.Status)
+                    .Include(p => p.Status.HistoryOfParcel)
+                    .Where(p => ((p.ParcelMoving.Count == 0 && p.Status.HistoryOfParcel.FirstOrDefault(h => h.idStatus == p.idStatus).idWarehouse == _warehouse.id && p.idStatus <= (int)EnumParcelStatus.received)
+                        || (p.ParcelMoving.Count > 0 && p.idStatus == (int)EnumParcelStatus.beetwen && _warehouse.id == p.Region.idWarehouse))
+                     && !parcelsId.Contains(p.id))
+                    .ToList());
                 }
-                Parcels = new BindableCollection<Parcel>(_parcels);
+                else if (enumDocumentType == EnumTypeOfDocument.WZ)
+                {
+                    var _parcels = new List<Parcel>();
+                    foreach (var pm in companyEntities.ParcelMoving.Include(p => p.Document))
+                    {
+                        if (pm.Document == null || !pm.Document.exposure || pm.Document.idWarehouse != _warehouse.id || pm.readingWZ || parcelsId.Contains(pm.idParcel))
+                            continue;
+                        _parcels.Add(companyEntities.Parcel.FirstOrDefault(p => p.id == pm.idParcel));
+                    }
+                    Parcels = new BindableCollection<Parcel>(_parcels);
+                }
+
+                Parcels.Insert(0, new Parcel() { code = "Wybierz przesyłkę" });
+                ParcelSelected = Parcels.FirstOrDefault(p => p.id != 0);
             }
-            
-            Parcels.Insert(0, new Parcel() { code = "Wybierz przesyłkę" });
-            ParcelSelected = Parcels.FirstOrDefault(p => p.id != 0);
+            catch (Exception ex) { }
         }
     }
 }
