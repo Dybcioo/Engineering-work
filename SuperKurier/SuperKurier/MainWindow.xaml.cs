@@ -5,6 +5,7 @@ using System.Windows;
 using System.Linq;
 using System.Data.Entity;
 using SuperKurier.Enums;
+using System.Windows.Controls;
 
 namespace SuperKurier
 {
@@ -32,6 +33,7 @@ namespace SuperKurier
             bvm.Active = emp.idPosition == (int)EnumPosition.Warehouseman ? Visibility.Hidden : Visibility.Visible;
             bvm.FooterEmployeeCode = emp.code;
             bvm.FooterWarehouse = emp.Warehouse.code;
+            bvm.SelectedViewModel = new HomeViewModel();
         }
 
         private void BtnUser_Click(object sender, RoutedEventArgs e)
@@ -45,6 +47,7 @@ namespace SuperKurier
             bvm.Active = emp.idPosition == (int)EnumPosition.Warehouseman ? Visibility.Hidden : Visibility.Visible;
             bvm.FooterEmployeeCode = emp.code;
             bvm.FooterWarehouse = emp.Warehouse.code;
+            bvm.SelectedViewModel = new HomeViewModel();
         }
     }
 }

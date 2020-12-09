@@ -293,7 +293,7 @@
         <Line Grid.Row="1" Grid.Column="1"  X1="0" Y1="318" X2="10000"  Y2="318"
                 Stroke="{Binding ForegroundOption}" StrokeThickness="0.7"></Line>
         <Label Content="Twój magazyn:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="52,344,0,0" Foreground="{Binding ForegroundOption}"/>
-        <ComboBox ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,344,0,0" Width="150" ItemsSource="{Binding Warehouses}" Background="{Binding InputOption}"
+        <ComboBox Name="WarehouseChange" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxDropDownHeight="120" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,344,0,0" Width="150" ItemsSource="{Binding Warehouses}" Background="{Binding InputOption}"
                       SelectedItem="{Binding WarehouseSelectedSetting, Mode=TwoWay}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>

@@ -36,6 +36,7 @@ namespace SuperKurier.View
             InitializeComponent();
             GetDBSettings();
             companyEntities = new CompanyEntities();
+            this.Loaded += (sender, e) => WarehouseChange.IsEnabled = companyEntities.Employee.FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser).idPosition != (int)EnumPosition.Warehouseman;
         }
 
         private void SaveDBSettings()
@@ -105,6 +106,7 @@ namespace SuperKurier.View
             mvm.Active = emp.idPosition == (int)EnumPosition.Warehouseman ? Visibility.Hidden : Visibility.Visible;
             mvm.FooterEmployeeCode = emp.code;
             mvm.FooterWarehouse = emp.Warehouse.code;
+            mvm.SelectedViewModel = new HomeViewModel();
         }
 
         private void BtnChangePassSettings_Click(object sender, RoutedEventArgs e)
