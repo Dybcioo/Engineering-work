@@ -280,7 +280,9 @@
                 <RowDefinition Height="100"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" Source="{StaticResource Logo}" ></Image>
+            <Button Grid.Row="0" x:Name="BtnHome" Height="auto" Width="auto" Background="Transparent" BorderBrush="Transparent" Command="{Binding MenuViewCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
+                <Image  Source="{StaticResource Logo}" ></Image>
+            </Button>
             <Grid Grid.Row="1" Grid.Column="0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
