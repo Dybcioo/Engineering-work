@@ -27,7 +27,11 @@ namespace SuperKurier.ViewModel
             set
             {
                 _warehouseSelectedRegion = value;
+                Employees = null;
+                Employees = new BindableCollection<Employee>(new CompanyEntities().Employee.Where(e => e.Position.position1.Equals("Kurier") && e.isActive && e.idWarehouse == WarehouseSelectedRegion.id).ToList());
+                EmployeeSelectedRegion = Employees.FirstOrDefault();
                 OnPropertChanged(nameof(WarehouseSelectedRegion));
+                OnPropertChanged(nameof(Employees));
             }
         }
 
@@ -49,7 +53,7 @@ namespace SuperKurier.ViewModel
             Warehouses = new BindableCollection<Warehouse>(new CompanyEntities().Warehouse.ToList());
             WarehouseSelectedRegion = Warehouses.FirstOrDefault();
 
-            Employees = new BindableCollection<Employee>(new CompanyEntities().Employee.Where(e => e.Position.position1.Equals("Kurier") && e.isActive).ToList());
+            Employees = new BindableCollection<Employee>(new CompanyEntities().Employee.Where(e => e.Position.position1.Equals("Kurier") && e.isActive && e.idWarehouse == WarehouseSelectedRegion.id).ToList());
             EmployeeSelectedRegion = Employees.FirstOrDefault();
         }
 
