@@ -97,7 +97,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="code" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="weight" Type="numeric" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="weight" Type="numeric" Precision="10" Scale="2" Nullable="false" />
           <Property Name="amount" Type="numeric" Precision="10" Scale="2" Nullable="false" />
           <Property Name="dateOfShipment" Type="datetime" Nullable="false" />
           <Property Name="dateOfDelivery" Type="datetime" />
@@ -108,9 +108,9 @@
           <Property Name="idReceiverRegion" Type="int" Nullable="false" />
           <Property Name="idTypeOfParcel" Type="int" Nullable="false" />
           <Property Name="idStatus" Type="int" Nullable="false" />
-          <Property Name="height" Type="numeric" Precision="5" Scale="2" />
-          <Property Name="width" Type="numeric" Precision="5" Scale="2" />
-          <Property Name="length" Type="numeric" Precision="5" Scale="2" />
+          <Property Name="height" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="width" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="length" Type="numeric" Precision="10" Scale="2" />
           <Property Name="idTariff" Type="int" />
           <Property Name="idMethodOfSend" Type="int" />
         </EntityType>
@@ -746,7 +746,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="weight" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="weight" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="amount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="dateOfShipment" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="dateOfDelivery" Type="DateTime" Precision="3" />
@@ -757,9 +757,9 @@
           <Property Name="idReceiverRegion" Type="Int32" Nullable="false" />
           <Property Name="idTypeOfParcel" Type="Int32" Nullable="false" />
           <Property Name="idStatus" Type="Int32" Nullable="false" />
-          <Property Name="height" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="width" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="length" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="height" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="width" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="length" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="idTariff" Type="Int32" />
           <Property Name="idMethodOfSend" Type="Int32" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_Parcel_Customer" FromRole="Parcel" ToRole="Customer" />

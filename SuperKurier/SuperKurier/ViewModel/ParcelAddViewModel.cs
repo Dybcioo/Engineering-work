@@ -546,7 +546,7 @@ namespace SuperKurier.ViewModel
                             result = "Pole nie może być puste";
                         else if (!condition)
                             result = "Numer telefonu musi zawierać wyłącznie cyfry";
-                        else if (SenderTel.Length > 30)
+                        else if (SenderTel?.Length > 30)
                             result = "Długość numeru telefonu nie może przekraczać 12 znaków";
                         break;
                     case "ReceiverCountry":
@@ -912,17 +912,17 @@ namespace SuperKurier.ViewModel
             gfx.DrawString("08-110 Siedlce", fontData, XBrushes.Black, new XPoint() { X = 30, Y = 210 });
             gfx.DrawString("NIP: 821-222-11-99", fontData, XBrushes.Black, new XPoint() { X = 30, Y = 250 });
             gfx.DrawString("Nabywca", fontDimension, XBrushes.Black, new XPoint() { X = 320, Y = 150 });
-            if(parcel.Customer1.Company != null && !string.IsNullOrWhiteSpace(parcel.Customer1.Company.name))
-                gfx.DrawString(parcel.Customer1.Company.name, fontData, XBrushes.Black, new XPoint() { X = 320, Y = 170 });
-            if(parcel.Customer1.firstName != null && !string.IsNullOrWhiteSpace(parcel.Customer1.firstName))
-                gfx.DrawString($"{parcel.Customer1.firstName}  {parcel.Customer1.lastName}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 190 });
-            if (!string.IsNullOrWhiteSpace(parcel.Customer1.Address.street))
-            gfx.DrawString($"ul.{parcel.Customer1.Address.street} {parcel.Customer1.Address.numberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 230 });
+            if(parcel.Customer.Company != null && !string.IsNullOrWhiteSpace(parcel.Customer.Company.name))
+                gfx.DrawString(parcel.Customer.Company.name, fontData, XBrushes.Black, new XPoint() { X = 320, Y = 170 });
+            if(parcel.Customer.firstName != null && !string.IsNullOrWhiteSpace(parcel.Customer.firstName))
+                gfx.DrawString($"{parcel.Customer.firstName}  {parcel.Customer.lastName}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 190 });
+            if (!string.IsNullOrWhiteSpace(parcel.Customer.Address.street))
+            gfx.DrawString($"ul.{parcel.Customer.Address.street} {parcel.Customer.Address.numberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 230 });
             else
-                gfx.DrawString($"{parcel.Customer1.Address.numberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 230 });
-            gfx.DrawString($"{parcel.Customer1.Address.postalCode} {parcel.Customer1.Address.city}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 210 });
-            if (parcel.Customer1.Company != null)
-                gfx.DrawString($"NIP: {parcel.Customer1.Company.NIP}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 250 });
+                gfx.DrawString($"{parcel.Customer.Address.numberOfHouse}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 230 });
+            gfx.DrawString($"{parcel.Customer.Address.postalCode} {parcel.Customer.Address.city}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 210 });
+            if (parcel.Customer.Company != null)
+                gfx.DrawString($"NIP: {parcel.Customer.Company.NIP}", fontData, XBrushes.Black, new XPoint() { X = 320, Y = 250 });
             gfx.DrawString("ID przesyłki", fontDimension, XBrushes.Black, new XPoint() { X = 50, Y = 300 });
             gfx.DrawString("Data nadania", fontDimension, XBrushes.Black, new XPoint() { X = 250, Y = 300 });
             gfx.DrawString("Koszt", fontDimension, XBrushes.Black, new XPoint() { X = 450, Y = 300 });
