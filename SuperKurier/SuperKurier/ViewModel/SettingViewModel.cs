@@ -50,7 +50,7 @@ namespace SuperKurier.ViewModel
             {
                 MainViewModel = mainViewModel;
                 BlackAndWhiteCommand = new BlackAndWhiteCommand(mainViewModel);
-                var temp = companyEntities.Warehouse.FirstOrDefault(w => w.id == Properties.Settings.Default.Warehouse);
+                var temp = companyEntities.Employee.FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser).Warehouse;
                 if (temp != null)
                     WarehouseSelectedSetting = temp;
                 Warehouses = new BindableCollection<Warehouse>(companyEntities.Warehouse.ToList());

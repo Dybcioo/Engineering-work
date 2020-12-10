@@ -240,6 +240,8 @@ namespace SuperKurier.View.FWarehouse
         private void Page_LayoutUpdated(object sender, EventArgs e)
         {
             var addViewModel = (WarehouseAddViewModel)DataContext;
+            if (addViewModel == null)
+                return;
             if (addViewModel.VisibilityOption == Visibility.Hidden)
             {
                 reload = 0;

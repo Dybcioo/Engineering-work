@@ -70,7 +70,7 @@ namespace SuperKurier.ViewModel.FWarehouse
                     .Include(p => p.ParcelMoving)
                     .Include(p => p.Status)
                     .Include(p => p.Status.HistoryOfParcel)
-                    .Where(p => ((p.ParcelMoving.Count == 0 && p.Status.HistoryOfParcel.FirstOrDefault(h => h.idStatus == p.idStatus).idWarehouse == _warehouse.id && p.idStatus <= (int)EnumParcelStatus.received)
+                    .Where(p => ((p.ParcelMoving.Count == 0 && companyEntities.HistoryOfParcel.FirstOrDefault(h => h.idParcel == p.id).idWarehouse == _warehouse.id && p.idStatus <= (int)EnumParcelStatus.received)
                         || (p.ParcelMoving.Count > 0 && p.idStatus == (int)EnumParcelStatus.beetwen && _warehouse.id == p.Region.idWarehouse))
                      && !parcelsId.Contains(p.id))
                     .ToList());
