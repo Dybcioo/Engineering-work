@@ -32,7 +32,7 @@ namespace SuperKurier.View
         public EmployeeView()
         {
             InitializeComponent();
-            Employees = new BindableCollection<Employee>(companyEntities.Employee.ToList());
+            Employees = new BindableCollection<Employee>(companyEntities.Employee.Where(e => e.isActive).ToList());
             DataGridEmployees.DataContext = Employees;
             
         }
@@ -49,6 +49,7 @@ namespace SuperKurier.View
                 return;
             EmployeeSalary.IsEnabled = !(Properties.Settings.Default.IdUser == empl.id && empl.idPosition != (int)EnumPosition.Admin);
             EmployeePosition.IsEnabled = !(Properties.Settings.Default.IdUser == empl.id && empl.idPosition != (int)EnumPosition.Admin);
+            BtnDeleteEmployee.IsEnabled = !(Properties.Settings.Default.IdUser == empl.id && empl.idPosition != (int)EnumPosition.Admin);
             if (empl.Address != null && empl.Address.Localization != null)
             EmployeeMap.CheckingPushpin(e, new Location() { Latitude = double.Parse(empl.Address.Localization.latitude), Longitude = double.Parse(empl.Address.Localization.longitude) });
             DataContext = new EmployeeEditViewModel(empl, this);
@@ -74,6 +75,8 @@ namespace SuperKurier.View
             TurnOnOffEmployeePanel(false);
             BtnSaveEmployee.Content = "Dodaj nowego pracownika";
             BtnDeleteEmployee.Visibility = Visibility.Hidden;
+            EmployeeSalary.IsEnabled = true;
+            EmployeePosition.IsEnabled = true;
             DataContext = new EmployeeEditViewModel(new Employee(), this);
         }
 
