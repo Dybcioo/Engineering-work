@@ -281,6 +281,7 @@
                             </MultiBinding>
                         </DataGridTextColumn.Binding>
                     </DataGridTextColumn>
+                    <DataGridTextColumn Header="Magazyn" Binding="{Binding Warehouse.code}" />
                     <DataGridTextColumn Header="Kod Regionu" Binding="{Binding Region.code}" />
                     <DataGridTextColumn Header="Stanowisko" Binding="{Binding Position.position1}" />
                     <DataGridTextColumn Header="Adres" >
