@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using DataModel;
 using Microsoft.Maps.MapControl.WPF;
+using SuperKurier.Control;
 using SuperKurier.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -123,6 +124,7 @@ namespace SuperKurier.View
 
         private void BtnAddRegion_Click(object sender, RoutedEventArgs e)
         {
+            var info = new InfoWindow();
             activationFunction = true;
             MyMap.Children.Remove(polyline);
             MyMap.ClearTextInMap();
@@ -148,11 +150,11 @@ namespace SuperKurier.View
                     employee.idRegion = reg.id;
                     employee.Region = reg;
                     companyEntities.SaveChanges();
-                    MessageBox.Show("Region edytowano pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                    info.ShowInfo("Region edytowano pomyślnie", "Region", "OK");
                 }
                 else
                 {
-                    MessageBox.Show("Nowy region nie może pokrywać regionów już istniejących!", "", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    info.ShowInfo("Nowy region nie może pokrywać regionów już istniejących!", "Region", "OK");
                 }
 
             }
@@ -172,11 +174,11 @@ namespace SuperKurier.View
                 employee.idRegion = temp.id;
                 employee.Region = temp;
                 companyEntities.SaveChanges();
-                MessageBox.Show("Region zapisano pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                info.ShowInfo("Region zapisano pomyślnie", "Region", "OK");
             }
             else
             {
-                MessageBox.Show("Nowy region nie może pokrywać regionów już istniejących!", "", MessageBoxButton.OK, MessageBoxImage.Warning);
+                info.ShowInfo("Nowy region nie może pokrywać regionów już istniejących!", "Region", "OK");
             }
             region = null;
             BtnShowRegions_Click(sender, e);

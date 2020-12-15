@@ -2,6 +2,7 @@
 using DataModel;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Maps.MapControl.WPF;
+using SuperKurier.Control;
 using SuperKurier.Enums;
 using SuperKurier.View;
 using System;
@@ -265,6 +266,7 @@ namespace SuperKurier.ViewModel
             Employee.idPosition = PositionSelected.id;
             Employee.idWarehouse = WarehouseSelected.id;
             Employee.Warehouse = WarehouseSelected;
+            var info = new InfoWindow();
 
             if (Employee.code == null)
             {
@@ -276,7 +278,7 @@ namespace SuperKurier.ViewModel
                 CompanyEntities.SaveChanges();
                 Employee = CompanyEntities.Employee.OrderByDescending(em => em.id).First();
                 Employee.code = $"{Employee.id}{Employee.code}";
-                MessageBox.Show($"Pracownik o kodzie {Employee.code} został zapisany pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                info.ShowInfo($"Pracownik o kodzie {Employee.code} został zapisany pomyślnie", "Pracownik", "OK");
             }
             else
             {
@@ -289,17 +291,18 @@ namespace SuperKurier.ViewModel
                 CompanyEntities.Entry(localization).CurrentValues.SetValues(Employee.Address.Localization);
                 CompanyEntities.Entry(address).CurrentValues.SetValues(Employee.Address);
                 CompanyEntities.Entry(empl).CurrentValues.SetValues(Employee);
-                MessageBox.Show($"Pracownik o kodzie {Employee.code} został edytowany pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                info.ShowInfo($"Pracownik o kodzie {Employee.code} został edytowany pomyślnie", "Pracownik", "OK");
             }
                 CompanyEntities.SaveChanges();
         }
 
         public void ExecuteDeleteEmployee()
         {
+            var info = new InfoWindow();
             var emoloyeeToDelete = CompanyEntities.Employee.Find(Employee.id);
             emoloyeeToDelete.isActive = false;
             CompanyEntities.SaveChanges();
-            MessageBox.Show($"Pracownik o kodzie {emoloyeeToDelete.code} został dezaktywowany pomyślnie", "", MessageBoxButton.OK, MessageBoxImage.Information);
+            info.ShowInfo($"Pracownik o kodzie {emoloyeeToDelete.code} został dezaktywowany pomyślnie", "Pracownik", "OK");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
