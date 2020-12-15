@@ -59,7 +59,10 @@ namespace SuperKurier.View.FWarehouse
         {
             var doc = UpdateBuffer();
             var info = new InfoWindow();
-            info.ShowInfo($"Dokument {doc.code} pozostawiony w buforze!", $"{documentType}", "Ok");
+            if(doc == null)
+                info.ShowInfo($"Nie można pozostawić w buforze dokumentu bez pozycji!", $"{documentType}", "Ok");
+            else
+                info.ShowInfo($"Dokument {doc.code} pozostawiony w buforze!", $"{documentType}", "Ok");
             info.Close();
             Close();
         }
@@ -68,9 +71,23 @@ namespace SuperKurier.View.FWarehouse
         {
             var addViewModel = (WarehouseAddViewModel)DataContext;
             var doc = UpdateBuffer();
+            var info = new InfoWindow();
+            if (doc == null)
+            {
+                info.ShowInfo($"Nie można wystawić dokumentu bez pozycji!", $"{documentType}", "Ok");
+                info.Close();
+                return;
+            }
             doc = companyEntities.Document.FirstOrDefault(d => d.id == doc.id);
            double summary = 0.0;
-           foreach(var d in companyEntities.ParcelMoving.Include(p => p.Parcel).Where(p => documentType == EnumTypeOfDocument.PZ ? p.idDocPZ == doc.id : p.idDocWZ == doc.id))
+            var temp = companyEntities.ParcelMoving.Include(p => p.Parcel).Where(p => documentType == EnumTypeOfDocument.PZ ? p.idDocPZ == doc.id : p.idDocWZ == doc.id).ToList();
+            if(temp.Count == 0)
+            {
+                info.ShowInfo($"Nie można wystawić dokumentu bez pozycji!", $"{documentType}", "Ok");
+                info.Close();
+                return;
+            }
+           foreach (var d in temp)
             {
                 changeStatus(d.idParcel);
                 if (documentType == EnumTypeOfDocument.PZ)
@@ -83,7 +100,7 @@ namespace SuperKurier.View.FWarehouse
             doc.exposure = true;
             doc.idEmployee = Properties.Settings.Default.IdUser;
             companyEntities.SaveChanges();
-            var info = new InfoWindow();
+            
             info.ShowInfo($"Dokument {doc.code} został wystawiony pomyślnie!", $"{documentType}", "Ok");
             info.Close();
             Close();
@@ -137,8 +154,11 @@ namespace SuperKurier.View.FWarehouse
         {
             var addViewModel = (WarehouseAddViewModel)DataContext;
             var document = addViewModel.Document;
+            var info = new InfoWindow();
             if (document == null)
             {
+                if (Parcel.Count == 0)
+                    return null;
                 document = new Document();
                 document.idTypeOfDocument = companyEntities.TypeOfDocument.FirstOrDefault(p => p.type.Equals(documentType.ToString())).id;
                 document.idWarehouse = Properties.Settings.Default.Warehouse;
@@ -148,7 +168,6 @@ namespace SuperKurier.View.FWarehouse
                 companyEntities.Document.Add(document);
                 companyEntities.SaveChanges();
                 document.code = document.id + document.code;
-
                 foreach (var p in Parcel)
                 {
                     ParcelMoving temp = null;
@@ -177,6 +196,8 @@ namespace SuperKurier.View.FWarehouse
             else
             {
                 var actuallyList = addViewModel.actuallyParcelList;
+                if (Parcel.Count == 0 && actuallyList.Count == 0)
+                    return null;
                 foreach (var rem in actuallyList)
                 {
                     if (Parcel.Any(p => p.id == rem.id))
