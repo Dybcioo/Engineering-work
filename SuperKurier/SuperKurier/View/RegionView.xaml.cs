@@ -70,7 +70,7 @@ namespace SuperKurier.View
                         var viewModel = (RegionViewModel)this.DataContext;
                         viewModel.WarehouseSelectedRegion = viewModel.Warehouses.FirstOrDefault(w => w.id == temp.idWarehouse);
                         viewModel.EmployeeSelectedRegion = viewModel.Employees.FirstOrDefault(e => e.idRegion == temp.id);
-                        CreateRegions_Click(s, es);
+                        CreateRegions_ClickAsync(s, es);
                         region = temp;
                     };
                     removeRegion.Click += (s, es) =>
@@ -104,7 +104,7 @@ namespace SuperKurier.View
                     var clear = new MenuItem() { Header = "Wyczyść trase" };
                     clear.Click += ClearPolyline_Click;
                     connectPushPins.Click += ConnectPushPins_Click;
-                    createRegions.Click += CreateRegions_Click;
+                    createRegions.Click += CreateRegions_ClickAsync;
                     context.Items.Add(createRegions);
                     context.Items.Add(connectPushPins);
                     context.Items.Add(clear);
@@ -197,8 +197,9 @@ namespace SuperKurier.View
             }
         }
 
-        private void CreateRegions_Click(object sender, RoutedEventArgs e)
+        private async void CreateRegions_ClickAsync(object sender, RoutedEventArgs e)
         {
+            while (Mouse.LeftButton == MouseButtonState.Released) { await Task.Delay(25); }
             polyline = new MapPolyline();
             polyline.Stroke = new SolidColorBrush(Colors.Blue);
             polyline.StrokeThickness = 2;
