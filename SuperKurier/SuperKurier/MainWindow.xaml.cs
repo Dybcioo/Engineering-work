@@ -31,6 +31,8 @@ namespace SuperKurier
             var emp = companyEntities.Employee.Include(e => e.Warehouse).FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
             var bvm = (BaseViewModel)DataContext;
             bvm.Active = emp.idPosition == (int)EnumPosition.Warehouseman ? Visibility.Hidden : Visibility.Visible;
+            Properties.Settings.Default.Warehouse = (int)emp.idWarehouse;
+            Properties.Settings.Default.Save();
             bvm.FooterEmployeeCode = emp.code;
             bvm.FooterWarehouse = emp.Warehouse.code;
             bvm.SelectedViewModel = new HomeViewModel();
@@ -45,6 +47,8 @@ namespace SuperKurier
             var emp = companyEntities.Employee.Include(e => e.Warehouse).FirstOrDefault(e => e.id == Properties.Settings.Default.IdUser);
             var bvm = (BaseViewModel)DataContext;
             bvm.Active = emp.idPosition == (int)EnumPosition.Warehouseman ? Visibility.Hidden : Visibility.Visible;
+            Properties.Settings.Default.Warehouse = (int)emp.idWarehouse;
+            Properties.Settings.Default.Save();
             bvm.FooterEmployeeCode = emp.code;
             bvm.FooterWarehouse = emp.Warehouse.code;
             bvm.SelectedViewModel = new HomeViewModel();

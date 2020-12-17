@@ -145,6 +145,7 @@ namespace SuperKurier.Control
                     return;
                 }
             Properties.Settings.Default.IdUser = empl.id;
+            Properties.Settings.Default.Warehouse = (int) empl.idWarehouse;
             Properties.Settings.Default.Save();
             Answer = true;
             Close();
