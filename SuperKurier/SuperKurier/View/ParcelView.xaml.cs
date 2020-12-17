@@ -28,7 +28,7 @@ namespace SuperKurier.View
     {
 
         CompanyEntities companyEntities;
-
+        private int reload = 0;
 
         public ParcelView()
         {
@@ -80,13 +80,41 @@ namespace SuperKurier.View
             if (parcelModel.StatusSelected.id != 0)
                 parcels = parcels.Where(p => p.idStatus == parcelModel.StatusSelected.id).ToList();
             if (parcelModel.WarehouseSelected.id != 0)
-                parcels = parcels.Where(p => p.Region.idWarehouse == parcelModel.WarehouseSelected.id).ToList();
+                parcels = parcels.Where(p => p.Region.idWarehouse == parcelModel.WarehouseSelected.id || companyEntities.HistoryOfParcel.FirstOrDefault(h => h.idParcel == p.id && h.idStatus < 2).idWarehouse == parcelModel.WarehouseSelected.id).ToList();
             if (dateFrom.SelectedDate != null)
                 parcels = parcels.Where(p => p.dateOfShipment.Date >= dateFrom.SelectedDate).ToList();
             if (dateTo.SelectedDate != null)
                 parcels = parcels.Where(p => p.dateOfShipment.Date <= dateTo.SelectedDate).ToList();
 
             DataGridParcel.DataContext = new BindableCollection<Parcel>(parcels);
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Search_Click(sender, e);
+        }
+
+        private void Page_LayoutUpdated(object sender, EventArgs e)
+        {
+            if (DataContext is ParcelViewModel)
+            {
+                var wavm = (ParcelAddViewModel)((ParcelViewModel)DataContext).AddViewModel;
+                if (wavm == null)
+                    return;
+                if (wavm.VisibilityOption == Visibility.Visible)
+                {
+                    reload = 0;
+                    return;
+                }
+                else if (reload == 0)
+                {
+                    DataGridParcel.DataContext = null;
+                    DataGridParcel.DataContext = new BindableCollection<Parcel>(companyEntities.Parcel.AsNoTracking().ToList());
+                    DataGridParcel.Items.Refresh();
+                    Search_Click(sender, null);
+                    reload++;
+                }
+            }
         }
     }
 }
