@@ -80,7 +80,10 @@ namespace SuperKurier.View
             if (parcelModel.StatusSelected.id != 0)
                 parcels = parcels.Where(p => p.idStatus == parcelModel.StatusSelected.id).ToList();
             if (parcelModel.WarehouseSelected.id != 0)
-                parcels = parcels.Where(p => p.Region.idWarehouse == parcelModel.WarehouseSelected.id || companyEntities.HistoryOfParcel.FirstOrDefault(h => h.idParcel == p.id && h.idStatus < 2).idWarehouse == parcelModel.WarehouseSelected.id).ToList();
+                parcels = parcels.Where(p => p.Region.idWarehouse == parcelModel.WarehouseSelected.id 
+                                    || (companyEntities.HistoryOfParcel.FirstOrDefault(h => h.idParcel == p.id && h.idStatus < 2) != null && companyEntities.HistoryOfParcel.FirstOrDefault(h => h.idParcel == p.id && h.idStatus < 2).idWarehouse == parcelModel.WarehouseSelected.id)
+                                    || (p.Region1 != null && p.Region1.idWarehouse == parcelModel.WarehouseSelected.id)) 
+                                    .ToList();
             if (dateFrom.SelectedDate != null)
                 parcels = parcels.Where(p => p.dateOfShipment.Date >= dateFrom.SelectedDate).ToList();
             if (dateTo.SelectedDate != null)
