@@ -338,6 +338,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Kod"  Binding="{Binding code}"/>
                 <DataGridTextColumn Header="Data nadania" Binding="{Binding dateOfShipment, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" />
+                <DataGridTextColumn Header="Data doręczenia" Binding="{Binding dateOfDelivery, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" />
                 <DataGridTextColumn Header="Szacowana wartość">
                     <DataGridTextColumn.Binding>
                         <MultiBinding StringFormat="{}{0:#,#.00} PLN">
