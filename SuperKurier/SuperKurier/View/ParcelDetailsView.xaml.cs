@@ -102,6 +102,7 @@ namespace SuperKurier.View
         private void BtnChangeStatus_Click(object sender, RoutedEventArgs e)
         {
             var parcelDetailsViewModel = (ParcelDetailsViewModel)DataContext;
+            InfoWindow info = new InfoWindow();
             Parcel = CompanyEntities.Parcel
                 .Include(p => p.Status)
                 .Include(p => p.Region)
@@ -109,7 +110,6 @@ namespace SuperKurier.View
                 .FirstOrDefault(p => p.id == parcelDetailsViewModel.Parcel.id);
             if(Parcel.idStatus >= parcelDetailsViewModel.StatusSelected.id)
             {
-                InfoWindow info = new InfoWindow();
                 info.ShowInfo("Wybrany status nie może być niższy niż aktualny", "", "Ok");
                 info.Close();
                 return;
@@ -128,9 +128,13 @@ namespace SuperKurier.View
                 history.idWarehouse = Properties.Settings.Default.Warehouse;
             CompanyEntities.HistoryOfParcel.Add(history);
             Parcel.idStatus = parcelDetailsViewModel.StatusSelected.id;
+            if (Parcel.idStatus == (int)EnumParcelStatus.delivered)
+                Parcel.dateOfDelivery = DateTime.Now;
             CompanyEntities.SaveChanges();
             Counter = 0;
             AddDoc(Parcel);
+            info.ShowInfo("Status został zmieniony pomyślnie", "", "Ok");
+            info.Close();
         }
 
         private void AddDoc(Parcel parcel)
