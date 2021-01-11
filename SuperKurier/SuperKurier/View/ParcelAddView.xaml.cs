@@ -163,33 +163,27 @@ namespace SuperKurier.View
         {
             StringBuilder senderBuilder = new StringBuilder("http://dev.virtualearth.net/REST/v1/Locations?o=xml");
             StringBuilder receiverBuilder = new StringBuilder("http://dev.virtualearth.net/REST/v1/Locations?o=xml");
-
             var parcelAddViewModel = (ParcelAddViewModel)DataContext;
-
             senderBuilder.Append($"&countryRegion={parcelAddViewModel.SenderCountry}");
             senderBuilder.Append($"&locality={parcelAddViewModel.SenderCity}");
             senderBuilder.Append($"&postalCode={parcelAddViewModel.SenderPostalCode}");
             senderBuilder.Append($"&addressLine={parcelAddViewModel.SenderStreet} {parcelAddViewModel.SenderNumberOfHouse}");
             senderBuilder.Append($"&key={MAP_KEY}");
-
             From = PinIt(senderBuilder.ToString(), "Nadawca");
-
             receiverBuilder.Append($"&countryRegion={parcelAddViewModel.ReceiverCountry}");
             receiverBuilder.Append($"&locality={parcelAddViewModel.ReceiverCity}");
             receiverBuilder.Append($"&postalCode={parcelAddViewModel.ReceiverPostalCode}");
             receiverBuilder.Append($"&addressLine={parcelAddViewModel.ReceiverStreet} {parcelAddViewModel.ReceiverNumberOfHouse}");
             receiverBuilder.Append($"&key={MAP_KEY}");
-
             To = PinIt(receiverBuilder.ToString(), "Odbiorca");
-
-            string uri = $"http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0={From.Latitude},{From.Longitude}&wp.1={To.Latitude},{To.Longitude}&rpo=Points&key={MAP_KEY}";
+            string uri = $"http://dev.virtualearth.net/REST/V1/Routes/Driving?wp.0=" +
+                $"{From.Latitude},{From.Longitude}&wp.1={To.Latitude},{To.Longitude}&rpo=Points&key={MAP_KEY}";
             var response = DriveRoute(uri);
             if (response != null)
             {
                 Route(response);
                 SetDistanceAndDuration();
-            }
-            else
+            }else
             {
                 InfoWindow info = new InfoWindow();
                 info.ShowInfo("Nie można wyznaczyć trasy. Proszę spróbować jeszcze raz.", "Błąd wyznaczania trasy", "Ok");

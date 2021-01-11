@@ -23,7 +23,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="25" Nullable="false" />
-          <Property Name="NIP" Type="int" Nullable="false" />
+          <Property Name="NIP" Type="numeric" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -651,7 +651,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="NIP" Type="Int32" Nullable="false" />
+          <Property Name="NIP" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_Customer_Company" FromRole="Company" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Customer">

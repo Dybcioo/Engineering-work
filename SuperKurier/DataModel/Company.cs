@@ -22,7 +22,7 @@ namespace DataModel
     
         public int id { get; set; }
         public string name { get; set; }
-        public int NIP { get; set; }
+        public decimal NIP { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customer { get; set; }

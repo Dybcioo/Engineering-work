@@ -670,7 +670,7 @@ namespace SuperKurier.ViewModel
                     Company senderCompany = new Company()
                     {
                         name = SenderCompanyName,
-                        NIP = int.Parse(SenderCompanyNIP)
+                        NIP = decimal.Parse(SenderCompanyNIP)
                     };
                     CompanyEntities.Company.Add(senderCompany);
                     CompanyEntities.SaveChanges();
@@ -682,7 +682,7 @@ namespace SuperKurier.ViewModel
                     Company receiverCompany = new Company()
                     {
                         name = ReceiverCompanyName,
-                        NIP = int.Parse(ReceiverCompanyNIP)
+                        NIP = decimal.Parse(ReceiverCompanyNIP)
                     };
                     CompanyEntities.Company.Add(receiverCompany);
                     CompanyEntities.SaveChanges();
